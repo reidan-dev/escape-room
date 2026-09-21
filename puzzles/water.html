@@ -104,10 +104,10 @@
 </div>
 
 <script>
-  const UNLOCK_CODE = 'FLOW';
-  const ZONE_MIN = 60, ZONE_MAX = 75;
-  const HOLD_REQUIRED_MS = 2000;
-  const FILL_RATE_PER_SEC = 21;
+  const UNLOCK_CODE = 'TZ84';
+  const ZONE_MIN = 64, ZONE_MAX = 72;
+  const HOLD_REQUIRED_MS = 3000;
+  const FILL_RATE_PER_SEC = 27;
 
   let currentTilt = 0;
   let usingFallback = false;
@@ -172,7 +172,7 @@
     }
 
     const inZone = fillLevel >= ZONE_MIN && fillLevel <= ZONE_MAX;
-    const isSteady = rate < 0.06;
+    const isSteady = rate < 0.04;
 
     const label = document.getElementById('mechanic-stage-label');
     const mode = document.getElementById('mode-label');

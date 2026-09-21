@@ -20,7 +20,7 @@ Isang print + website na escape room para sa Halloween party. Group ng magkakaib
 
 **Bawat station ay may parehong balangkas** — physical tear-card muna, saka phone/sensor mini-game:
 
-1. **Physical (off-page):** may naka-print na "tear card" sa bawat station — 4 piraso, bawat isa may letra at iba't ibang lambot ng abo (gray shade). Punitin (kamay lang, walang gunting) at ayusin mula pinakamadilim hanggang pinakamaliwanag. Ang mga letra, mula kaliwa papuntang kanan, ang UNLOCK CODE.
+1. **Physical (off-page):** may naka-print na "tear card" sa bawat station — 4 piraso, bawat isa may letra/numero at iba't ibang lambot ng abo (gray shade). Punitin (kamay lang, walang gunting) at ayusin mula pinakamadilim hanggang pinakamaliwanag. Ang mga character, mula kaliwa papuntang kanan, ang UNLOCK CODE — random alphanumeric, hindi totoong salita, kaya hindi basta mahuhulaan.
 2. **Hakbang 1/4 (sa website):** i-type ang UNLOCK CODE para ma-access ang puzzle.
 3. **Hakbang 2/4:** i-allow ang kinakailangang phone permission (kung meron) — ihanda ang mekanismo.
 4. **Hakbang 3/4 → 4/4:** gawin ang interactive mini-game (sensor/gesture-based, hindi trivia) hanggang mag-100% ang progress — awtomatikong lalabas ang 2-character na code ng sangkap na 'yun.
@@ -31,11 +31,13 @@ Walang typed-answer na riddle kahit saan — puro tactile/interactive.
 
 | Sangkap | Unlock Code (physical tear card) | Mobile mini-game | Final code |
 |---|---|---|---|
-| 🌬️ Hangin | `WIND` | Itutok ang phone sa tamang direksyon (gauge) habang humihip sa mic, hanggang malinaw ang fog | `W9` |
-| 💧 Tubig | `FLOW` | Itagilid ang phone para magbuhos ng tubig papunta sa 60–75% na zone, panatilihing steady 2 segundo | `T2` |
-| 🪨 Lupa | `ROCK` | I-shake ang phone para "maghukay" hanggang mahanap ang laman ng hukay | `L4` |
-| 🔥 Apoy | `BURN` | I-drag/kuskusin ang daliri sa screen nang mabilis hanggang sumiklab | `B7` |
-| ✨ Aether | `SOUL` (+ apat na code sa itaas) | Hawakan/i-steady ang phone nang tahimik (kabaligtaran ng iba!) hanggang ma-charge | `K5` |
+| 🌬️ Hangin | `QK37` | Itutok ang phone sa tamang direksyon (gauge, ±18°) habang humihip sa mic, hanggang malinaw ang fog | `W9` |
+| 💧 Tubig | `TZ84` | Itagilid ang phone para magbuhos ng tubig papunta sa 64–72% na zone (makitid), panatilihing steady 3 segundo | `T2` |
+| 🪨 Lupa | `MR29` | I-shake ang phone nang malakas para "maghukay" hanggang mahanap ang laman ng hukay | `L4` |
+| 🔥 Apoy | `JX56` | I-drag/kuskusin ang daliri sa screen nang mabilis hanggang sumiklab | `B7` |
+| ✨ Aether | `VN71` (+ apat na code sa itaas) | Hawakan/i-steady ang phone nang halos-hindi-gumagalaw (kabaligtaran ng iba!) hanggang ma-charge | `K5` |
+
+**Tahasang non-obvious ang unlock codes ngayon** (dating totoong salita tulad ng "WIND"/"ROCK" na basta pwedeng hulaan kahit hindi pa nagagawa ang physical puzzle — pinalitan ng random alphanumeric para talagang kailangang punitin at ayusin ang tear card). Mas mahigpit din ang lahat ng sensor tolerance/sustain time kumpara sa unang bersyon.
 
 **Final Lock combination** (`final/final.html`): `L4-T2-B7-W9-K5` (Lupa-Tubig-Apoy-Hangin-Aether) — hindi na type-in, **rotary dial** na may 5 pares ng letter/digit reels na pinipihit (click/scroll/swipe) hanggang tama ang combination.
 

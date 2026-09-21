@@ -99,9 +99,9 @@
 </div>
 
 <script>
-  const UNLOCK_CODE = 'SOUL';
-  const STILL_THRESHOLD = 1.2;
-  const SUSTAIN_AT = 70;
+  const UNLOCK_CODE = 'VN71';
+  const STILL_THRESHOLD = 0.8;
+  const SUSTAIN_AT = 75;
 
   let movement = 0;
   let lastOrient = null;
@@ -158,8 +158,8 @@
     document.getElementById('orb-wrap').style.boxShadow = `0 0 ${progress * 0.5}px rgba(209,155,255,${progress / 130})`;
 
     progress = steady
-      ? Math.min(100, progress + 1.1)
-      : Math.max(0, progress - 1.5);
+      ? Math.min(100, progress + 0.8)
+      : Math.max(0, progress - 2.2);
 
     document.getElementById('progress-inner').style.width = `${progress}%`;
 
