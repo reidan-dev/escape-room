@@ -3,24 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aether — Ang Ikalimang Sangkap</title>
+<title>Aether — 4 Hamon</title>
 <link rel="stylesheet" href="../css/style.css">
 <style>
-  .stage-label { font-size: .75rem; letter-spacing: 1px; }
   #orb-wrap {
     position: relative;
-    width: 200px; height: 200px;
-    margin: 20px auto;
+    width: 180px; height: 180px;
+    margin: 16px auto;
     border-radius: 50%;
     background: radial-gradient(circle, #4a2a7a, #150a1f);
     border: 4px solid var(--aether);
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 0 rgba(209,155,255,0);
-    transition: box-shadow .2s ease, transform .2s ease;
+    transition: box-shadow .2s ease;
   }
-  #orb-icon { font-size: 4rem; transition: transform .2s ease; }
+  #orb-icon { font-size: 3.5rem; transition: transform .2s ease; }
   .meter-outer {
-    width: 220px; height: 16px; background: #120a1c;
+    width: 200px; height: 14px; background: #120a1c;
     border-radius: 8px; margin: 10px auto; overflow: hidden;
     border: 1px solid var(--aether);
   }
@@ -33,188 +31,167 @@
 </nav>
 
 <div class="wrap">
-
-  <!-- STEP 1: unlock gate (physical unlock word + 4 element codes) -->
-  <div class="card center" id="gate-card">
-    <p class="pill stage-label">HAKBANG 1 / 4</p>
+  <div class="card center">
     <h1 class="spooky tag-aether">✨ Ang Ikalimang Sangkap</h1>
-    <p>May punit-punit na papel din kayong nahanap dito. Kapag na-ayos niyo mula pinakamadilim hanggang pinakamaliwanag, may 4-letrang UNLOCK CODE kayo. Kailangan din ninyo ng 4 code mula sa ibang sangkap para dito.</p>
-    <form id="gate-form">
-      <label class="dim" style="display:block; font-size:.75rem;">UNLOCK CODE (mula sa papel dito)</label>
-      <input type="text" id="unlock-answer" class="code-input" style="width:7em; letter-spacing:4px;" maxlength="6" placeholder="????">
-      <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:14px;">
-        <div>
-          <label class="dim" style="display:block; font-size:.75rem;">LUPA</label>
-          <input type="text" id="code-earth" class="code-input" maxlength="4">
-        </div>
-        <div>
-          <label class="dim" style="display:block; font-size:.75rem;">TUBIG</label>
-          <input type="text" id="code-water" class="code-input" maxlength="4">
-        </div>
-        <div>
-          <label class="dim" style="display:block; font-size:.75rem;">APOY</label>
-          <input type="text" id="code-fire" class="code-input" maxlength="4">
-        </div>
-        <div>
-          <label class="dim" style="display:block; font-size:.75rem;">HANGIN</label>
-          <input type="text" id="code-air" class="code-input" maxlength="4">
-        </div>
+    <p>4 hiwalay na hamon sa station na 'to — kahit anong pagkakasunod-sunod, kahit hati-hatiin ng team. Kapag kumpleto lahat, lalabas ang code.</p>
+  </div>
+
+  <p class="progress-summary" id="progress-summary">0 / 4 nakumpleto</p>
+
+  <!-- PUZZLE 1: physical tear-card -->
+  <div class="card" id="tile-1">
+    <div class="tile-header"><h3>1. Susi mula sa Papel</h3><span class="tile-badge" id="badge-1">🔒</span></div>
+    <p>May punit-punit na papel sa station na 'to. Punitin (kamay lang) at ayusin mula pinakamadilim hanggang pinakamaliwanag — babasahin ang UNLOCK CODE mula kaliwa papuntang kanan.</p>
+    <form id="form-1">
+      <input type="text" id="answer-1" class="code-input" style="width:7em; letter-spacing:4px;" maxlength="6" placeholder="????">
+      <button type="submit" class="btn secondary" style="margin-left:8px;">Isumite</button>
+    </form>
+    <p id="wrong-1" class="hidden" style="color:var(--fire);">Mali 'yan. Balikan ang piraso ng papel, ayusin mula pinakamadilim hanggang pinakamaliwanag.</p>
+  </div>
+
+  <!-- PUZZLE 2: combine the 4 element codes -->
+  <div class="card center" id="tile-2">
+    <div class="tile-header"><h3>2. Pagsamahin ang mga Sangkap</h3><span class="tile-badge" id="badge-2">🔒</span></div>
+    <p class="dim">Kailangan ang 4 code mula sa ibang sangkap para dito.</p>
+    <form id="form-2">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+        <div><label class="dim" style="display:block; font-size:.7rem;">LUPA</label><input type="text" id="code-earth" class="code-input" maxlength="4"></div>
+        <div><label class="dim" style="display:block; font-size:.7rem;">TUBIG</label><input type="text" id="code-water" class="code-input" maxlength="4"></div>
+        <div><label class="dim" style="display:block; font-size:.7rem;">APOY</label><input type="text" id="code-fire" class="code-input" maxlength="4"></div>
+        <div><label class="dim" style="display:block; font-size:.7rem;">HANGIN</label><input type="text" id="code-air" class="code-input" maxlength="4"></div>
       </div>
       <br>
-      <button type="submit" class="btn secondary">🔮 I-unlock</button>
+      <button type="submit" class="btn secondary">Isumite</button>
     </form>
-    <p id="gate-wrong" class="hidden" style="color:var(--fire);">May mali dyan — balikan ang unlock code o ang ibang puzzle stations. 🧐</p>
+    <p id="wrong-2" class="hidden" style="color:var(--fire);">May mali dyan — balikan ang ibang puzzle stations. 🧐</p>
   </div>
 
-  <!-- STEP 2: ready -->
-  <div id="calibrate-card" class="hidden card center">
-    <p class="pill stage-label">HAKBANG 2 / 4</p>
-    <h2 class="spooky tag-aether">📡 Ihanda ang Katawan</h2>
-    <p>Kailangan ng orientation access ng phone niyo (hindi laptop) — i-allow niyo lang pag humingi ng permission. Kailangan niyong manatiling <strong>steady at tahimik</strong> mamaya — kabaligtaran ng ibang sangkap.</p>
-    <button id="start-btn" class="btn">Tuloy</button>
-  </div>
-
-  <!-- STEP 3-4: hold still to channel (auto-advancing labels) -->
-  <div id="puzzle-screen" class="hidden">
-    <div class="card center">
-      <p class="pill stage-label" id="mechanic-stage-label">HAKBANG 3 / 4</p>
-      <p class="dim" id="mode-label" style="font-size:.85rem;">Hawakan ang phone nang steady, huwag gumalaw.</p>
+  <!-- PUZZLE 3: hold still -->
+  <div class="card center" id="tile-3">
+    <div class="tile-header"><h3>3. Manahimik</h3><span class="tile-badge" id="badge-3">🔒</span></div>
+    <p class="dim">Hawakan ang phone nang halos-hindi-gumagalaw sa loob ng 2.5 segundo — kabaligtaran ng ibang sangkap.</p>
+    <button id="start-3" class="btn secondary">Simulan</button>
+    <div id="game-3" class="hidden">
       <div id="orb-wrap"><div id="orb-icon">🔮</div></div>
-      <div class="meter-outer"><div id="progress-inner" class="meter-inner"></div></div>
-      <p class="dim" style="font-size:.75rem;">Antas ng koneksyon</p>
+      <div class="meter-outer"><div id="progress-3" class="meter-inner"></div></div>
+      <button id="fallback-hold-3" class="btn secondary hidden">🔮 Pindutin at huwag bitiwan</button>
     </div>
+  </div>
 
-    <div id="fallback-controls" class="card center hidden">
-      <p class="dim">Manual mode — gamitin ito kung walang sensor access ang device/browser:</p>
-      <button id="fallback-hold-btn" class="btn secondary">🔮 Pindutin at huwag bitiwan</button>
-    </div>
+  <!-- PUZZLE 4: trace sigil -->
+  <div class="card center" id="tile-4">
+    <div class="tile-header"><h3>4. Guhitin ang Bilog</h3><span class="tile-badge" id="badge-4">🔒</span></div>
+    <p class="dim">I-drag ang daliri sa pagkakasunod 1 → 2 → 3 nang hindi bumibitiw.</p>
+    <div class="sigil-box" id="sigil-4"></div>
   </div>
 
   <div id="code-card" class="hidden card center">
     <h2 class="spooky tag-aether">🌌 Nabunyag ang Aether!</h2>
-    <p>Kumpleto na ang lahat ng sangkap! Isulat ang huling code na ito:</p>
+    <p>Isulat ang huling code na ito:</p>
     <div class="pill" style="font-size:1.6rem; padding:10px 24px;">K5</div>
     <p class="dim" style="margin-top:16px;">Dalhin na ang lahat ng 5 code sa <a href="../final/final.html">Final Lock</a> para matimpla ang lunas!</p>
   </div>
 </div>
 
+<script src="../js/trace-sigil.js"></script>
 <script>
   const UNLOCK_CODE = 'VN71';
   const STILL_THRESHOLD = 0.8;
-  const SUSTAIN_AT = 75;
+  const HOLD_MS = 2500;
 
-  let movement = 0;
-  let lastOrient = null;
-  let usingFallback = false;
-  let holding = false;
-  let solved = false;
-  let receivedOrientation = false;
-  let progress = 0;
+  const done = { 1: false, 2: false, 3: false, 4: false };
 
-  function onOrientation(e) {
-    if (e.alpha == null) return;
-    receivedOrientation = true;
-    const cur = { a: e.alpha, b: e.beta || 0, g: e.gamma || 0 };
-    if (lastOrient) {
-      const d = Math.abs(cur.a - lastOrient.a) + Math.abs(cur.b - lastOrient.b) + Math.abs(cur.g - lastOrient.g);
-      movement = d;
-    }
-    lastOrient = cur;
+  function markDone(n) {
+    if (done[n]) return;
+    done[n] = true;
+    document.getElementById(`badge-${n}`).textContent = '✅';
+    const count = Object.values(done).filter(Boolean).length;
+    document.getElementById('progress-summary').textContent = `${count} / 4 nakumpleto`;
+    if (count === 4) document.getElementById('code-card').classList.remove('hidden');
   }
 
-  async function startReal() {
-    if (!('DeviceOrientationEvent' in window)) throw new Error('no orientation support');
-    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-      const res = await DeviceOrientationEvent.requestPermission();
-      if (res !== 'granted') throw new Error('orientation denied');
-    }
-    window.addEventListener('deviceorientation', onOrientation);
-  }
-
-  let fallbackWired = false;
-  function activateFallback() {
-    usingFallback = true;
-    document.getElementById('fallback-controls').classList.remove('hidden');
-    document.getElementById('mode-label').textContent = 'Manual mode (walang sensor access) — pindutin at huwag bitiwan ang button.';
-    if (fallbackWired) return;
-    fallbackWired = true;
-    const btn = document.getElementById('fallback-hold-btn');
-    const setHold = (v) => (ev) => { ev.preventDefault(); holding = v; };
-    btn.addEventListener('mousedown', setHold(true));
-    btn.addEventListener('touchstart', setHold(true));
-    btn.addEventListener('mouseup', setHold(false));
-    btn.addEventListener('mouseleave', setHold(false));
-    btn.addEventListener('touchend', setHold(false));
-  }
-
-  function tickLoop() {
-    if (solved) return;
-
-    const steady = usingFallback ? holding : movement < STILL_THRESHOLD;
-    if (!usingFallback) movement = Math.max(0, movement - 0.15);
-
-    const scale = 1 + (progress / 100) * 0.25;
-    document.getElementById('orb-icon').style.transform = `scale(${scale})`;
-    document.getElementById('orb-wrap').style.boxShadow = `0 0 ${progress * 0.5}px rgba(209,155,255,${progress / 130})`;
-
-    progress = steady
-      ? Math.min(100, progress + 0.8)
-      : Math.max(0, progress - 2.2);
-
-    document.getElementById('progress-inner').style.width = `${progress}%`;
-
-    const label = document.getElementById('mechanic-stage-label');
-    const mode = document.getElementById('mode-label');
-    if (progress < SUSTAIN_AT) {
-      label.textContent = 'HAKBANG 3 / 4';
-      mode.textContent = usingFallback ? 'Pindutin at huwag bitiwan.' : 'Hawakan ang phone nang steady, huwag gumalaw.';
-    } else {
-      label.textContent = 'HAKBANG 4 / 4';
-      mode.textContent = 'Halos konektado na! Panatilihing steady hanggang sa dulo.';
-    }
-
-    if (progress >= 100) {
-      solved = true;
-      document.getElementById('puzzle-screen').classList.add('hidden');
-      document.getElementById('code-card').classList.remove('hidden');
-      return;
-    }
-    requestAnimationFrame(tickLoop);
-  }
-
-  document.getElementById('gate-form').addEventListener('submit', (e) => {
+  document.getElementById('form-1').addEventListener('submit', (e) => {
     e.preventDefault();
-    const unlockVal = document.getElementById('unlock-answer').value.trim().toUpperCase();
+    const val = document.getElementById('answer-1').value.trim().toUpperCase();
+    if (val === UNLOCK_CODE) {
+      markDone(1);
+      document.getElementById('wrong-1').classList.add('hidden');
+    } else {
+      document.getElementById('wrong-1').classList.remove('hidden');
+    }
+  });
+
+  document.getElementById('form-2').addEventListener('submit', (e) => {
+    e.preventDefault();
     const vals = {
       earth: document.getElementById('code-earth').value.trim().toUpperCase(),
       water: document.getElementById('code-water').value.trim().toUpperCase(),
       fire: document.getElementById('code-fire').value.trim().toUpperCase(),
       air: document.getElementById('code-air').value.trim().toUpperCase(),
     };
-    const correct = unlockVal === UNLOCK_CODE && vals.earth === 'L4' && vals.water === 'T2' && vals.fire === 'B7' && vals.air === 'W9';
-    if (!correct) {
-      document.getElementById('gate-wrong').classList.remove('hidden');
-      return;
+    if (vals.earth === 'L4' && vals.water === 'T2' && vals.fire === 'B7' && vals.air === 'W9') {
+      markDone(2);
+      document.getElementById('wrong-2').classList.add('hidden');
+    } else {
+      document.getElementById('wrong-2').classList.remove('hidden');
     }
-    document.getElementById('gate-card').classList.add('hidden');
-    document.getElementById('calibrate-card').classList.remove('hidden');
   });
 
-  document.getElementById('start-btn').addEventListener('click', async () => {
-    document.getElementById('calibrate-card').classList.add('hidden');
-    document.getElementById('puzzle-screen').classList.remove('hidden');
+  // PUZZLE 3 (hold still)
+  (function () {
+    let movement = 0, lastOrient = null, holding = false, usingFallback = false, active = false, holdMs = 0, lastT = null;
 
-    try {
-      await startReal();
-      setTimeout(() => {
-        if (!receivedOrientation) activateFallback();
-      }, 2500);
-    } catch (err) {
-      activateFallback();
+    async function startReal() {
+      if (!('DeviceOrientationEvent' in window)) throw new Error('no support');
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        const res = await DeviceOrientationEvent.requestPermission();
+        if (res !== 'granted') throw new Error('denied');
+      }
+      window.addEventListener('deviceorientation', (e) => {
+        if (e.alpha == null) return;
+        const cur = { a: e.alpha, b: e.beta || 0, g: e.gamma || 0 };
+        if (lastOrient) {
+          movement = Math.abs(cur.a - lastOrient.a) + Math.abs(cur.b - lastOrient.b) + Math.abs(cur.g - lastOrient.g);
+        }
+        lastOrient = cur;
+      });
     }
+    function activateFallback() {
+      usingFallback = true;
+      const btn = document.getElementById('fallback-hold-3');
+      btn.classList.remove('hidden');
+      const setHold = (v) => (ev) => { ev.preventDefault(); holding = v; };
+      btn.addEventListener('mousedown', setHold(true));
+      btn.addEventListener('touchstart', setHold(true));
+      btn.addEventListener('mouseup', setHold(false));
+      btn.addEventListener('mouseleave', setHold(false));
+      btn.addEventListener('touchend', setHold(false));
+    }
+    function loop(t) {
+      if (done[3] || !active) return;
+      if (lastT === null) lastT = t;
+      const dt = t - lastT; lastT = t;
+      const steady = usingFallback ? holding : movement < STILL_THRESHOLD;
+      if (!usingFallback) movement = Math.max(0, movement - 0.15);
+      holdMs = steady ? holdMs + dt : Math.max(0, holdMs - dt * 1.5);
+      document.getElementById('progress-3').style.width = `${Math.min(100, (holdMs / HOLD_MS) * 100)}%`;
+      document.getElementById('orb-icon').style.transform = `scale(${1 + (holdMs / HOLD_MS) * 0.3})`;
+      if (holdMs >= HOLD_MS) { markDone(3); return; }
+      requestAnimationFrame(loop);
+    }
+    document.getElementById('start-3').addEventListener('click', async () => {
+      active = true;
+      document.getElementById('start-3').classList.add('hidden');
+      document.getElementById('game-3').classList.remove('hidden');
+      try { await startReal(); } catch (e) { activateFallback(); }
+      requestAnimationFrame(loop);
+    });
+  })();
 
-    tickLoop();
-  });
+  // PUZZLE 4 (trace sigil)
+  renderTraceSigil('sigil-4', [
+    { x: 50, y: 15 }, { x: 85, y: 80 }, { x: 15, y: 80 },
+  ], () => markDone(4));
 </script>
 </body>
 </html>

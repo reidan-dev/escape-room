@@ -3,40 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tubig — Buhusan ang Kaldero</title>
+<title>Tubig — 4 Hamon</title>
 <link rel="stylesheet" href="../css/style.css">
 <style>
-  .stage-label { font-size: .75rem; letter-spacing: 1px; }
-  #tilt-cup {
-    font-size: 4rem;
-    display: inline-block;
-    transition: transform .1s linear;
-  }
   #vessel {
     position: relative;
-    width: 140px; height: 260px;
+    width: 120px; height: 200px;
     margin: 16px auto;
     border: 4px solid var(--water);
-    border-radius: 0 0 20px 20px;
+    border-radius: 0 0 16px 16px;
     background: #0d0616;
     overflow: hidden;
   }
   #zone-band {
-    position: absolute;
-    left: 0; right: 0;
+    position: absolute; left: 0; right: 0;
     background: rgba(255, 117, 24, .25);
     border-top: 2px dashed var(--orange);
     border-bottom: 2px dashed var(--orange);
   }
   #water-fill {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 0%;
+    position: absolute; left: 0; right: 0; bottom: 0; height: 0%;
     background: linear-gradient(180deg, #6fd0f5, var(--water));
     transition: height .08s linear;
   }
+  #level-gauge {
+    width: 200px; height: 40px; margin: 16px auto;
+    border: 3px solid var(--water); border-radius: 8px;
+    position: relative; background: #0d0616;
+  }
+  #level-needle {
+    position: absolute; top: 0; bottom: 0; width: 3px; background: var(--orange);
+    left: 50%; transition: left .08s linear;
+  }
+  #level-zone {
+    position: absolute; top: 0; bottom: 0;
+    background: rgba(255,117,24,.25); border-left: 2px dashed var(--orange); border-right: 2px dashed var(--orange);
+  }
   .meter-outer {
-    width: 220px; height: 16px; background: #120a1c;
+    width: 200px; height: 14px; background: #120a1c;
     border-radius: 8px; margin: 10px auto; overflow: hidden;
     border: 1px solid var(--water);
   }
@@ -49,187 +53,185 @@
 </nav>
 
 <div class="wrap">
-
-  <!-- STEP 1: unlock gate -->
-  <div class="card center" id="gate-card">
-    <p class="pill stage-label">HAKBANG 1 / 4</p>
+  <div class="card center">
     <h1 class="spooky tag-water">💧 Sangkap ng Tubig</h1>
-    <p>May punit-punit na papel kayong nahanap sa station na 'to. Kung na-ayos niyo na mula pinakamadilim hanggang pinakamaliwanag, may 4-letrang UNLOCK CODE na kayo — i-type dito:</p>
-    <form id="gate-form">
-      <input type="text" id="gate-answer" class="code-input" style="width:7em; letter-spacing:4px;" maxlength="6" placeholder="????">
-      <br><br>
-      <button type="submit" class="btn">💧 I-unlock</button>
+    <p>4 hiwalay na hamon sa station na 'to — kahit anong pagkakasunod-sunod, kahit hati-hatiin ng team. Kapag kumpleto lahat, lalabas ang code.</p>
+  </div>
+
+  <p class="progress-summary" id="progress-summary">0 / 4 nakumpleto</p>
+
+  <!-- PUZZLE 1: physical tear-card -->
+  <div class="card" id="tile-1">
+    <div class="tile-header"><h3>1. Susi mula sa Papel</h3><span class="tile-badge" id="badge-1">🔒</span></div>
+    <p>May punit-punit na papel sa station na 'to. Punitin (kamay lang) at ayusin mula pinakamadilim hanggang pinakamaliwanag — babasahin ang UNLOCK CODE mula kaliwa papuntang kanan.</p>
+    <form id="form-1">
+      <input type="text" id="answer-1" class="code-input" style="width:7em; letter-spacing:4px;" maxlength="6" placeholder="????">
+      <button type="submit" class="btn" style="margin-left:8px;">Isumite</button>
     </form>
-    <p id="gate-wrong" class="hidden" style="color:var(--fire);">Mali 'yan. Balikan niyo yung 4 piraso, ayusin mula pinakamadilim hanggang pinakamaliwanag.</p>
+    <p id="wrong-1" class="hidden" style="color:var(--fire);">Mali 'yan. Balikan ang piraso ng papel, ayusin mula pinakamadilim hanggang pinakamaliwanag.</p>
   </div>
 
-  <!-- STEP 2: calibrate -->
-  <div id="calibrate-card" class="hidden card center">
-    <p class="pill stage-label">HAKBANG 2 / 4</p>
-    <h2 class="spooky tag-water">📡 Kinakalibrate</h2>
-    <p>Kailangan ng orientation access ng phone niyo (hindi laptop) — i-allow niyo lang pag humingi ng permission. Itagilid ang phone parang nagbubuhos ng tubig.</p>
-    <button id="start-btn" class="btn">Tuloy</button>
-  </div>
-
-  <!-- STEP 3-4: pour + hold steady (auto-advancing labels) -->
-  <div id="puzzle-screen" class="hidden">
-    <div class="card center">
-      <p class="pill stage-label" id="mechanic-stage-label">HAKBANG 3 / 4</p>
-      <p class="dim" id="mode-label" style="font-size:.85rem;">Itagilid ang phone para magbuhos, ibalik sa gitna para tumigil.</p>
-      <div id="tilt-cup">🫙</div>
-      <div id="vessel">
-        <div id="zone-band"></div>
-        <div id="water-fill"></div>
-      </div>
+  <!-- PUZZLE 2: pour to zone -->
+  <div class="card center" id="tile-2">
+    <div class="tile-header"><h3>2. Buhusan Hanggang sa Guhit</h3><span class="tile-badge" id="badge-2">🔒</span></div>
+    <p class="dim">Itagilid ang phone para magbuhos — abutin lang ang naka-highlight na zone (huwag lumagpas sa 100% o kailangang umpisahan ulit).</p>
+    <button id="start-2" class="btn secondary">Simulan</button>
+    <div id="game-2" class="hidden">
+      <div id="vessel"><div id="zone-band"></div><div id="water-fill"></div></div>
       <p class="dim" id="fill-label" style="font-size:.85rem;">0%</p>
-      <div class="meter-outer"><div id="hold-inner" class="meter-inner"></div></div>
-      <p class="dim" style="font-size:.75rem;">Panatilihing steady sa loob ng naka-highlight na zone</p>
+      <p id="spill-2" class="hidden" style="color:var(--fire);">💦 Lumabis! Ulit mula sa umpisa.</p>
+      <input type="range" id="fallback-tilt-2" min="-90" max="90" value="0" style="width:200px;" class="hidden">
     </div>
+  </div>
 
-    <div id="fallback-controls" class="card center hidden">
-      <p class="dim">Manual mode — gamitin ito kung walang sensor access ang device/browser:</p>
-      <label class="dim" style="font-size:.75rem;">🫗 Itagilid (kaliwa/kanan)</label><br>
-      <input type="range" id="fallback-tilt" min="-90" max="90" value="0" style="width:220px;">
-      <p class="dim" style="font-size:.7rem;">Ibalik sa gitna (0) para itigil ang pagbuhos.</p>
+  <!-- PUZZLE 3: hold level -->
+  <div class="card center" id="tile-3">
+    <div class="tile-header"><h3>3. Panatilihing Patag</h3><span class="tile-badge" id="badge-3">🔒</span></div>
+    <p class="dim">Ihiga ang phone nang patag (level) sa loob ng zone sa gitna, panatilihin ng 2.5 segundo.</p>
+    <button id="start-3" class="btn secondary">Simulan</button>
+    <div id="game-3" class="hidden">
+      <div id="level-gauge"><div id="level-zone"></div><div id="level-needle"></div></div>
+      <div class="meter-outer"><div id="progress-3" class="meter-inner"></div></div>
+      <input type="range" id="fallback-tilt-3" min="-90" max="90" value="0" style="width:200px;" class="hidden">
     </div>
+  </div>
 
-    <p id="spill-msg" class="hidden center" style="color:var(--fire); font-weight:700;">💦 Lumabis! Bumuhos ulit mula sa umpisa.</p>
+  <!-- PUZZLE 4: trace sigil -->
+  <div class="card center" id="tile-4">
+    <div class="tile-header"><h3>4. Guhitin ang Alon</h3><span class="tile-badge" id="badge-4">🔒</span></div>
+    <p class="dim">I-drag ang daliri sa pagkakasunod 1 → 2 → 3 nang hindi bumibitiw.</p>
+    <div class="sigil-box" id="sigil-4"></div>
   </div>
 
   <div id="code-card" class="hidden card center">
     <h2 class="spooky tag-water">🫧 Nabuksan ang sangkap ng Tubig!</h2>
-    <p>Tamang-tama ang timpla! Isulat ang code na ito, kakailanganin mo sa Final Lock:</p>
+    <p>Isulat ang code na ito, kakailanganin mo sa Final Lock:</p>
     <div class="pill" style="font-size:1.6rem; padding:10px 24px;">T2</div>
   </div>
 </div>
 
+<script src="../js/trace-sigil.js"></script>
 <script>
   const UNLOCK_CODE = 'TZ84';
   const ZONE_MIN = 64, ZONE_MAX = 72;
-  const HOLD_REQUIRED_MS = 3000;
-  const FILL_RATE_PER_SEC = 27;
+  const HOLD_MS = 2500;
+  const LEVEL_TOLERANCE = 10;
 
-  let currentTilt = 0;
-  let usingFallback = false;
-  let solved = false;
-  let receivedOrientation = false;
-  let fillLevel = 0;
-  let holdMs = 0;
-  let lastFrameTime = null;
+  const done = { 1: false, 2: false, 3: false, 4: false };
 
-  function pourRate(tilt) {
-    return Math.min(1, Math.abs(tilt) / 90);
+  function markDone(n) {
+    if (done[n]) return;
+    done[n] = true;
+    document.getElementById(`badge-${n}`).textContent = '✅';
+    const count = Object.values(done).filter(Boolean).length;
+    document.getElementById('progress-summary').textContent = `${count} / 4 nakumpleto`;
+    if (count === 4) document.getElementById('code-card').classList.remove('hidden');
   }
 
-  function setupZoneBand() {
-    const band = document.getElementById('zone-band');
-    band.style.bottom = `${ZONE_MIN}%`;
-    band.style.height = `${ZONE_MAX - ZONE_MIN}%`;
-  }
-
-  function onOrientation(e) {
-    if (e.gamma == null) return;
-    receivedOrientation = true;
-    currentTilt = Math.max(-90, Math.min(90, e.gamma));
-  }
-
-  async function startReal() {
-    if (!('DeviceOrientationEvent' in window)) throw new Error('no orientation support');
+  async function requestOrientation() {
+    if (!('DeviceOrientationEvent' in window)) throw new Error('no support');
     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
       const res = await DeviceOrientationEvent.requestPermission();
-      if (res !== 'granted') throw new Error('orientation denied');
+      if (res !== 'granted') throw new Error('denied');
     }
-    window.addEventListener('deviceorientation', onOrientation);
   }
 
-  let fallbackWired = false;
-  function activateFallback() {
-    usingFallback = true;
-    document.getElementById('fallback-controls').classList.remove('hidden');
-    document.getElementById('mode-label').textContent = 'Manual mode (walang sensor access) — gamitin ang slider sa ibaba.';
-    if (fallbackWired) return;
-    fallbackWired = true;
-    const slider = document.getElementById('fallback-tilt');
-    slider.addEventListener('input', () => { currentTilt = Number(slider.value); });
-  }
-
-  function tickLoop(timestamp) {
-    if (solved) return;
-    if (lastFrameTime === null) lastFrameTime = timestamp;
-    const deltaMs = timestamp - lastFrameTime;
-    lastFrameTime = timestamp;
-
-    const rate = pourRate(currentTilt);
-    document.getElementById('tilt-cup').style.transform = `rotate(${currentTilt}deg)`;
-
-    fillLevel += rate * FILL_RATE_PER_SEC * (deltaMs / 1000);
-
-    if (fillLevel > 100) {
-      fillLevel = 0;
-      holdMs = 0;
-      document.getElementById('spill-msg').classList.remove('hidden');
-      setTimeout(() => document.getElementById('spill-msg').classList.add('hidden'), 1800);
-    }
-
-    const inZone = fillLevel >= ZONE_MIN && fillLevel <= ZONE_MAX;
-    const isSteady = rate < 0.04;
-
-    const label = document.getElementById('mechanic-stage-label');
-    const mode = document.getElementById('mode-label');
-    if (!inZone) {
-      label.textContent = 'HAKBANG 3 / 4';
-      mode.textContent = 'Itagilid ang phone para magbuhos, ibalik sa gitna para tumigil.';
-    } else {
-      label.textContent = 'HAKBANG 4 / 4';
-      mode.textContent = 'Nasa zone na! Panatilihin flat/steady ang phone ng ilang segundo pa.';
-    }
-
-    if (inZone && isSteady) {
-      holdMs += deltaMs;
-    } else {
-      holdMs = Math.max(0, holdMs - deltaMs * 0.5);
-    }
-
-    document.getElementById('water-fill').style.height = `${Math.max(0, fillLevel)}%`;
-    document.getElementById('fill-label').textContent = `${Math.round(Math.max(0, fillLevel))}%`;
-    document.getElementById('hold-inner').style.width = `${Math.min(100, (holdMs / HOLD_REQUIRED_MS) * 100)}%`;
-
-    if (holdMs >= HOLD_REQUIRED_MS) {
-      solved = true;
-      document.getElementById('puzzle-screen').classList.add('hidden');
-      document.getElementById('code-card').classList.remove('hidden');
-      return;
-    }
-    requestAnimationFrame(tickLoop);
-  }
-
-  document.getElementById('gate-form').addEventListener('submit', (e) => {
+  document.getElementById('form-1').addEventListener('submit', (e) => {
     e.preventDefault();
-    const val = document.getElementById('gate-answer').value.trim().toUpperCase();
-    if (val !== UNLOCK_CODE) {
-      document.getElementById('gate-wrong').classList.remove('hidden');
-      return;
+    const val = document.getElementById('answer-1').value.trim().toUpperCase();
+    if (val === UNLOCK_CODE) {
+      markDone(1);
+      document.getElementById('wrong-1').classList.add('hidden');
+    } else {
+      document.getElementById('wrong-1').classList.remove('hidden');
     }
-    document.getElementById('gate-card').classList.add('hidden');
-    document.getElementById('calibrate-card').classList.remove('hidden');
   });
 
-  document.getElementById('start-btn').addEventListener('click', async () => {
-    setupZoneBand();
-    document.getElementById('calibrate-card').classList.add('hidden');
-    document.getElementById('puzzle-screen').classList.remove('hidden');
+  // PUZZLE 2 (pour to zone)
+  (function () {
+    let tilt = 0, fillLevel = 0, usingFallback = false, active = false;
 
-    try {
-      await startReal();
-      setTimeout(() => {
-        if (!receivedOrientation) activateFallback();
-      }, 2000);
-    } catch (err) {
-      activateFallback();
+    function activateFallback() {
+      usingFallback = true;
+      const slider = document.getElementById('fallback-tilt-2');
+      slider.classList.remove('hidden');
+      slider.addEventListener('input', (e) => { tilt = Number(e.target.value); });
     }
 
-    requestAnimationFrame(tickLoop);
-  });
+    function loop() {
+      if (done[2] || !active) return;
+      const rate = Math.min(1, Math.abs(tilt) / 90);
+      fillLevel += rate * 0.5;
+      if (fillLevel > 100) {
+        fillLevel = 0;
+        document.getElementById('spill-2').classList.remove('hidden');
+        setTimeout(() => document.getElementById('spill-2').classList.add('hidden'), 1500);
+      }
+      document.getElementById('water-fill').style.height = `${Math.max(0, fillLevel)}%`;
+      document.getElementById('fill-label').textContent = `${Math.round(Math.max(0, fillLevel))}%`;
+      if (fillLevel >= ZONE_MIN && fillLevel <= ZONE_MAX) { markDone(2); return; }
+      requestAnimationFrame(loop);
+    }
+
+    document.getElementById('start-2').addEventListener('click', async () => {
+      active = true;
+      document.getElementById('zone-band').style.bottom = `${ZONE_MIN}%`;
+      document.getElementById('zone-band').style.height = `${ZONE_MAX - ZONE_MIN}%`;
+      document.getElementById('start-2').classList.add('hidden');
+      document.getElementById('game-2').classList.remove('hidden');
+      try {
+        await requestOrientation();
+        window.addEventListener('deviceorientation', (e) => { if (e.gamma != null) tilt = e.gamma; });
+      } catch (e) { activateFallback(); }
+      requestAnimationFrame(loop);
+    });
+  })();
+
+  // PUZZLE 3 (hold level)
+  (function () {
+    let tilt = 0, holdMs = 0, usingFallback = false, active = false, lastT = null;
+
+    function activateFallback() {
+      usingFallback = true;
+      const slider = document.getElementById('fallback-tilt-3');
+      slider.classList.remove('hidden');
+      slider.addEventListener('input', (e) => { tilt = Number(e.target.value); });
+    }
+
+    function loop(t) {
+      if (done[3] || !active) return;
+      if (lastT === null) lastT = t;
+      const dt = t - lastT; lastT = t;
+      const needle = document.getElementById('level-needle');
+      const pct = 50 + (tilt / 90) * 50;
+      needle.style.left = `${Math.max(0, Math.min(100, pct))}%`;
+      const level = Math.abs(tilt) < LEVEL_TOLERANCE;
+      holdMs = level ? holdMs + dt : Math.max(0, holdMs - dt);
+      document.getElementById('progress-3').style.width = `${Math.min(100, (holdMs / HOLD_MS) * 100)}%`;
+      if (holdMs >= HOLD_MS) { markDone(3); return; }
+      requestAnimationFrame(loop);
+    }
+
+    document.getElementById('start-3').addEventListener('click', async () => {
+      active = true;
+      const zoneCenterPct = 50 - (LEVEL_TOLERANCE / 90) * 50;
+      const zoneWidthPct = (2 * LEVEL_TOLERANCE / 90) * 50;
+      document.getElementById('level-zone').style.left = `${zoneCenterPct}%`;
+      document.getElementById('level-zone').style.width = `${zoneWidthPct}%`;
+      document.getElementById('start-3').classList.add('hidden');
+      document.getElementById('game-3').classList.remove('hidden');
+      try {
+        await requestOrientation();
+        window.addEventListener('deviceorientation', (e) => { if (e.gamma != null) tilt = e.gamma; });
+      } catch (e) { activateFallback(); }
+      requestAnimationFrame(loop);
+    });
+  })();
+
+  // PUZZLE 4 (trace sigil)
+  renderTraceSigil('sigil-4', [
+    { x: 15, y: 50 }, { x: 50, y: 25 }, { x: 85, y: 50 },
+  ], () => markDone(4));
 </script>
 </body>
 </html>
