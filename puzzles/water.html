@@ -3,48 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tubig — 4 Hamon</title>
+<title>Tubig — 3 Puzzle</title>
 <link rel="stylesheet" href="../css/style.css">
 <style>
-  #vessel {
-    position: relative;
-    width: 120px; height: 200px;
+  .magic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 60px);
+    gap: 4px;
+    justify-content: center;
     margin: 16px auto;
-    border: 4px solid var(--water);
-    border-radius: 0 0 16px 16px;
+  }
+  .magic-cell {
+    width: 60px; height: 60px;
+    display: flex; align-items: center; justify-content: center;
+    background: #120a1c;
+    border: 2px solid var(--water);
+    font-size: 1.4rem; font-weight: 800;
+  }
+  .magic-cell input {
+    width: 100%; height: 100%;
+    text-align: center;
+    font-size: 1.4rem; font-weight: 800;
     background: #0d0616;
-    overflow: hidden;
+    border: none;
+    color: var(--cream);
   }
-  #zone-band {
-    position: absolute; left: 0; right: 0;
-    background: rgba(255, 117, 24, .25);
-    border-top: 2px dashed var(--orange);
-    border-bottom: 2px dashed var(--orange);
-  }
-  #water-fill {
-    position: absolute; left: 0; right: 0; bottom: 0; height: 0%;
-    background: linear-gradient(180deg, #6fd0f5, var(--water));
-    transition: height .08s linear;
-  }
-  #level-gauge {
-    width: 200px; height: 40px; margin: 16px auto;
-    border: 3px solid var(--water); border-radius: 8px;
-    position: relative; background: #0d0616;
-  }
-  #level-needle {
-    position: absolute; top: 0; bottom: 0; width: 3px; background: var(--orange);
-    left: 50%; transition: left .08s linear;
-  }
-  #level-zone {
-    position: absolute; top: 0; bottom: 0;
-    background: rgba(255,117,24,.25); border-left: 2px dashed var(--orange); border-right: 2px dashed var(--orange);
-  }
-  .meter-outer {
-    width: 200px; height: 14px; background: #120a1c;
-    border-radius: 8px; margin: 10px auto; overflow: hidden;
-    border: 1px solid var(--water);
-  }
-  .meter-inner { height: 100%; width: 0%; background: var(--orange); transition: width .1s linear; }
 </style>
 </head>
 <body>
@@ -55,52 +38,50 @@
 <div class="wrap">
   <div class="card center">
     <h1 class="spooky tag-water">💧 Sangkap ng Tubig</h1>
-    <p>4 hiwalay na hamon sa station na 'to — kahit anong pagkakasunod-sunod, kahit hati-hatiin ng team. Kapag kumpleto lahat, lalabas ang code.</p>
+    <p>3 puzzle: 1 physical (papel), 1 interactive (phone), 1 combination. Kahit anong pagkakasunod, pero kailangan lahat ng 3 para sa code.</p>
   </div>
 
-  <p class="progress-summary" id="progress-summary">0 / 4 nakumpleto</p>
+  <p class="progress-summary" id="progress-summary">0 / 3 nakumpleto</p>
 
-  <!-- PUZZLE 1: physical tear-card -->
+  <!-- PUZZLE 1: physical cipher -->
   <div class="card" id="tile-1">
-    <div class="tile-header"><h3>1. Susi mula sa Papel</h3><span class="tile-badge" id="badge-1">🔒</span></div>
-    <p>May punit-punit na papel sa station na 'to. Punitin (kamay lang) at ayusin mula pinakamadilim hanggang pinakamaliwanag — babasahin ang UNLOCK CODE mula kaliwa papuntang kanan.</p>
+    <div class="tile-header"><h3>1. Physical — Dumaragdag na Shift</h3><span class="tile-badge" id="badge-1">🔒</span></div>
+    <p>May naka-print na cipher sa station na 'to (o buksan dito: <a href="../printables/physical-puzzle-water.html" target="_blank">🖨️ Physical Puzzle</a>). I-decode ang 5-letrang salita gamit ang dumaragdag na shift (+0,+1,+2,+3,+4).</p>
     <form id="form-1">
-      <input type="text" id="answer-1" class="code-input" style="width:7em; letter-spacing:4px;" maxlength="6" placeholder="????">
+      <input type="text" id="answer-1" class="code-input" style="width:4em;" maxlength="2" placeholder="?">
       <button type="submit" class="btn" style="margin-left:8px;">Isumite</button>
     </form>
-    <p id="wrong-1" class="hidden" style="color:var(--fire);">Mali 'yan. Balikan ang piraso ng papel, ayusin mula pinakamadilim hanggang pinakamaliwanag.</p>
+    <p id="wrong-1" class="hidden" style="color:var(--fire);">Mali 'yan. Ang unang letra ng na-decode na salita ang kailangan (hindi ng ciphertext).</p>
   </div>
 
-  <!-- PUZZLE 2: pour to zone -->
+  <!-- PUZZLE 2: interactive magic square -->
   <div class="card center" id="tile-2">
-    <div class="tile-header"><h3>2. Buhusan Hanggang sa Guhit</h3><span class="tile-badge" id="badge-2">🔒</span></div>
-    <p class="dim">Itagilid ang phone para magbuhos — abutin lang ang naka-highlight na zone (huwag lumagpas sa 100% o kailangang umpisahan ulit).</p>
-    <button id="start-2" class="btn secondary">Simulan</button>
-    <div id="game-2" class="hidden">
-      <div id="vessel"><div id="zone-band"></div><div id="water-fill"></div></div>
-      <p class="dim" id="fill-label" style="font-size:.85rem;">0%</p>
-      <p id="spill-2" class="hidden" style="color:var(--fire);">💦 Lumabis! Ulit mula sa umpisa.</p>
-      <input type="range" id="fallback-tilt-2" min="-90" max="90" value="0" style="width:200px;" class="hidden">
+    <div class="tile-header"><h3>2. Interactive — Kumpletuhin ang Magic Square</h3><span class="tile-badge" id="badge-2">🔒</span></div>
+    <p class="dim">Ang bawat hilera, hanay, at diagonal ay dapat magkaparehong kabuuan.</p>
+    <div class="magic-grid">
+      <div class="magic-cell"><input type="number" id="magic-blank"></div>
+      <div class="magic-cell">7</div>
+      <div class="magic-cell">6</div>
+      <div class="magic-cell">9</div>
+      <div class="magic-cell">5</div>
+      <div class="magic-cell">1</div>
+      <div class="magic-cell">4</div>
+      <div class="magic-cell">3</div>
+      <div class="magic-cell">8</div>
     </div>
+    <button id="submit-2" class="btn">Isumite</button>
+    <p id="wrong-2" class="hidden" style="color:var(--fire);">Mali 'yan. Alamin muna ang kabuuan gamit ang mga kumpletong hilera/hanay.</p>
   </div>
 
-  <!-- PUZZLE 3: hold level -->
+  <!-- PUZZLE 3: combination -->
   <div class="card center" id="tile-3">
-    <div class="tile-header"><h3>3. Panatilihing Patag</h3><span class="tile-badge" id="badge-3">🔒</span></div>
-    <p class="dim">Ihiga ang phone nang patag (level) sa loob ng zone sa gitna, panatilihin ng 2.5 segundo.</p>
-    <button id="start-3" class="btn secondary">Simulan</button>
-    <div id="game-3" class="hidden">
-      <div id="level-gauge"><div id="level-zone"></div><div id="level-needle"></div></div>
-      <div class="meter-outer"><div id="progress-3" class="meter-inner"></div></div>
-      <input type="range" id="fallback-tilt-3" min="-90" max="90" value="0" style="width:200px;" class="hidden">
-    </div>
-  </div>
-
-  <!-- PUZZLE 4: trace sigil -->
-  <div class="card center" id="tile-4">
-    <div class="tile-header"><h3>4. Guhitin ang Alon</h3><span class="tile-badge" id="badge-4">🔒</span></div>
-    <p class="dim">I-drag ang daliri sa pagkakasunod 1 → 2 → 3 nang hindi bumibitiw.</p>
-    <div class="sigil-box" id="sigil-4"></div>
+    <div class="tile-header"><h3>3. Combination</h3><span class="tile-badge" id="badge-3">🔒</span></div>
+    <p class="dim">Pagsamahin ang letra mula sa Puzzle 1 at numero mula sa Puzzle 2.</p>
+    <form id="form-3">
+      <input type="text" id="answer-3" class="code-input" maxlength="2" placeholder="??">
+      <button type="submit" class="btn secondary" style="margin-left:8px;">Isumite</button>
+    </form>
+    <p id="wrong-3" class="hidden" style="color:var(--fire);">Hindi pa tama. Siguraduhing tama ang letra at numero mula sa unang dalawang puzzle.</p>
   </div>
 
   <div id="code-card" class="hidden card center">
@@ -110,128 +91,41 @@
   </div>
 </div>
 
-<script src="../js/trace-sigil.js"></script>
 <script>
-  const UNLOCK_CODE = 'TZ84';
-  const ZONE_MIN = 64, ZONE_MAX = 72;
-  const HOLD_MS = 2500;
-  const LEVEL_TOLERANCE = 10;
+  const FRAGMENT_LETTER = 'T';
+  const FRAGMENT_DIGIT = '2';
+  const FINAL_CODE = 'T2';
 
-  const done = { 1: false, 2: false, 3: false, 4: false };
+  const done = { 1: false, 2: false, 3: false };
 
   function markDone(n) {
     if (done[n]) return;
     done[n] = true;
     document.getElementById(`badge-${n}`).textContent = '✅';
     const count = Object.values(done).filter(Boolean).length;
-    document.getElementById('progress-summary').textContent = `${count} / 4 nakumpleto`;
-    if (count === 4) document.getElementById('code-card').classList.remove('hidden');
-  }
-
-  async function requestOrientation() {
-    if (!('DeviceOrientationEvent' in window)) throw new Error('no support');
-    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-      const res = await DeviceOrientationEvent.requestPermission();
-      if (res !== 'granted') throw new Error('denied');
-    }
+    document.getElementById('progress-summary').textContent = `${count} / 3 nakumpleto`;
+    if (count === 3) document.getElementById('code-card').classList.remove('hidden');
   }
 
   document.getElementById('form-1').addEventListener('submit', (e) => {
     e.preventDefault();
     const val = document.getElementById('answer-1').value.trim().toUpperCase();
-    if (val === UNLOCK_CODE) {
-      markDone(1);
-      document.getElementById('wrong-1').classList.add('hidden');
-    } else {
-      document.getElementById('wrong-1').classList.remove('hidden');
-    }
+    if (val === FRAGMENT_LETTER) { markDone(1); document.getElementById('wrong-1').classList.add('hidden'); }
+    else document.getElementById('wrong-1').classList.remove('hidden');
   });
 
-  // PUZZLE 2 (pour to zone)
-  (function () {
-    let tilt = 0, fillLevel = 0, usingFallback = false, active = false;
+  document.getElementById('submit-2').addEventListener('click', () => {
+    const val = document.getElementById('magic-blank').value.trim();
+    if (val === FRAGMENT_DIGIT) { markDone(2); document.getElementById('wrong-2').classList.add('hidden'); }
+    else document.getElementById('wrong-2').classList.remove('hidden');
+  });
 
-    function activateFallback() {
-      usingFallback = true;
-      const slider = document.getElementById('fallback-tilt-2');
-      slider.classList.remove('hidden');
-      slider.addEventListener('input', (e) => { tilt = Number(e.target.value); });
-    }
-
-    function loop() {
-      if (done[2] || !active) return;
-      const rate = Math.min(1, Math.abs(tilt) / 90);
-      fillLevel += rate * 0.5;
-      if (fillLevel > 100) {
-        fillLevel = 0;
-        document.getElementById('spill-2').classList.remove('hidden');
-        setTimeout(() => document.getElementById('spill-2').classList.add('hidden'), 1500);
-      }
-      document.getElementById('water-fill').style.height = `${Math.max(0, fillLevel)}%`;
-      document.getElementById('fill-label').textContent = `${Math.round(Math.max(0, fillLevel))}%`;
-      if (fillLevel >= ZONE_MIN && fillLevel <= ZONE_MAX) { markDone(2); return; }
-      requestAnimationFrame(loop);
-    }
-
-    document.getElementById('start-2').addEventListener('click', async () => {
-      active = true;
-      document.getElementById('zone-band').style.bottom = `${ZONE_MIN}%`;
-      document.getElementById('zone-band').style.height = `${ZONE_MAX - ZONE_MIN}%`;
-      document.getElementById('start-2').classList.add('hidden');
-      document.getElementById('game-2').classList.remove('hidden');
-      try {
-        await requestOrientation();
-        window.addEventListener('deviceorientation', (e) => { if (e.gamma != null) tilt = e.gamma; });
-      } catch (e) { activateFallback(); }
-      requestAnimationFrame(loop);
-    });
-  })();
-
-  // PUZZLE 3 (hold level)
-  (function () {
-    let tilt = 0, holdMs = 0, usingFallback = false, active = false, lastT = null;
-
-    function activateFallback() {
-      usingFallback = true;
-      const slider = document.getElementById('fallback-tilt-3');
-      slider.classList.remove('hidden');
-      slider.addEventListener('input', (e) => { tilt = Number(e.target.value); });
-    }
-
-    function loop(t) {
-      if (done[3] || !active) return;
-      if (lastT === null) lastT = t;
-      const dt = t - lastT; lastT = t;
-      const needle = document.getElementById('level-needle');
-      const pct = 50 + (tilt / 90) * 50;
-      needle.style.left = `${Math.max(0, Math.min(100, pct))}%`;
-      const level = Math.abs(tilt) < LEVEL_TOLERANCE;
-      holdMs = level ? holdMs + dt : Math.max(0, holdMs - dt);
-      document.getElementById('progress-3').style.width = `${Math.min(100, (holdMs / HOLD_MS) * 100)}%`;
-      if (holdMs >= HOLD_MS) { markDone(3); return; }
-      requestAnimationFrame(loop);
-    }
-
-    document.getElementById('start-3').addEventListener('click', async () => {
-      active = true;
-      const zoneCenterPct = 50 - (LEVEL_TOLERANCE / 90) * 50;
-      const zoneWidthPct = (2 * LEVEL_TOLERANCE / 90) * 50;
-      document.getElementById('level-zone').style.left = `${zoneCenterPct}%`;
-      document.getElementById('level-zone').style.width = `${zoneWidthPct}%`;
-      document.getElementById('start-3').classList.add('hidden');
-      document.getElementById('game-3').classList.remove('hidden');
-      try {
-        await requestOrientation();
-        window.addEventListener('deviceorientation', (e) => { if (e.gamma != null) tilt = e.gamma; });
-      } catch (e) { activateFallback(); }
-      requestAnimationFrame(loop);
-    });
-  })();
-
-  // PUZZLE 4 (trace sigil)
-  renderTraceSigil('sigil-4', [
-    { x: 15, y: 50 }, { x: 50, y: 25 }, { x: 85, y: 50 },
-  ], () => markDone(4));
+  document.getElementById('form-3').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = document.getElementById('answer-3').value.trim().toUpperCase();
+    if (val === FINAL_CODE) { markDone(3); document.getElementById('wrong-3').classList.add('hidden'); }
+    else document.getElementById('wrong-3').classList.remove('hidden');
+  });
 </script>
 </body>
 </html>

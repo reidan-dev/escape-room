@@ -16,49 +16,46 @@ Isang print + website na escape room para sa Halloween party. Group ng magkakaib
   - **Minuto 65, 70, 75, 80** — random 1–2 members bawat team, mas mabilis na.
 - Layunin: i-solve ang 5 puzzle station (Air/Hangin, Water/Tubig, Earth/Lupa, Fire/Apoy, Aether) para makakuha ng 5 code, i-dial sa Final Lock bago maubos ang 80 minuto.
 
-## 2. Paano gumagana ang bawat station (4 HIWALAY na puzzle, walang riddles)
+## 2. Paano gumagana ang bawat station (3 puzzle: physical + interactive + combination)
 
-**Bawat station (isang webpage bawat sangkap) ay may 4 independiyenteng puzzle tile**, lahat naka-display nang sabay-sabay sa parehong page — pwedeng solusyunan sa kahit anong pagkakasunod-sunod, at pwedeng hati-hatiin ng team (iba't ibang miyembro, iba't ibang tile, sabay-sabay). Bawat tile may sariling ✅/🔒 badge; kapag 4/4 na, awtomatikong lalabas ang 2-character na final code ng sangkap na 'yun. Target na tagal: ~10 minuto kada station kung sabay-sabay ginagawa ng team.
+**Bawat station (isang webpage bawat sangkap) ay may 3 puzzle tile**, lahat naka-display nang sabay-sabay — pwedeng solusyunan sa kahit anong pagkakasunod-sunod, pwedeng hati-hatiin ng team:
 
-Walang typed-answer na riddle kahit saan — puro tactile/motor-skill/sensor na hamon.
+1. **Physical** — isang printed logic/spatial/cipher/math puzzle (`printables/physical-puzzle-*.html`), self-checking sa papel mismo, walang gunting/prop na kailangan. Ang sagot ay isang **LETRA**.
+2. **Interactive** — isang maliit na digital puzzle sa phone (bilangin, kumpletuhin, kalkulahin) — nag-iisip talaga, hindi lang motor-skill/reflex. Ang sagot ay isang **NUMERO**.
+3. **Combination** — pagsamahin ang letra + numero mula sa dalawang nauna para ma-unlock ang final code ng sangkap na 'yun.
 
-## 3. Mga Station, ang 4 Puzzle Bawat Isa, at Final Code
+Walang trivia/wordplay na riddle kahit saan, walang phone sensors/permissions na kailangan — puro genuine logic, cipher, at math na puzzle.
 
-### 🌬️ Hangin — final code `W9`
-1. **Susi mula sa Papel** (physical tear-card, walang gunting) → unlock code `QK37`
-2. **Itutok ang Hangin** — itutok ang phone sa direksyon (gauge ±18°), panatilihin 2.5s (walang hihip)
-3. **Huminga nang Malalim** — humipan sa mic, panatilihin 2.5s (walang direction)
-4. **Guhitin ang Hangin** — i-drag ang daliri sa 3 checkpoint nang tuloy-tuloy
+## 3. Mga Station, ang 3 Puzzle Bawat Isa, at Final Code
 
-### 💧 Tubig — final code `T2`
-1. **Susi mula sa Papel** → unlock code `TZ84`
-2. **Buhusan Hanggang sa Guhit** — itagilid para abutin ang 64–72% na zone (minsan lang, hindi kailangang tagalan)
-3. **Panatilihing Patag** — ihiga ang phone nang level, panatilihin 2.5s
-4. **Guhitin ang Alon** — trace-checkpoint task
+### 🌬️ Hangin (spatial reasoning) — final code `W9`
+1. **Physical:** alin sa 4 candidate shape ang totoong pag-ikot lamang (hindi mirrored) ng target → letrang `W`
+2. **Interactive:** bilangin ang 2 pangkat ng icon (5 + 4) → `9`
+3. **Combination:** `W9`
 
-### 🪨 Lupa — final code `L4`
-1. **Susi mula sa Papel** → unlock code `MR29`
-2. **Hukayin** — shake-to-fill meter (accelerometer)
-3. **Ihalo ang Semento** — umikot ang phone nang 2 buong ikot (orientation alpha rotation, iba sa shake)
-4. **Guhitin ang Bato** — trace-checkpoint task
+### 💧 Tubig (cipher) — final code `T2`
+1. **Physical:** i-decode ang ciphertext `TVDLK` gamit ang dumaragdag na shift (+0,+1,+2,+3,+4) → nagiging "TUBIG" → unang letra `T`
+2. **Interactive:** kumpletuhin ang 3×3 magic square (blangkong cell, dapat magkaparehong kabuuan ang bawat hilera/hanay/diagonal) → `2`
+3. **Combination:** `T2`
 
-### 🔥 Apoy — final code `B7`
-1. **Susi mula sa Papel** → unlock code `JX56`
-2. **Kuskusin** — drag/rub speed sa screen (walang permission na kailangan)
-3. **Pukpukin ang Pingkian** — rapid-tap rhythm (discrete taps, hindi drag)
-4. **Guhitin ang Apoy** — trace-checkpoint task
+### 🪨 Lupa (logic-grid deduction) — final code `L4`
+1. **Physical:** logic grid, 5 palatandaan, 4 bagay sa 4 puwesto — sino ang nasa ikatlong puwesto? (sagot: Pala) → letrang `L`
+2. **Interactive:** A+B+C=9, B=2, A=C−1 → ano ang C? → `4`
+3. **Combination:** `L4`
 
-### ✨ Aether — final code `K5`
-1. **Susi mula sa Papel** → unlock code `VN71`
-2. **Pagsamahin ang mga Sangkap** — i-type ang 4 code sa itaas (Lupa/Tubig/Apoy/Hangin)
-3. **Manahimik** — hawakan nang halos-hindi-gumagalaw 2.5s (kabaligtaran ng iba — stillness, hindi motion)
-4. **Guhitin ang Bilog** — trace-checkpoint task
+### 🔥 Apoy (math/balanse) — final code `B7`
+1. **Physical:** Kalan=2×Kahoy, 3×Kahoy=Baga+3, Baga=6 → ano ang Kahoy? (sagot: 3) → letrang `B`
+2. **Interactive:** susunod sa sequence na 23, 19, 15, 11, ? → `7`
+3. **Combination:** `B7`
 
-**Non-obvious ang lahat ng unlock codes** — random alphanumeric (hindi totoong salita tulad ng dating "WIND"/"ROCK" na basta mahuhulaan), kaya kailangan talagang punitin at ayusin ang tear card.
+### ✨ Aether (mixed) — final code `K5`
+1. **Physical:** i-decode ang ciphertext `NDOX` gamit ang palaging +3 shift → nagiging "KALU..." → unang letra `K`
+2. **Interactive:** 🔮+🌙=12, 🌙=7 → ano ang 🔮? → `5`
+3. **Combination:** i-type ang `K5` KASAMA ang 4 code mula sa ibang sangkap (Lupa/Tubig/Apoy/Hangin) — dito lang required ang lahat ng 4, bilang pagbubuklod ng Aether sa lahat ng elemento.
 
 **Final Lock combination** (`final/final.html`): `L4-T2-B7-W9-K5` (Lupa-Tubig-Apoy-Hangin-Aether) — hindi type-in, **rotary dial** na may 5 pares ng letter/digit reels na pinipihit (click/scroll/swipe) hanggang tama ang combination.
 
-Kung gusto mong palitan ang mga unlock codes o final codes: `UNLOCK_CODE` sa simula ng `<script>` ng bawat `puzzles/*.html`, `CORRECT` sa `final/final.html`, at ang tear card data (letters + shuffle order) sa `<script>` sa dulo ng bawat `printables/tear-puzzle-*.html`.
+Kung gusto mong palitan ang mga sagot: `FRAGMENT_LETTER`/`FRAGMENT_DIGIT`/`FINAL_CODE` sa `<script>` ng bawat `puzzles/*.html`, `CORRECT` sa `final/final.html`, at ang laman ng puzzle mismo sa kani-kanyang `printables/physical-puzzle-*.html`.
 
 ## 4. Prep Checklist (gawin BAGO ang party)
 
@@ -66,22 +63,17 @@ Kung gusto mong palitan ang mga unlock codes o final codes: `UNLOCK_CODE` sa sim
 1. Buksan ang `printables/qr-codes.html` (link din sa GM menu ng Hub — ⚙ button sa ibabang-kanan), i-print, gupitin, at idikit sa tamang physical station. Naka-hardcode na ang deployed URL (`DEPLOY_BASE` sa `<script>` ng file) kaya tama ang QR kahit binuksan mo lokal lang para i-preview — **kung mag-iiba ang hosting URL mo, palitan ang constant na 'yun.**
 2. I-test munang i-scan ang bawat QR gamit ang sariling phone bago ang party.
 
-### ✂️ Tear Cards (lahat ng 5 sangkap)
-- I-print ang `printables/tear-puzzle-air.html`, `-water.html`, `-earth.html`, `-fire.html`, `-aether.html` — 1 kopya bawat team bawat station. Ilagay sa tabi ng QR code sa bawat station.
-- Walang gunting/prop na kailangan — punitin lang gamit ang kamay sa dashed lines.
+### 🧩 Physical Puzzles (lahat ng 5 sangkap)
+- I-print ang `printables/physical-puzzle-air.html`, `-water.html`, `-earth.html`, `-fire.html`, `-aether.html` — 1 kopya bawat team bawat station. Ilagay sa tabi ng QR code sa bawat station.
+- Bawat isa ay self-contained (may sariling instructions + legend/lookup table) — walang gunting o ibang gamit na kailangan, basa at isip lang.
+- **I-solve mo muna mismo ang lahat ng 5 bago i-print** para masiguro walang typo sa mga printable (tingnan Section 3 para sa buong solusyon ng bawat isa).
 
 ### 📜 Story Card
 - I-print ang `printables/story-card.html`, 1 kopya bawat team, ibigay bago magsimula ang timer.
 
-### 📵 Tungkol sa mga phone sensor
-- **Air** — puzzle 2 kailangan ng orientation access, puzzle 3 kailangan ng mic access. Magkahiwalay na permission bawat isa.
-- **Water** — puzzle 2 at 3 pareho kailangan ng orientation access (magkahiwalay na "Simulan" button, kaya pwedeng dalawang beses mag-prompt ang iOS sa parehong page — normal lang, i-allow lang).
-- **Earth** — puzzle 2 kailangan ng motion access (shake), puzzle 3 kailangan ng orientation access (rotation). Magkaibang sensor, magkahiwalay na permission.
-- **Aether** — puzzle 3 kailangan ng orientation access.
-- **Fire** — walang permission na kailangan kahit saan (touch/mouse drag/tap lang), pinaka-robust sa lahat.
-- Lahat ng sensor puzzle ay may **manual fallback controls** na awtomatikong lalabas kapag tumanggi o walang sensor ang device — hindi ma-stuck ang players.
-- **Kailangan ng HTTPS** ang mic/motion/orientation access — gagana lang once naka-host (Section 6), hindi sa plain file o LAN IP sa phone.
-- I-test munang i-solve ang bawat puzzle tile gamit ang totoong phone bago ang party.
+### 📱 Tungkol sa interactive puzzles
+- Walang phone permission/sensor na kailangan kahit saan ngayon — puro simpleng number/text input, gagana sa kahit anong browser/device (kahit laptop pa nga, pero mas convenient sa phone dahil doon nakadikit ang QR).
+- I-solve mo muna mismo ang bawat interactive puzzle para ma-verify na tama ang mga sagot bago ang party.
 
 ## 5. Pag-set up ng Hub sa Araw ng Party
 
@@ -100,7 +92,7 @@ Static site ito — walang backend, kaya kahit saan pwede i-host nang libre:
 - **GitHub Pages:** i-push ang repo sa GitHub, i-enable ang Pages sa Settings → Pages → source: `main` branch, root.
 - **Netlify / Vercel:** i-drag-and-drop ang folder o i-connect ang GitHub repo, walang build step na kailangan (plain HTML/CSS/JS).
 
-**Mahalaga:** kailangan ng totoong HTTPS deployment (hindi lang local file) para gumana ang sensors ng Air/Water/Earth/Aether sa mga phone ng players. I-deploy muna bago i-print ang QR codes.
+Wala nang HTTPS/sensor requirement ngayon (walang phone permissions na ginagamit) — pero i-deploy pa rin muna bago i-print ang QR codes, para tama ang naka-encode na URL doon.
 
 Ang mga codes ay naka-store lang sa localStorage ng browser ng Hub, kaya iisang device/browser lang ang dapat gamiting "official" Hub + Final Lock.
 

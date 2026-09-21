@@ -3,27 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aether — 4 Hamon</title>
+<title>Aether — 3 Puzzle</title>
 <link rel="stylesheet" href="../css/style.css">
-<style>
-  #orb-wrap {
-    position: relative;
-    width: 180px; height: 180px;
-    margin: 16px auto;
-    border-radius: 50%;
-    background: radial-gradient(circle, #4a2a7a, #150a1f);
-    border: 4px solid var(--aether);
-    display: flex; align-items: center; justify-content: center;
-    transition: box-shadow .2s ease;
-  }
-  #orb-icon { font-size: 3.5rem; transition: transform .2s ease; }
-  .meter-outer {
-    width: 200px; height: 14px; background: #120a1c;
-    border-radius: 8px; margin: 10px auto; overflow: hidden;
-    border: 1px solid var(--aether);
-  }
-  .meter-inner { height: 100%; width: 0%; background: var(--aether); transition: width .1s linear; }
-</style>
 </head>
 <body>
 <nav class="navbar no-print">
@@ -33,56 +14,51 @@
 <div class="wrap">
   <div class="card center">
     <h1 class="spooky tag-aether">✨ Ang Ikalimang Sangkap</h1>
-    <p>4 hiwalay na hamon sa station na 'to — kahit anong pagkakasunod-sunod, kahit hati-hatiin ng team. Kapag kumpleto lahat, lalabas ang code.</p>
+    <p>3 puzzle: 1 physical (papel), 1 interactive (phone), 1 combination — kasama na dito ang 4 code mula sa ibang sangkap.</p>
   </div>
 
-  <p class="progress-summary" id="progress-summary">0 / 4 nakumpleto</p>
+  <p class="progress-summary" id="progress-summary">0 / 3 nakumpleto</p>
 
-  <!-- PUZZLE 1: physical tear-card -->
+  <!-- PUZZLE 1: physical cipher -->
   <div class="card" id="tile-1">
-    <div class="tile-header"><h3>1. Susi mula sa Papel</h3><span class="tile-badge" id="badge-1">🔒</span></div>
-    <p>May punit-punit na papel sa station na 'to. Punitin (kamay lang) at ayusin mula pinakamadilim hanggang pinakamaliwanag — babasahin ang UNLOCK CODE mula kaliwa papuntang kanan.</p>
+    <div class="tile-header"><h3>1. Physical — Palaging Shift</h3><span class="tile-badge" id="badge-1">🔒</span></div>
+    <p>May naka-print na cipher sa station na 'to (o buksan dito: <a href="../printables/physical-puzzle-aether.html" target="_blank">🖨️ Physical Puzzle</a>). I-decode ang fragment gamit ang palaging +3 shift.</p>
     <form id="form-1">
-      <input type="text" id="answer-1" class="code-input" style="width:7em; letter-spacing:4px;" maxlength="6" placeholder="????">
+      <input type="text" id="answer-1" class="code-input" style="width:4em;" maxlength="2" placeholder="?">
       <button type="submit" class="btn secondary" style="margin-left:8px;">Isumite</button>
     </form>
-    <p id="wrong-1" class="hidden" style="color:var(--fire);">Mali 'yan. Balikan ang piraso ng papel, ayusin mula pinakamadilim hanggang pinakamaliwanag.</p>
+    <p id="wrong-1" class="hidden" style="color:var(--fire);">Mali 'yan. Ibawas ng 3 ang bawat letra ng ciphertext.</p>
   </div>
 
-  <!-- PUZZLE 2: combine the 4 element codes -->
+  <!-- PUZZLE 2: interactive equation -->
   <div class="card center" id="tile-2">
-    <div class="tile-header"><h3>2. Pagsamahin ang mga Sangkap</h3><span class="tile-badge" id="badge-2">🔒</span></div>
-    <p class="dim">Kailangan ang 4 code mula sa ibang sangkap para dito.</p>
+    <div class="tile-header"><h3>2. Interactive — Timbangin ang Enerhiya</h3><span class="tile-badge" id="badge-2">🔒</span></div>
+    <p style="font-size:1.4rem;">🔮 + 🌙 = 12<br>🌙 = 7</p>
+    <p>Ano ang 🔮?</p>
     <form id="form-2">
-      <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+      <input type="number" id="answer-2" class="code-input" style="width:4em;" placeholder="?">
+      <button type="submit" class="btn secondary" style="margin-left:8px;">Isumite</button>
+    </form>
+    <p id="wrong-2" class="hidden" style="color:var(--fire);">Mali 'yan.</p>
+  </div>
+
+  <!-- PUZZLE 3: combination (+ other 4 codes) -->
+  <div class="card center" id="tile-3">
+    <div class="tile-header"><h3>3. Combination</h3><span class="tile-badge" id="badge-3">🔒</span></div>
+    <p class="dim">Pagsamahin ang letra + numero mula sa itaas, PLUS ang 4 code mula sa ibang sangkap.</p>
+    <form id="form-3">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:14px;">
         <div><label class="dim" style="display:block; font-size:.7rem;">LUPA</label><input type="text" id="code-earth" class="code-input" maxlength="4"></div>
         <div><label class="dim" style="display:block; font-size:.7rem;">TUBIG</label><input type="text" id="code-water" class="code-input" maxlength="4"></div>
         <div><label class="dim" style="display:block; font-size:.7rem;">APOY</label><input type="text" id="code-fire" class="code-input" maxlength="4"></div>
         <div><label class="dim" style="display:block; font-size:.7rem;">HANGIN</label><input type="text" id="code-air" class="code-input" maxlength="4"></div>
       </div>
-      <br>
+      <label class="dim" style="display:block; font-size:.7rem;">AETHER (letra+numero mula sa Puzzle 1 & 2)</label>
+      <input type="text" id="answer-3" class="code-input" maxlength="2" placeholder="??">
+      <br><br>
       <button type="submit" class="btn secondary">Isumite</button>
     </form>
-    <p id="wrong-2" class="hidden" style="color:var(--fire);">May mali dyan — balikan ang ibang puzzle stations. 🧐</p>
-  </div>
-
-  <!-- PUZZLE 3: hold still -->
-  <div class="card center" id="tile-3">
-    <div class="tile-header"><h3>3. Manahimik</h3><span class="tile-badge" id="badge-3">🔒</span></div>
-    <p class="dim">Hawakan ang phone nang halos-hindi-gumagalaw sa loob ng 2.5 segundo — kabaligtaran ng ibang sangkap.</p>
-    <button id="start-3" class="btn secondary">Simulan</button>
-    <div id="game-3" class="hidden">
-      <div id="orb-wrap"><div id="orb-icon">🔮</div></div>
-      <div class="meter-outer"><div id="progress-3" class="meter-inner"></div></div>
-      <button id="fallback-hold-3" class="btn secondary hidden">🔮 Pindutin at huwag bitiwan</button>
-    </div>
-  </div>
-
-  <!-- PUZZLE 4: trace sigil -->
-  <div class="card center" id="tile-4">
-    <div class="tile-header"><h3>4. Guhitin ang Bilog</h3><span class="tile-badge" id="badge-4">🔒</span></div>
-    <p class="dim">I-drag ang daliri sa pagkakasunod 1 → 2 → 3 nang hindi bumibitiw.</p>
-    <div class="sigil-box" id="sigil-4"></div>
+    <p id="wrong-3" class="hidden" style="color:var(--fire);">May mali dyan — balikan ang ibang puzzle stations o ang Puzzle 1/2 sa itaas.</p>
   </div>
 
   <div id="code-card" class="hidden card center">
@@ -93,105 +69,49 @@
   </div>
 </div>
 
-<script src="../js/trace-sigil.js"></script>
 <script>
-  const UNLOCK_CODE = 'VN71';
-  const STILL_THRESHOLD = 0.8;
-  const HOLD_MS = 2500;
+  const FRAGMENT_LETTER = 'K';
+  const FRAGMENT_DIGIT = '5';
+  const FINAL_CODE = 'K5';
 
-  const done = { 1: false, 2: false, 3: false, 4: false };
+  const done = { 1: false, 2: false, 3: false };
 
   function markDone(n) {
     if (done[n]) return;
     done[n] = true;
     document.getElementById(`badge-${n}`).textContent = '✅';
     const count = Object.values(done).filter(Boolean).length;
-    document.getElementById('progress-summary').textContent = `${count} / 4 nakumpleto`;
-    if (count === 4) document.getElementById('code-card').classList.remove('hidden');
+    document.getElementById('progress-summary').textContent = `${count} / 3 nakumpleto`;
+    if (count === 3) document.getElementById('code-card').classList.remove('hidden');
   }
 
   document.getElementById('form-1').addEventListener('submit', (e) => {
     e.preventDefault();
     const val = document.getElementById('answer-1').value.trim().toUpperCase();
-    if (val === UNLOCK_CODE) {
-      markDone(1);
-      document.getElementById('wrong-1').classList.add('hidden');
-    } else {
-      document.getElementById('wrong-1').classList.remove('hidden');
-    }
+    if (val === FRAGMENT_LETTER) { markDone(1); document.getElementById('wrong-1').classList.add('hidden'); }
+    else document.getElementById('wrong-1').classList.remove('hidden');
   });
 
   document.getElementById('form-2').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = document.getElementById('answer-2').value.trim();
+    if (val === FRAGMENT_DIGIT) { markDone(2); document.getElementById('wrong-2').classList.add('hidden'); }
+    else document.getElementById('wrong-2').classList.remove('hidden');
+  });
+
+  document.getElementById('form-3').addEventListener('submit', (e) => {
     e.preventDefault();
     const vals = {
       earth: document.getElementById('code-earth').value.trim().toUpperCase(),
       water: document.getElementById('code-water').value.trim().toUpperCase(),
       fire: document.getElementById('code-fire').value.trim().toUpperCase(),
       air: document.getElementById('code-air').value.trim().toUpperCase(),
+      aether: document.getElementById('answer-3').value.trim().toUpperCase(),
     };
-    if (vals.earth === 'L4' && vals.water === 'T2' && vals.fire === 'B7' && vals.air === 'W9') {
-      markDone(2);
-      document.getElementById('wrong-2').classList.add('hidden');
-    } else {
-      document.getElementById('wrong-2').classList.remove('hidden');
-    }
+    const correct = vals.earth === 'L4' && vals.water === 'T2' && vals.fire === 'B7' && vals.air === 'W9' && vals.aether === FINAL_CODE;
+    if (correct) { markDone(3); document.getElementById('wrong-3').classList.add('hidden'); }
+    else document.getElementById('wrong-3').classList.remove('hidden');
   });
-
-  // PUZZLE 3 (hold still)
-  (function () {
-    let movement = 0, lastOrient = null, holding = false, usingFallback = false, active = false, holdMs = 0, lastT = null;
-
-    async function startReal() {
-      if (!('DeviceOrientationEvent' in window)) throw new Error('no support');
-      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-        const res = await DeviceOrientationEvent.requestPermission();
-        if (res !== 'granted') throw new Error('denied');
-      }
-      window.addEventListener('deviceorientation', (e) => {
-        if (e.alpha == null) return;
-        const cur = { a: e.alpha, b: e.beta || 0, g: e.gamma || 0 };
-        if (lastOrient) {
-          movement = Math.abs(cur.a - lastOrient.a) + Math.abs(cur.b - lastOrient.b) + Math.abs(cur.g - lastOrient.g);
-        }
-        lastOrient = cur;
-      });
-    }
-    function activateFallback() {
-      usingFallback = true;
-      const btn = document.getElementById('fallback-hold-3');
-      btn.classList.remove('hidden');
-      const setHold = (v) => (ev) => { ev.preventDefault(); holding = v; };
-      btn.addEventListener('mousedown', setHold(true));
-      btn.addEventListener('touchstart', setHold(true));
-      btn.addEventListener('mouseup', setHold(false));
-      btn.addEventListener('mouseleave', setHold(false));
-      btn.addEventListener('touchend', setHold(false));
-    }
-    function loop(t) {
-      if (done[3] || !active) return;
-      if (lastT === null) lastT = t;
-      const dt = t - lastT; lastT = t;
-      const steady = usingFallback ? holding : movement < STILL_THRESHOLD;
-      if (!usingFallback) movement = Math.max(0, movement - 0.15);
-      holdMs = steady ? holdMs + dt : Math.max(0, holdMs - dt * 1.5);
-      document.getElementById('progress-3').style.width = `${Math.min(100, (holdMs / HOLD_MS) * 100)}%`;
-      document.getElementById('orb-icon').style.transform = `scale(${1 + (holdMs / HOLD_MS) * 0.3})`;
-      if (holdMs >= HOLD_MS) { markDone(3); return; }
-      requestAnimationFrame(loop);
-    }
-    document.getElementById('start-3').addEventListener('click', async () => {
-      active = true;
-      document.getElementById('start-3').classList.add('hidden');
-      document.getElementById('game-3').classList.remove('hidden');
-      try { await startReal(); } catch (e) { activateFallback(); }
-      requestAnimationFrame(loop);
-    });
-  })();
-
-  // PUZZLE 4 (trace sigil)
-  renderTraceSigil('sigil-4', [
-    { x: 50, y: 15 }, { x: 85, y: 80 }, { x: 15, y: 80 },
-  ], () => markDone(4));
 </script>
 </body>
 </html>

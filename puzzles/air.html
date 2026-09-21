@@ -3,37 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hangin — 4 Hamon</title>
+<title>Hangin — 3 Puzzle</title>
 <link rel="stylesheet" href="../css/style.css">
-<style>
-  #gauge {
-    position: relative;
-    width: 200px; height: 200px;
-    margin: 16px auto;
-    border-radius: 50%;
-    border: 4px solid var(--air);
-  }
-  #arrow {
-    position: absolute; left: 50%; top: 50%;
-    width: 5px; height: 90px;
-    background: var(--orange);
-    transform-origin: top center;
-    transform: translate(-50%, 0) rotate(0deg);
-    border-radius: 3px;
-  }
-  #gauge::after {
-    content: '';
-    position: absolute; left: 50%; top: 50%;
-    width: 12px; height: 12px; background: var(--orange);
-    border-radius: 50%; transform: translate(-50%, -50%);
-  }
-  .meter-outer {
-    width: 200px; height: 14px; background: #120a1c;
-    border-radius: 8px; margin: 10px auto; overflow: hidden;
-    border: 1px solid var(--air);
-  }
-  .meter-inner { height: 100%; width: 0%; background: var(--orange); transition: width .1s linear; }
-</style>
 </head>
 <body>
 <nav class="navbar no-print">
@@ -43,53 +14,43 @@
 <div class="wrap">
   <div class="card center">
     <h1 class="spooky tag-air">🌬️ Sangkap ng Hangin</h1>
-    <p>4 hiwalay na hamon sa station na 'to — kahit anong pagkakasunod-sunod, kahit hati-hatiin ng team. Kapag kumpleto lahat, lalabas ang code.</p>
+    <p>3 puzzle: 1 physical (papel), 1 interactive (phone), 1 combination. Kahit anong pagkakasunod, pero kailangan lahat ng 3 para sa code.</p>
   </div>
 
-  <p class="progress-summary" id="progress-summary">0 / 4 nakumpleto</p>
+  <p class="progress-summary" id="progress-summary">0 / 3 nakumpleto</p>
 
-  <!-- PUZZLE 1: physical tear-card -->
+  <!-- PUZZLE 1: physical logic puzzle -->
   <div class="card" id="tile-1">
-    <div class="tile-header"><h3>1. Susi mula sa Papel</h3><span class="tile-badge" id="badge-1">🔒</span></div>
-    <p>May punit-punit na papel sa station na 'to. Punitin (kamay lang) at ayusin mula pinakamadilim hanggang pinakamaliwanag — babasahin ang UNLOCK CODE mula kaliwa papuntang kanan.</p>
+    <div class="tile-header"><h3>1. Physical — Alin ang Tunay na Ikot?</h3><span class="tile-badge" id="badge-1">🔒</span></div>
+    <p>May naka-print na spatial puzzle sa station na 'to (o buksan dito: <a href="../printables/physical-puzzle-air.html" target="_blank">🖨️ Physical Puzzle</a>). Hanapin kung alin sa 4 candidate shape ang totoong pag-ikot lang (hindi mirrored) ng target, tapos i-lookup ang letra.</p>
     <form id="form-1">
-      <input type="text" id="answer-1" class="code-input" style="width:7em; letter-spacing:4px;" maxlength="6" placeholder="????">
+      <input type="text" id="answer-1" class="code-input" style="width:4em;" maxlength="2" placeholder="?">
       <button type="submit" class="btn" style="margin-left:8px;">Isumite</button>
     </form>
-    <p id="wrong-1" class="hidden" style="color:var(--fire);">Mali 'yan. Balikan ang piraso ng papel, ayusin mula pinakamadilim hanggang pinakamaliwanag.</p>
+    <p id="wrong-1" class="hidden" style="color:var(--fire);">Mali 'yan. Balikan ang 4 candidate — tandaan, 3 sa 4 ay mirrored (kabaligtaran), isa lang ang totoong ikot.</p>
   </div>
 
-  <!-- PUZZLE 2: aim mini-game -->
+  <!-- PUZZLE 2: interactive counting puzzle -->
   <div class="card center" id="tile-2">
-    <div class="tile-header"><h3>2. Itutok ang Hangin</h3><span class="tile-badge" id="badge-2">🔒</span></div>
-    <p class="dim">Itutok ang phone sa naka-highlight na direksyon at panatilihin ng 2.5 segundo — walang hihip na kailangan dito.</p>
-    <button id="start-2" class="btn secondary">Simulan</button>
-    <div id="game-2" class="hidden">
-      <div id="gauge"><div id="arrow"></div></div>
-      <div class="meter-outer"><div id="progress-2" class="meter-inner"></div></div>
-      <div id="fallback-2" class="hidden">
-        <input type="range" id="fallback-direction" min="0" max="360" value="0" style="width:200px;">
-      </div>
-    </div>
+    <div class="tile-header"><h3>2. Interactive — Bilangin ang Ipoipo</h3><span class="tile-badge" id="badge-2">🔒</span></div>
+    <p>Ilang lahat?</p>
+    <p style="font-size:1.8rem;">🌀🌀🌀🌀🌀 &nbsp; + &nbsp; 🌀🌀🌀🌀</p>
+    <form id="form-2">
+      <input type="number" id="answer-2" class="code-input" style="width:4em;" placeholder="?">
+      <button type="submit" class="btn" style="margin-left:8px;">Isumite</button>
+    </form>
+    <p id="wrong-2" class="hidden" style="color:var(--fire);">Mali 'yan. Bilangin ulit nang mabuti.</p>
   </div>
 
-  <!-- PUZZLE 3: blow mini-game -->
+  <!-- PUZZLE 3: combination -->
   <div class="card center" id="tile-3">
-    <div class="tile-header"><h3>3. Huminga nang Malalim</h3><span class="tile-badge" id="badge-3">🔒</span></div>
-    <p class="dim">Humipan sa mic nang malakas at panatilihin ng 2.5 segundo — walang direction na kailangan dito.</p>
-    <button id="start-3" class="btn secondary">Simulan</button>
-    <div id="game-3" class="hidden">
-      <div class="meter-outer"><div id="blow-level" class="meter-inner" style="background:var(--air);"></div></div>
-      <div class="meter-outer"><div id="progress-3" class="meter-inner"></div></div>
-      <button id="fallback-blow-btn" class="btn secondary hidden">💨 Hipan (i-hold)</button>
-    </div>
-  </div>
-
-  <!-- PUZZLE 4: trace sigil -->
-  <div class="card center" id="tile-4">
-    <div class="tile-header"><h3>4. Guhitin ang Hangin</h3><span class="tile-badge" id="badge-4">🔒</span></div>
-    <p class="dim">I-drag ang daliri sa pagkakasunod 1 → 2 → 3 nang hindi bumibitiw.</p>
-    <div class="sigil-box" id="sigil-4"></div>
+    <div class="tile-header"><h3>3. Combination</h3><span class="tile-badge" id="badge-3">🔒</span></div>
+    <p class="dim">Pagsamahin ang letra mula sa Puzzle 1 at numero mula sa Puzzle 2.</p>
+    <form id="form-3">
+      <input type="text" id="answer-3" class="code-input" maxlength="2" placeholder="??">
+      <button type="submit" class="btn secondary" style="margin-left:8px;">Isumite</button>
+    </form>
+    <p id="wrong-3" class="hidden" style="color:var(--fire);">Hindi pa tama. Siguraduhing tama ang letra at numero mula sa unang dalawang puzzle.</p>
   </div>
 
   <div id="code-card" class="hidden card center">
@@ -99,146 +60,42 @@
   </div>
 </div>
 
-<script src="../js/trace-sigil.js"></script>
 <script>
-  const UNLOCK_CODE = 'QK37';
-  const TARGET = 130;
-  const TOLERANCE = 18;
-  const HOLD_MS = 2500;
+  const FRAGMENT_LETTER = 'W';
+  const FRAGMENT_DIGIT = '9';
+  const FINAL_CODE = 'W9';
 
-  const done = { 1: false, 2: false, 3: false, 4: false };
+  const done = { 1: false, 2: false, 3: false };
 
   function markDone(n) {
     if (done[n]) return;
     done[n] = true;
     document.getElementById(`badge-${n}`).textContent = '✅';
     const count = Object.values(done).filter(Boolean).length;
-    document.getElementById('progress-summary').textContent = `${count} / 4 nakumpleto`;
-    if (count === 4) document.getElementById('code-card').classList.remove('hidden');
+    document.getElementById('progress-summary').textContent = `${count} / 3 nakumpleto`;
+    if (count === 3) document.getElementById('code-card').classList.remove('hidden');
   }
 
-  // PUZZLE 1
   document.getElementById('form-1').addEventListener('submit', (e) => {
     e.preventDefault();
     const val = document.getElementById('answer-1').value.trim().toUpperCase();
-    if (val === UNLOCK_CODE) {
-      markDone(1);
-      document.getElementById('wrong-1').classList.add('hidden');
-    } else {
-      document.getElementById('wrong-1').classList.remove('hidden');
-    }
+    if (val === FRAGMENT_LETTER) { markDone(1); document.getElementById('wrong-1').classList.add('hidden'); }
+    else document.getElementById('wrong-1').classList.remove('hidden');
   });
 
-  // PUZZLE 2 (aim only)
-  (function () {
-    let baselineAlpha = null, currentRelative = 0, holdMs = 0, usingFallback = false, active = false, lastT = null;
+  document.getElementById('form-2').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = document.getElementById('answer-2').value.trim();
+    if (val === FRAGMENT_DIGIT) { markDone(2); document.getElementById('wrong-2').classList.add('hidden'); }
+    else document.getElementById('wrong-2').classList.remove('hidden');
+  });
 
-    function angDiff(a, b) { const d = Math.abs(a - b) % 360; return d > 180 ? 360 - d : d; }
-    function setupGauge() {
-      const gauge = document.getElementById('gauge');
-      const start = TARGET - TOLERANCE, end = TARGET + TOLERANCE;
-      gauge.style.background = `conic-gradient(from 0deg, rgba(255,255,255,.06) 0deg ${start}deg, var(--air) ${start}deg ${end}deg, rgba(255,255,255,.06) ${end}deg 360deg)`;
-    }
-    function onOrientation(e) {
-      if (e.alpha == null) return;
-      if (baselineAlpha === null) baselineAlpha = e.alpha;
-      let rel = e.alpha - baselineAlpha;
-      currentRelative = ((rel % 360) + 360) % 360;
-    }
-    async function startReal() {
-      if (!('DeviceOrientationEvent' in window)) throw new Error('no support');
-      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-        const res = await DeviceOrientationEvent.requestPermission();
-        if (res !== 'granted') throw new Error('denied');
-      }
-      window.addEventListener('deviceorientation', onOrientation);
-    }
-    function activateFallback() {
-      usingFallback = true;
-      document.getElementById('fallback-2').classList.remove('hidden');
-      document.getElementById('fallback-direction').addEventListener('input', (e) => {
-        currentRelative = Number(e.target.value);
-      });
-    }
-    function loop(t) {
-      if (done[2] || !active) return;
-      if (lastT === null) lastT = t;
-      const dt = t - lastT; lastT = t;
-      document.getElementById('arrow').style.transform = `translate(-50%, 0) rotate(${currentRelative}deg)`;
-      const inZone = angDiff(currentRelative, TARGET) <= TOLERANCE;
-      holdMs = inZone ? holdMs + dt : Math.max(0, holdMs - dt);
-      document.getElementById('progress-2').style.width = `${Math.min(100, (holdMs / HOLD_MS) * 100)}%`;
-      if (holdMs >= HOLD_MS) { markDone(2); return; }
-      requestAnimationFrame(loop);
-    }
-    document.getElementById('start-2').addEventListener('click', async () => {
-      active = true;
-      setupGauge();
-      document.getElementById('start-2').classList.add('hidden');
-      document.getElementById('game-2').classList.remove('hidden');
-      try { await startReal(); } catch (e) { activateFallback(); }
-      requestAnimationFrame(loop);
-    });
-  })();
-
-  // PUZZLE 3 (blow only)
-  (function () {
-    let holdMs = 0, usingFallback = false, active = false, lastT = null, blowLevel = 0;
-    let audioCtx, analyser, dataArray;
-
-    async function startReal() {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('no mic');
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const source = audioCtx.createMediaStreamSource(stream);
-      analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 512;
-      dataArray = new Uint8Array(analyser.fftSize);
-      source.connect(analyser);
-    }
-    function readBlow() {
-      if (!analyser) return 0;
-      analyser.getByteTimeDomainData(dataArray);
-      let sum = 0;
-      for (let i = 0; i < dataArray.length; i++) { const v = (dataArray[i] - 128) / 128; sum += v * v; }
-      return Math.min(1, Math.sqrt(sum / dataArray.length) * 4);
-    }
-    function activateFallback() {
-      usingFallback = true;
-      const btn = document.getElementById('fallback-blow-btn');
-      btn.classList.remove('hidden');
-      const setBlow = (v) => (ev) => { ev.preventDefault(); blowLevel = v; };
-      btn.addEventListener('mousedown', setBlow(1));
-      btn.addEventListener('touchstart', setBlow(1));
-      btn.addEventListener('mouseup', setBlow(0));
-      btn.addEventListener('mouseleave', setBlow(0));
-      btn.addEventListener('touchend', setBlow(0));
-    }
-    function loop(t) {
-      if (done[3] || !active) return;
-      if (lastT === null) lastT = t;
-      const dt = t - lastT; lastT = t;
-      if (!usingFallback) blowLevel = readBlow();
-      document.getElementById('blow-level').style.width = `${Math.round(blowLevel * 100)}%`;
-      const blowing = blowLevel > 0.22;
-      holdMs = blowing ? holdMs + dt : Math.max(0, holdMs - dt);
-      document.getElementById('progress-3').style.width = `${Math.min(100, (holdMs / HOLD_MS) * 100)}%`;
-      if (holdMs >= HOLD_MS) { markDone(3); return; }
-      requestAnimationFrame(loop);
-    }
-    document.getElementById('start-3').addEventListener('click', async () => {
-      active = true;
-      document.getElementById('start-3').classList.add('hidden');
-      document.getElementById('game-3').classList.remove('hidden');
-      try { await startReal(); } catch (e) { activateFallback(); }
-      requestAnimationFrame(loop);
-    });
-  })();
-
-  // PUZZLE 4 (trace sigil)
-  renderTraceSigil('sigil-4', [
-    { x: 30, y: 70 }, { x: 60, y: 30 }, { x: 85, y: 60 },
-  ], () => markDone(4));
+  document.getElementById('form-3').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = document.getElementById('answer-3').value.trim().toUpperCase();
+    if (val === FINAL_CODE) { markDone(3); document.getElementById('wrong-3').classList.add('hidden'); }
+    else document.getElementById('wrong-3').classList.remove('hidden');
+  });
 </script>
 </body>
 </html>

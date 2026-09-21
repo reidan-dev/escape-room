@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tubig — Physical Puzzle</title>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  .cipher-box {
+    font-size: 2rem;
+    letter-spacing: 8px;
+    font-weight: 800;
+    text-align: center;
+    padding: 16px;
+    border: 3px solid #000;
+    border-radius: 12px;
+    max-width: 400px;
+    margin: 20px auto;
+  }
+  .shift-table { border-collapse: collapse; margin: 16px auto; }
+  .shift-table td { border: 1px solid #000; padding: 8px 14px; text-align: center; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="wrap no-print">
+  <nav class="navbar">
+    <a href="../index.html">🏠 Hub</a>
+    <a href="../puzzles/water.html">💧 Balik sa Tubig puzzle</a>
+  </nav>
+</div>
+
+<div class="wrap">
+  <div class="card">
+    <h1 class="spooky tag-water center">💧 Susi ng Tubig — Dumaragdag na Shift</h1>
+    <p>Naka-encode ang salita sa ibaba gamit ang isang Caesar cipher — pero hindi pareho ang shift sa bawat letra. Ito ang panuntunan:</p>
+    <ul>
+      <li>Ang <strong>1st letra</strong> ay walang shift (+0).</li>
+      <li>Ang <strong>2nd letra</strong> ay +1 shift.</li>
+      <li>Ang <strong>3rd letra</strong> ay +2 shift.</li>
+      <li>At karagdagan pa ng +1 sa bawat sumunod na letra (4th = +3, 5th = +4).</li>
+    </ul>
+    <p>Ibig sabihin: ibawas ang shift ng bawat posisyon sa titik doon para makuha ang orihinal na letra (halimbawa: kung ang 2nd letra ng ciphertext ay "C" at ang shift doon ay +1, ang totoong letra ay "B").</p>
+  </div>
+
+  <div class="card center">
+    <p class="dim">CIPHERTEXT (5 letra):</p>
+    <div class="cipher-box">T V D L K</div>
+    <p class="dim">I-decode ang buong salita — kilala mo 'yan kapag tama. 🙂</p>
+  </div>
+
+  <div class="card center">
+    <p>Ang <strong>unang letra</strong> ng na-decode na salita ang kailangan mo sa unang puzzle tile sa website.</p>
+  </div>
+</div>
+</body>
+</html>
