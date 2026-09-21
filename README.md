@@ -46,9 +46,8 @@ Kung gusto mong palitan ang mga unlock codes o final codes, nasa `<script>` ng k
 ## 4. Prep Checklist (gawin BAGO ang party)
 
 ### 📱 QR Codes ng mga Station
-1. **I-deploy muna ang site** (Section 6) bago i-print ang QR codes, para tama ang naka-encode na URL.
-2. Buksan ang `printables/qr-codes.html` (link din sa GM menu ng Hub — ⚙ button sa ibabang-kanan), i-print, gupitin, at idikit sa tamang physical station.
-3. I-test munang i-scan ang bawat QR gamit ang sariling phone bago ang party.
+1. Buksan ang `printables/qr-codes.html` (link din sa GM menu ng Hub — ⚙ button sa ibabang-kanan), i-print, gupitin, at idikit sa tamang physical station. Naka-hardcode na ang deployed URL (`DEPLOY_BASE` sa `<script>` ng file) kaya tama ang QR kahit binuksan mo lokal lang para i-preview — **kung mag-iiba ang hosting URL mo, palitan ang constant na 'yun.**
+2. I-test munang i-scan ang bawat QR gamit ang sariling phone bago ang party.
 
 ### ✂️ Tear Cards (lahat ng 5 sangkap)
 - I-print ang `printables/tear-puzzle-air.html`, `-water.html`, `-earth.html`, `-fire.html`, `-aether.html` — 1 kopya bawat team bawat station. Ilagay sa tabi ng QR code sa bawat station.

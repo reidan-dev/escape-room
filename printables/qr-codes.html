@@ -53,9 +53,14 @@
     { emoji: '🔒', label: 'Final Lock', path: '../final/final.html' },
   ];
 
+  // Hardcoded so QR codes are always correct even if this page is opened
+  // locally (e.g. double-clicked file, or a local preview server) instead
+  // of the live deployed URL. Update this if you host somewhere else.
+  const DEPLOY_BASE = 'https://reidan-dev.github.io/escape-room/';
+
   const grid = document.getElementById('qr-grid');
   stations.forEach(s => {
-    const absoluteUrl = new URL(s.path, window.location.href).href;
+    const absoluteUrl = new URL(s.path.replace(/^\.\.\//, ''), DEPLOY_BASE).href;
     const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${encodeURIComponent(absoluteUrl)}`;
     const div = document.createElement('div');
     div.className = 'card station';
