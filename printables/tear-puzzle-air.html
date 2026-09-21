@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hangin — Physical Puzzle</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="wrap no-print">
+  <nav class="navbar">
+    <a href="../index.html">🏠 Hub</a>
+    <a href="../puzzles/air.html">🌬️ Balik sa Hangin puzzle</a>
+  </nav>
+  <p class="dim center">I-print ito at ilagay sa Hangin station. Walang gunting o ibang gamit na kailangan.</p>
+</div>
+
+<div class="wrap">
+  <div class="card">
+    <h1 class="spooky tag-air center">🌬️ Susi ng Hangin</h1>
+    <p>Punitin niyo (kamay lang, walang gunting) ang 4 piraso sa dashed lines sa ibaba. Tapos, ayusin niyo ang mga piraso mula sa <strong>pinakamadilim papuntang pinakamaliwanag</strong> — kapag tuloy-tuloy na ang kulay parang gradient, i-basa ang mga letra mula kaliwa papuntang kanan. 'Yun na ang UNLOCK CODE niyo, i-type sa website ng Hangin puzzle.</p>
+  </div>
+
+  <div class="card">
+    <div class="tear-row" id="tear-row"></div>
+  </div>
+</div>
+
+<script src="../js/tear-puzzle.js"></script>
+<script>
+  renderTearPuzzle('tear-row', ['W', 'I', 'N', 'D'], [2, 3, 0, 1], '🌬️');
+</script>
+</body>
+</html>

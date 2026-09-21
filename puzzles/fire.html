@@ -3,10 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apoy — Sulat ng Apoy</title>
+<title>Apoy — Pagniningas</title>
 <link rel="stylesheet" href="../css/style.css">
 <style>
   .stage-label { font-size: .75rem; letter-spacing: 1px; }
+  #rub-zone {
+    position: relative;
+    width: 220px; height: 220px;
+    margin: 16px auto;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #2a1206, #150a03);
+    border: 4px solid var(--fire);
+    display: flex; align-items: center; justify-content: center;
+    touch-action: none;
+    cursor: grab;
+    user-select: none;
+  }
+  #flame-icon { font-size: 5rem; filter: grayscale(1) brightness(.5); transition: filter .2s; }
+  .meter-outer {
+    width: 220px; height: 16px; background: #120a1c;
+    border-radius: 8px; margin: 10px auto; overflow: hidden;
+    border: 1px solid var(--fire);
+  }
+  .meter-inner { height: 100%; width: 0%; background: var(--orange); transition: width .1s linear; }
 </style>
 </head>
 <body>
@@ -16,92 +35,127 @@
 
 <div class="wrap">
 
-  <!-- STAGE 1: gate riddle -->
-  <div class="card center" id="stage1-card">
-    <p class="pill stage-label">HAKBANG 1 / 3</p>
+  <!-- STEP 1: unlock gate -->
+  <div class="card center" id="gate-card">
+    <p class="pill stage-label">HAKBANG 1 / 4</p>
     <h1 class="spooky tag-fire">🔥 Sangkap ng Apoy</h1>
-    <p class="dim">Physical puzzle — printable lang, walang kailangang init o ibang gamit.</p>
-    <p>May nakita kayong parchment sa may kalan — mukhang bahagi rin ng grimoire ni Aling Turing. Bago ito masindihan, kailangan niyo munang patunayan na alam ninyo ang kagyat na banta:</p>
-    <p>Ilang minuto sa kabuuan bago tuluyang manigas ang lahat ayon sa sumpa? (Tingnan ang timer sa Hub)</p>
-    <form id="stage1-form">
-      <input type="number" id="stage1-answer" class="code-input" style="width:5em;" placeholder="?">
+    <p>May punit-punit na papel kayong nahanap sa station na 'to. Kung na-ayos niyo na mula pinakamadilim hanggang pinakamaliwanag, may 4-letrang UNLOCK CODE na kayo — i-type dito:</p>
+    <form id="gate-form">
+      <input type="text" id="gate-answer" class="code-input" style="width:7em; letter-spacing:4px;" maxlength="6" placeholder="????">
       <br><br>
-      <button type="submit" class="btn">🔥 Kumpirmahin</button>
+      <button type="submit" class="btn">🔥 I-unlock</button>
     </form>
-    <p id="stage1-wrong" class="hidden" style="color:var(--air);">Mali 'yan — balikan ang Hub, tingnan kung ilang minuto ang buong countdown.</p>
+    <p id="gate-wrong" class="hidden" style="color:var(--air);">Mali 'yan. Balikan niyo yung 4 piraso, ayusin mula pinakamadilim hanggang pinakamaliwanag.</p>
   </div>
 
-  <!-- STAGE 2: rune substitution -->
-  <div id="stage2-card" class="hidden">
-    <div class="card">
-      <p class="pill stage-label">HAKBANG 2 / 3</p>
-      <p>Tama! Ngayon puno na ang parchment ng mga kakaibang sagisag na parang sinaunang alpabeto ng apoy.</p>
-      <p>Hanapin ang parchment (hingi sa GM kung wala pa) at gamitin ang legend na naka-print dito para i-translate ang mensahe. Simpleng substitution lang — bawat sagisag ay may katumbas na letra.</p>
-    </div>
+  <!-- STEP 2: ready -->
+  <div id="calibrate-card" class="hidden card center">
+    <p class="pill stage-label">HAKBANG 2 / 4</p>
+    <h2 class="spooky tag-fire">📡 Ihanda ang Daliri</h2>
+    <p>Gagamit lang ng touch/mouse dito — walang permission na hihingin. I-drag/kuskusin nang mabilis ang daliri niyo sa loob ng kahon mamaya, parang nagpapaningas ng apoy gamit ang kahoy.</p>
+    <button id="start-btn" class="btn">Tuloy</button>
+  </div>
 
+  <!-- STEP 3-4: rub to ignite (auto-advancing labels) -->
+  <div id="puzzle-screen" class="hidden">
     <div class="card center">
-      <p>Na-translate niyo na ang mensahe? Ilagay dito ang code na nakuha:</p>
-      <form id="stage2-form" style="max-width:220px; margin:0 auto;">
-        <input type="text" id="stage2-answer" class="code-input" maxlength="4" placeholder="??">
-        <br><br>
-        <button type="submit" class="btn">Tignan</button>
-      </form>
-      <p id="stage2-wrong" class="hidden" style="color:var(--air);">Hindi pa tama 'yan. Balikan ang legend, baka may mali sa pagbasa ng sagisag. 🔥</p>
+      <p class="pill stage-label" id="mechanic-stage-label">HAKBANG 3 / 4</p>
+      <p class="dim" id="mode-label" style="font-size:.85rem;">Kuskusin nang mabilis ang daliri sa loob ng kahon.</p>
+      <div id="rub-zone"><div id="flame-icon">🔥</div></div>
+      <div class="meter-outer"><div id="progress-inner" class="meter-inner"></div></div>
+      <p class="dim" style="font-size:.75rem;">Init na nabuo</p>
     </div>
   </div>
 
-  <!-- STAGE 3: closing riddle -->
-  <div id="stage3-card" class="hidden card center">
-    <p class="pill stage-label">HAKBANG 3 / 3</p>
-    <h2 class="spooky tag-fire">🔥 Isang Huling Tanong...</h2>
-    <p>Bago tuluyang lumamig ang parchment: ano ang kabaligtaran ng salitang <strong>"lamig"</strong>?</p>
-    <form id="stage3-form" style="max-width:280px; margin:0 auto;">
-      <input type="text" id="stage3-answer" placeholder="Sagot dito...">
-      <br><br>
-      <button type="submit" class="btn">Isumite</button>
-    </form>
-    <p id="stage3-wrong" class="hidden" style="color:var(--air);">Mali 'yan bes, subukan ulit. 🙃</p>
-  </div>
-
-  <div class="card center hidden" id="code-card">
+  <div id="code-card" class="hidden card center">
     <h2 class="spooky tag-fire">🔥 Nabuksan ang sangkap ng Apoy!</h2>
-    <p>Tama! Isulat ang code na ito, kakailanganin mo sa Final Lock:</p>
+    <p>Sumiklab ang apoy! Isulat ang code na ito, kakailanganin mo sa Final Lock:</p>
     <div class="pill" style="font-size:1.6rem; padding:10px 24px;">B7</div>
   </div>
 </div>
 
 <script>
-  document.getElementById('stage1-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const val = Number(document.getElementById('stage1-answer').value);
-    if (val === 80) {
-      document.getElementById('stage1-card').classList.add('hidden');
-      document.getElementById('stage2-card').classList.remove('hidden');
-    } else {
-      document.getElementById('stage1-wrong').classList.remove('hidden');
-    }
-  });
+  const UNLOCK_CODE = 'BURN';
+  const HEAT_THRESHOLD = 0.12;
+  const SUSTAIN_AT = 70;
 
-  document.getElementById('stage2-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const val = document.getElementById('stage2-answer').value.trim().toUpperCase().replace(/\s/g, '');
-    if (val === 'B7') {
-      document.getElementById('stage2-card').classList.add('hidden');
-      document.getElementById('stage3-card').classList.remove('hidden');
-    } else {
-      document.getElementById('stage2-wrong').classList.remove('hidden');
-    }
-  });
+  let heatLevel = 0;
+  let isRubbing = false;
+  let lastX = null, lastY = null, lastT = null;
+  let solved = false;
+  let progress = 0;
 
-  document.getElementById('stage3-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const val = document.getElementById('stage3-answer').value.trim().toLowerCase();
-    if (val === 'init') {
-      document.getElementById('stage3-card').classList.add('hidden');
+  function wireRubZone() {
+    const zone = document.getElementById('rub-zone');
+    zone.addEventListener('pointerdown', (e) => {
+      isRubbing = true;
+      lastX = e.clientX; lastY = e.clientY; lastT = performance.now();
+      zone.setPointerCapture(e.pointerId);
+    });
+    zone.addEventListener('pointermove', (e) => {
+      if (!isRubbing) return;
+      const now = performance.now();
+      const dx = e.clientX - lastX, dy = e.clientY - lastY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const dt = Math.max(8, now - lastT);
+      const speed = dist / dt;
+      heatLevel = Math.min(1, speed * 2.5);
+      lastX = e.clientX; lastY = e.clientY; lastT = now;
+    });
+    const stop = () => { isRubbing = false; };
+    zone.addEventListener('pointerup', stop);
+    zone.addEventListener('pointercancel', stop);
+    zone.addEventListener('pointerleave', stop);
+  }
+
+  function tickLoop() {
+    if (solved) return;
+
+    const igniting = heatLevel > HEAT_THRESHOLD;
+    progress = igniting
+      ? Math.min(100, progress + 1.4)
+      : Math.max(0, progress - 0.5);
+
+    heatLevel = Math.max(0, heatLevel - 0.06);
+
+    document.getElementById('progress-inner').style.width = `${progress}%`;
+    document.getElementById('flame-icon').style.filter = `grayscale(${1 - progress / 100}) brightness(${0.5 + progress / 200})`;
+
+    const label = document.getElementById('mechanic-stage-label');
+    const mode = document.getElementById('mode-label');
+    if (progress < SUSTAIN_AT) {
+      label.textContent = 'HAKBANG 3 / 4';
+      mode.textContent = 'Kuskusin nang mabilis ang daliri sa loob ng kahon.';
+    } else {
+      label.textContent = 'HAKBANG 4 / 4';
+      mode.textContent = 'Umiinit na! Ituloy ang kuskos hanggang sumiklab.';
+    }
+
+    if (progress >= 100) {
+      solved = true;
+      document.getElementById('puzzle-screen').classList.add('hidden');
       document.getElementById('code-card').classList.remove('hidden');
-    } else {
-      document.getElementById('stage3-wrong').classList.remove('hidden');
+      return;
     }
+    requestAnimationFrame(tickLoop);
+  }
+
+  document.getElementById('gate-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = document.getElementById('gate-answer').value.trim().toUpperCase();
+    if (val !== UNLOCK_CODE) {
+      document.getElementById('gate-wrong').classList.remove('hidden');
+      return;
+    }
+    document.getElementById('gate-card').classList.add('hidden');
+    document.getElementById('calibrate-card').classList.remove('hidden');
+  });
+
+  document.getElementById('start-btn').addEventListener('click', () => {
+    document.getElementById('calibrate-card').classList.add('hidden');
+    document.getElementById('puzzle-screen').classList.remove('hidden');
+    wireRubZone();
+    tickLoop();
   });
 </script>
 </body>

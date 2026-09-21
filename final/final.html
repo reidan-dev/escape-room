@@ -11,8 +11,87 @@
     text-align: center;
     margin: 10px 0;
   }
-  .segments { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; align-items:center; }
-  .segments span.dash { font-size:1.6rem; color:var(--dim); }
+  .lock-row {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin: 20px 0;
+  }
+  .segment { text-align: center; }
+  .segment label {
+    display: block;
+    font-size: .65rem;
+    letter-spacing: 1px;
+    color: var(--dim);
+    margin-bottom: 6px;
+  }
+  .reel-group {
+    display: flex;
+    gap: 4px;
+    background: linear-gradient(180deg, #3a2a1a, #1c130b);
+    border: 3px solid #6b4a2a;
+    border-radius: 10px;
+    padding: 6px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,.6), 0 3px 0 #1c130b;
+  }
+  .reel {
+    width: 46px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+    touch-action: none;
+  }
+  .reel-btn {
+    background: none;
+    border: none;
+    color: var(--orange);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 4px 0;
+    line-height: 1;
+  }
+  .reel-btn:active { transform: scale(.85); }
+  .reel-window {
+    width: 46px;
+    height: 46px;
+    background: #0d0616;
+    border-radius: 6px;
+    border: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,.8);
+  }
+  .reel-char {
+    font-family: 'Creepster', cursive;
+    font-size: 1.7rem;
+    color: var(--cream);
+    display: inline-block;
+    transition: transform .12s ease, opacity .12s ease;
+  }
+  .reel-char.spin-up { animation: spinUp .15s ease; }
+  .reel-char.spin-down { animation: spinDown .15s ease; }
+  @keyframes spinUp {
+    0% { transform: translateY(10px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes spinDown {
+    0% { transform: translateY(-10px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  .dash-sep { align-self: center; font-size: 1.4rem; color: var(--dim); margin-top: 20px; }
+  .live-readout {
+    text-align: center;
+    font-family: 'Creepster', cursive;
+    font-size: 1.3rem;
+    color: var(--dim);
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
   .shake { animation: shake .4s; }
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
@@ -34,50 +113,28 @@
 <body>
 <nav class="navbar no-print">
   <a href="../index.html">🏠 Hub</a>
-  <a href="../puzzles/air.html">🌬️ Hangin</a>
-  <a href="../puzzles/water.html">💧 Tubig</a>
-  <a href="../puzzles/earth.html">🪨 Lupa</a>
-  <a href="../puzzles/fire.html">🔥 Apoy</a>
-  <a href="../puzzles/aether.html">✨ Aether</a>
 </nav>
 
 <div class="wrap">
   <div class="card center">
     <div class="cauldron">🧪</div>
     <h1 class="spooky">Ang Huling Timpla</h1>
-    <p class="dim">Isama ang 5 code mula sa bawat sangkap, sa tamang pagkakasunod-sunod:<br>
-    Lupa nag-ground, Tubig naglinis, Apoy nagdalisay, Hangin nagpakalat, at Aether ang bumuklod sa lahat.</p>
+    <p class="dim">I-dial yung 5 code niyo, sunod-sunod: Lupa, Tubig, Apoy, Hangin, tapos Aether sa dulo — parang kino-crack niyo yung pinaka-secure na combination lock sa buong subdivision.</p>
   </div>
 
   <div class="card" id="form-card">
-    <form id="final-form">
-      <div class="segments">
-        <div><label class="dim" style="display:block; font-size:.7rem; text-align:center;">LUPA</label>
-          <input type="text" id="s1" class="code-input" maxlength="2"></div>
-        <span class="dash">-</span>
-        <div><label class="dim" style="display:block; font-size:.7rem; text-align:center;">TUBIG</label>
-          <input type="text" id="s2" class="code-input" maxlength="2"></div>
-        <span class="dash">-</span>
-        <div><label class="dim" style="display:block; font-size:.7rem; text-align:center;">APOY</label>
-          <input type="text" id="s3" class="code-input" maxlength="2"></div>
-        <span class="dash">-</span>
-        <div><label class="dim" style="display:block; font-size:.7rem; text-align:center;">HANGIN</label>
-          <input type="text" id="s4" class="code-input" maxlength="2"></div>
-        <span class="dash">-</span>
-        <div><label class="dim" style="display:block; font-size:.7rem; text-align:center;">AETHER</label>
-          <input type="text" id="s5" class="code-input" maxlength="2"></div>
-      </div>
-      <div class="center" style="margin-top:24px;">
-        <button type="submit" class="btn">🧪 Ibuhos sa Kaldero</button>
-      </div>
-    </form>
-    <p id="wrong-msg" class="hidden center" style="color:var(--fire);">Mali ang timpla! Sumabog ng usok ang kaldero pero buhay pa naman kayo (sa ngayon). Subukan ulit. 🌫️</p>
+    <div class="lock-row" id="lock-row"></div>
+    <p class="live-readout" id="live-readout">??-??-??-??-??</p>
+    <div class="center" style="margin-top:24px;">
+      <button type="button" id="submit-btn" class="btn">🧪 Ibuhos sa Kaldero</button>
+    </div>
+    <p id="wrong-msg" class="hidden center" style="color:var(--fire);">Sablay ang timpla! Umusok ang kaldero pero okay lang, buhay pa naman kayo (sa ngayon). I-dial ulit. 🌫️</p>
   </div>
 
   <div class="card center hidden" id="won-card">
     <h1 class="spooky">✨ NALIGTAS SILA! ✨</h1>
-    <p>Kumulo ang timpla, naging kulay-ginto, at bumula palabas ng kaldero. Isa-isang tumigil sa panginginig ang bawat naka-shot — buhay silang lahat! Halloween pa rin ba 'to o horror-comedy movie na?</p>
-    <p class="dim">(Sabihan na ang GM — end na ang laro, oras na ng videoke.)</p>
+    <p>Kumulo yung timpla, naging gold ang kulay, tapos bumula palabas ng kaldero. Isa-isa, tumigil sa panginginig yung mga naka-shot — buhay silang lahat! Halloween pa rin ba 'to o naging horror-comedy movie na?</p>
+    <p class="dim">(I-text na si GM — tapos na ang laro, oras na ng videoke.)</p>
   </div>
 </div>
 
@@ -86,14 +143,113 @@
 <script>
   const STORAGE_KEY = 'poisonGame';
   const CORRECT = 'L4T2B7W9K5';
+  const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const DIGITS = '0123456789'.split('');
+  const SEGMENTS = [
+    { id: 's1', label: 'LUPA' },
+    { id: 's2', label: 'TUBIG' },
+    { id: 's3', label: 'APOY' },
+    { id: 's4', label: 'HANGIN' },
+    { id: 's5', label: 'AETHER' },
+  ];
+
+  const state = SEGMENTS.map(() => ({ letterIdx: 0, digitIdx: 0 }));
+
+  function buildReel(segIdx, type) {
+    const wrap = document.createElement('div');
+    wrap.className = 'reel';
+
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'reel-btn';
+    up.textContent = '▲';
+
+    const win = document.createElement('div');
+    win.className = 'reel-window';
+    const charEl = document.createElement('span');
+    charEl.className = 'reel-char';
+    win.appendChild(charEl);
+
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'reel-btn';
+    down.textContent = '▼';
+
+    const alphabet = type === 'letter' ? LETTERS : DIGITS;
+    const key = type === 'letter' ? 'letterIdx' : 'digitIdx';
+
+    function render(direction) {
+      charEl.textContent = alphabet[state[segIdx][key]];
+      charEl.classList.remove('spin-up', 'spin-down');
+      void charEl.offsetWidth;
+      if (direction) charEl.classList.add(direction === 1 ? 'spin-down' : 'spin-up');
+      updateReadout();
+    }
+
+    function step(dir) {
+      const n = alphabet.length;
+      state[segIdx][key] = (state[segIdx][key] + dir + n) % n;
+      render(dir);
+    }
+
+    up.addEventListener('click', () => step(-1));
+    down.addEventListener('click', () => step(1));
+
+    win.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      step(e.deltaY > 0 ? 1 : -1);
+    }, { passive: false });
+
+    let touchStartY = null;
+    win.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
+    win.addEventListener('touchend', (e) => {
+      if (touchStartY === null) return;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(dy) > 18) step(dy > 0 ? -1 : 1);
+      touchStartY = null;
+    });
+
+    render(0);
+    wrap.appendChild(up);
+    wrap.appendChild(win);
+    wrap.appendChild(down);
+    return wrap;
+  }
+
+  function updateReadout() {
+    const readout = SEGMENTS.map((s, i) => LETTERS[state[i].letterIdx] + DIGITS[state[i].digitIdx]).join('-');
+    document.getElementById('live-readout').textContent = readout;
+  }
+
+  const lockRow = document.getElementById('lock-row');
+  SEGMENTS.forEach((seg, i) => {
+    const segEl = document.createElement('div');
+    segEl.className = 'segment';
+    const label = document.createElement('label');
+    label.textContent = seg.label;
+    const group = document.createElement('div');
+    group.className = 'reel-group';
+    group.appendChild(buildReel(i, 'letter'));
+    group.appendChild(buildReel(i, 'digit'));
+    segEl.appendChild(label);
+    segEl.appendChild(group);
+    lockRow.appendChild(segEl);
+    if (i < SEGMENTS.length - 1) {
+      const dash = document.createElement('span');
+      dash.className = 'dash-sep';
+      dash.textContent = '-';
+      lockRow.appendChild(dash);
+    }
+  });
+  updateReadout();
 
   function markWon() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      const state = raw ? JSON.parse(raw) : {};
-      state.won = true;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch (e) { /* ok lang, di naman deal breaker kung walang localStorage */ }
+      const st = raw ? JSON.parse(raw) : {};
+      st.won = true;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(st));
+    } catch (e) { /* ok lang kahit walang localStorage, di naman importante */ }
   }
 
   function spawnConfetti() {
@@ -110,11 +266,8 @@
     }
   }
 
-  document.getElementById('final-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const combo = ['s1','s2','s3','s4','s5']
-      .map(id => document.getElementById(id).value.trim().toUpperCase())
-      .join('');
+  document.getElementById('submit-btn').addEventListener('click', () => {
+    const combo = SEGMENTS.map((s, i) => LETTERS[state[i].letterIdx] + DIGITS[state[i].digitIdx]).join('');
 
     if (combo === CORRECT) {
       markWon();

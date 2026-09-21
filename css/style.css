@@ -162,6 +162,29 @@ input[type=text]:focus, input[type=number]:focus {
 
 .hidden { display: none !important; }
 
+.tear-row {
+  display: flex;
+  margin: 24px 0;
+  border: 1px solid #000;
+}
+.tear-piece {
+  flex: 1;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.tear-piece.tear-edge {
+  border-right: 3px dashed #000;
+}
+.tear-icon { font-size: 1.5rem; }
+.tear-char {
+  font-family: 'Creepster', cursive;
+  font-size: 2.6rem;
+}
+
 @media print {
   body { background: #fff !important; color: #000 !important; padding: 0; }
   .no-print { display: none !important; }
