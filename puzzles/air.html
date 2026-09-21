@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hangin — Bulong ng Hangin</title>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  #riddle-text {
+    font-size: 1.4rem;
+    line-height: 1.8;
+    transition: filter .35s ease, transform .35s ease;
+    filter: blur(7px);
+    transform: rotate(7deg) skewX(7deg);
+  }
+  .leaf { display:inline-block; animation: fall 2.5s ease-in forwards; }
+  @keyframes fall {
+    0% { transform: translateY(-40px) rotate(0deg); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(0) rotate(360deg); opacity: 1; }
+  }
+</style>
+</head>
+<body>
+<nav class="navbar no-print">
+  <a href="../index.html">🏠 Hub</a>
+  <a href="water.html">💧 Tubig</a>
+  <a href="earth.html">🪨 Lupa</a>
+  <a href="fire.html">🔥 Apoy</a>
+  <a href="aether.html">✨ Aether</a>
+</nav>
+
+<div class="wrap">
+  <div class="card center">
+    <h1 class="spooky tag-air">🌬️ Sangkap ng Hangin</h1>
+    <p class="dim">Digital puzzle — hipan mo hanggang mabasa.</p>
+  </div>
+
+  <div class="card">
+    <p id="riddle-text">
+      "Ako'y walang katawan pero nararamdaman mo ako.<br>
+      Kaya kong patayin ang kandila, pero hindi ako namamatay.<br>
+      Ako ang dahilan kung bakit kumakaluskos ang mga dahon —<br>
+      kahit walang multong dumaan, promise.<br>
+      Ano ako?"
+    </p>
+    <div class="center no-print">
+      <button class="btn secondary" onclick="hipan()">💨 Hipan mo!</button>
+      <p class="dim" id="hint-counter" style="font-size:.8rem;"></p>
+    </div>
+  </div>
+
+  <div class="card center hidden" id="answer-card">
+    <p>Ilagay ang sagot sa ibaba:</p>
+    <form id="answer-form" style="max-width:320px; margin:0 auto;">
+      <input type="text" id="answer-input" placeholder="Sagot dito...">
+      <br><br>
+      <button type="submit" class="btn">Isumite</button>
+    </form>
+    <p id="wrong-msg" class="hidden" style="color:var(--fire);">Mali 'yan bes, subukan ulit. 🙃</p>
+  </div>
+
+  <div class="card center hidden" id="code-card">
+    <h2 class="spooky tag-air">🍃 Nabuksan ang sangkap ng Hangin!</h2>
+    <p>Isulat ang code na ito, kakailanganin mo sa Final Lock:</p>
+    <div class="pill" style="font-size:1.6rem; padding:10px 24px;">W9</div>
+    <p class="dim" style="margin-top:16px;"><span class="leaf">🍂</span><span class="leaf">🍂</span><span class="leaf">🍂</span></p>
+  </div>
+</div>
+
+<script>
+  let level = 7;
+  const accepted = ['hangin', 'air', 'wind'];
+
+  function hipan() {
+    level = Math.max(0, level - 1);
+    const el = document.getElementById('riddle-text');
+    el.style.filter = `blur(${level}px)`;
+    el.style.transform = `rotate(${level}deg) skewX(${level}deg)`;
+    const counter = document.getElementById('hint-counter');
+    if (level > 0) {
+      counter.textContent = `Konti na lang... (${level})`;
+    } else {
+      counter.textContent = 'Ayan, mabasa na!';
+      document.getElementById('answer-card').classList.remove('hidden');
+    }
+  }
+
+  document.getElementById('answer-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = document.getElementById('answer-input').value.trim().toLowerCase();
+    if (accepted.includes(val)) {
+      document.getElementById('answer-card').classList.add('hidden');
+      document.getElementById('code-card').classList.remove('hidden');
+    } else {
+      document.getElementById('wrong-msg').classList.remove('hidden');
+    }
+  });
+</script>
+</body>
+</html>

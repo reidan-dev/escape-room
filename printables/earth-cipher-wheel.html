@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gulong ng Lupa — Print</title>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  .ring {
+    position: relative;
+    margin: 30px auto;
+    border: 3px dashed #000;
+    border-radius: 50%;
+  }
+  .ring span {
+    position: absolute;
+    font-size: 14pt;
+    font-weight: 800;
+    font-family: 'Poppins', sans-serif;
+  }
+  #outer-ring { width: 13cm; height: 13cm; }
+  #inner-ring { width: 8cm; height: 8cm; }
+  .center-dot {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 8px; height: 8px;
+    background: #000;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .cipher-box {
+    font-size: 1.8rem;
+    letter-spacing: 3px;
+    font-weight: 800;
+    text-align: center;
+    padding: 16px;
+    border: 3px solid #000;
+    border-radius: 12px;
+  }
+  @media print {
+    .ring { border-color: #000; }
+    .ring span { color: #000; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap no-print">
+  <nav class="navbar">
+    <a href="../index.html">🏠 Hub</a>
+    <a href="../puzzles/earth.html">🪨 Balik sa Lupa puzzle</a>
+  </nav>
+</div>
+
+<div class="wrap">
+  <div class="card">
+    <h1 class="spooky tag-earth">🪨 Ang Gulong ng Lupa</h1>
+    <p><strong>I-print ang pahinang ito.</strong> Gawa ito para gupitin at gawing isang gumaganang decoder wheel. Kailangan: gunting, push pin o brad fastener (o kahit paper fastener / split pin), at katiyakan sa buhay.</p>
+    <ol>
+      <li>Gupitin ang dalawang bilog (outer at inner) sa mga dashed na guhit.</li>
+      <li>Butasan ang gitna ng bawat bilog gamit ang push pin (may itim na tuldok na marka).</li>
+      <li>Ipatong ang maliit na bilog sa gitna ng malaking bilog, tapos idikit ng brad fastener sa likod para makaikot ito nang malaya.</li>
+      <li>Hanapin sa Kwento/Grimoire kung ilang hakbang ang ilipat ng panloob na gulong (shift number). I-align ang letrang <strong>A</strong> ng panloob na gulong sa tamang letra ng panlabas na gulong.</li>
+      <li>Basahin ang encoded message sa ibaba: hanapin ang bawat letra sa <strong>panlabas</strong> na gulong, at ang katapat nito sa <strong>panloob</strong> na gulong ang siyang tunay na letra.</li>
+    </ol>
+  </div>
+
+  <div class="card center">
+    <h3>Naka-encode na Mensahe:</h3>
+    <div class="cipher-box">HUN &nbsp; ZBZP &nbsp; HF &nbsp; S4</div>
+  </div>
+
+  <div class="card center">
+    <div id="outer-ring" class="ring"><div class="center-dot"></div></div>
+    <div id="inner-ring" class="ring"><div class="center-dot"></div></div>
+  </div>
+</div>
+
+<script>
+  function layoutCircle(containerId, radiusCm, letters) {
+    const container = document.getElementById(containerId);
+    const n = letters.length;
+    letters.forEach((letter, i) => {
+      const angle = (i / n) * 2 * Math.PI - Math.PI / 2;
+      const x = radiusCm * Math.cos(angle);
+      const y = radiusCm * Math.sin(angle);
+      const span = document.createElement('span');
+      span.textContent = letter;
+      span.style.left = `calc(50% + ${x}cm)`;
+      span.style.top = `calc(50% + ${y}cm)`;
+      span.style.transform = 'translate(-50%, -50%)';
+      container.appendChild(span);
+    });
+  }
+  const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
+  layoutCircle('outer-ring', 5.8, alphabet);
+  layoutCircle('inner-ring', 3.4, alphabet);
+</script>
+</body>
+</html>

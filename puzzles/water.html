@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tubig — Salamin ng Tubig</title>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  #riddle-text {
+    font-size: 1.4rem;
+    line-height: 1.8;
+    transition: filter .35s ease, transform .5s ease;
+    filter: blur(7px);
+    transform: scaleX(-1);
+  }
+  .bubble { display:inline-block; animation: rise 2.2s ease-in forwards; }
+  @keyframes rise {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+</style>
+</head>
+<body>
+<nav class="navbar no-print">
+  <a href="../index.html">🏠 Hub</a>
+  <a href="air.html">🌬️ Hangin</a>
+  <a href="earth.html">🪨 Lupa</a>
+  <a href="fire.html">🔥 Apoy</a>
+  <a href="aether.html">✨ Aether</a>
+</nav>
+
+<div class="wrap">
+  <div class="card center">
+    <h1 class="spooky tag-water">💧 Sangkap ng Tubig</h1>
+    <p class="dim">Digital puzzle — payapain ang tubig hanggang mabasa.</p>
+  </div>
+
+  <div class="card">
+    <p id="riddle-text">
+      "Wala akong kulay pero sumasalamin ako ng lahat.<br>
+      Kaya kong patayin ang uhaw, pero pwede rin akong pampatay —<br>
+      sa lasong 'to, in fairness.<br>
+      Kapag ako'y kinulo nang sobra, nawawala akong tuluyan.<br>
+      Ano ako?"
+    </p>
+    <div class="center no-print">
+      <button class="btn secondary" onclick="payapain()">🌊 Payapain ang tubig</button>
+      <p class="dim" id="hint-counter" style="font-size:.8rem;"></p>
+    </div>
+  </div>
+
+  <div class="card center hidden" id="answer-card">
+    <p>Ilagay ang sagot sa ibaba:</p>
+    <form id="answer-form" style="max-width:320px; margin:0 auto;">
+      <input type="text" id="answer-input" placeholder="Sagot dito...">
+      <br><br>
+      <button type="submit" class="btn">Isumite</button>
+    </form>
+    <p id="wrong-msg" class="hidden" style="color:var(--fire);">Mali 'yan bes, subukan ulit. 🙃</p>
+  </div>
+
+  <div class="card center hidden" id="code-card">
+    <h2 class="spooky tag-water">🫧 Nabuksan ang sangkap ng Tubig!</h2>
+    <p>Isulat ang code na ito, kakailanganin mo sa Final Lock:</p>
+    <div class="pill" style="font-size:1.6rem; padding:10px 24px;">T2</div>
+    <p class="dim" style="margin-top:16px;"><span class="bubble">🫧</span><span class="bubble">🫧</span><span class="bubble">🫧</span></p>
+  </div>
+</div>
+
+<script>
+  let level = 7;
+  const accepted = ['tubig', 'water'];
+
+  function payapain() {
+    level = Math.max(0, level - 1);
+    const el = document.getElementById('riddle-text');
+    el.style.filter = `blur(${level}px)`;
+    el.style.transform = level > 3 ? 'scaleX(-1)' : 'scaleX(1)';
+    const counter = document.getElementById('hint-counter');
+    if (level > 0) {
+      counter.textContent = `Konti na lang, humihinahon na... (${level})`;
+    } else {
+      counter.textContent = 'Tahimik na ang tubig!';
+      document.getElementById('answer-card').classList.remove('hidden');
+    }
+  }
+
+  document.getElementById('answer-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = document.getElementById('answer-input').value.trim().toLowerCase();
+    if (accepted.includes(val)) {
+      document.getElementById('answer-card').classList.add('hidden');
+      document.getElementById('code-card').classList.remove('hidden');
+    } else {
+      document.getElementById('wrong-msg').classList.remove('hidden');
+    }
+  });
+</script>
+</body>
+</html>

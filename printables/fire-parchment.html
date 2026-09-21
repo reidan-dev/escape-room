@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parchment ng Apoy — Print</title>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  .parchment {
+    background: #f3e6c8;
+    color: #3a2a1a;
+    border: 10px double #6b4a2a;
+    border-radius: 4px;
+    padding: 60px 40px;
+    min-height: 20cm;
+    max-width: 16cm;
+    margin: 30px auto;
+    position: relative;
+    font-family: 'Poppins', serif;
+  }
+  .parchment h2 { color: #6b1a1a; font-family: 'Creepster', cursive; text-shadow: none; text-align: center; }
+  .corner { position: absolute; font-size: 1.6rem; opacity: .5; }
+  .tl { top: 10px; left: 14px; } .tr { top: 10px; right: 14px; }
+  .bl { bottom: 10px; left: 14px; } .br { bottom: 10px; right: 14px; }
+  .blank-zone {
+    margin: 60px auto 20px;
+    width: 80%;
+    height: 6cm;
+    border: 1px dashed rgba(107,74,42,.25);
+  }
+  @media print {
+    body { background: #fff; }
+    .parchment { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap no-print">
+  <nav class="navbar">
+    <a href="../index.html">🏠 Hub</a>
+    <a href="../puzzles/fire.html">🔥 Balik sa Apoy puzzle</a>
+  </nav>
+  <p class="dim center">Para sa GM: gamitin ang blangkong espasyo sa gitna ng parchment para isulat ang lihim na code gamit ang invisible ink (tingnan ang README para sa recipe). Huwag ipakita ang pahinang ito sa mga players bago ang laro!</p>
+</div>
+
+<div class="parchment">
+  <span class="corner tl">🕸️</span><span class="corner tr">🕯️</span>
+  <span class="corner bl">💀</span><span class="corner br">🦇</span>
+  <h2>Sinaunang Sulat ni Aling Turing</h2>
+  <p style="text-align:center; font-style:italic;">"Kapag ang init ay dumampi sa papel na ito,<br>lilitaw ang lihim na natatago sa loob ng bawat titik..."</p>
+
+  <div class="blank-zone"></div>
+
+  <p style="text-align:center; font-size:.85rem; opacity:.6;">— dulo ng grimoire fragment —</p>
+</div>
+</body>
+</html>

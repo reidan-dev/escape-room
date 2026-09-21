@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ang Kaldero ng Oras — Hub</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar no-print">
+  <a href="printables/story-card.html">📜 Kwento</a>
+  <a href="puzzles/air.html">🌬️ Hangin</a>
+  <a href="puzzles/water.html">💧 Tubig</a>
+  <a href="puzzles/earth.html">🪨 Lupa</a>
+  <a href="puzzles/fire.html">🔥 Apoy</a>
+  <a href="puzzles/aether.html">✨ Aether</a>
+  <a href="final/final.html">🔒 Final Lock</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- ============ SETUP ============ -->
+  <div id="setup-screen">
+    <div class="card center">
+      <h1 class="spooky">🎃 Ang Kaldero ng Oras 🎃</h1>
+      <p class="dim">I-setup muna ang mga team bago pindutin ang "Simulan." Once na-click, tumatakbo na ang 80-minute na lason-clock — walang UNDO, kagaya ng buhay.</p>
+    </div>
+
+    <form id="start-form">
+      <div class="card">
+        <h3>Team 1</h3>
+        <label class="dim">Pangalan ng Team</label>
+        <input type="text" id="team1-name" placeholder="hal. Kulto ng Kalabasa" required>
+        <br><br>
+        <label class="dim">Miyembro (isa bawat linya, o comma-separated)</label>
+        <textarea id="team1-members" rows="5" style="width:100%; font-family:'Poppins',sans-serif; padding:10px; border-radius:8px; border:2px solid var(--purple); background:#120a1c; color:var(--cream);" placeholder="Juan&#10;Maria&#10;Pedro"></textarea>
+      </div>
+
+      <div class="card">
+        <h3>Team 2</h3>
+        <label class="dim">Pangalan ng Team</label>
+        <input type="text" id="team2-name" placeholder="hal. Sabaw Squad" required>
+        <br><br>
+        <label class="dim">Miyembro (isa bawat linya, o comma-separated)</label>
+        <textarea id="team2-members" rows="5" style="width:100%; font-family:'Poppins',sans-serif; padding:10px; border-radius:8px; border:2px solid var(--purple); background:#120a1c; color:var(--cream);" placeholder="Ana&#10;Ben&#10;Cathy"></textarea>
+      </div>
+
+      <div class="center">
+        <button type="submit" class="btn">☠️ Simulan ang Ritwal ☠️</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ============ GAME ACTIVE ============ -->
+  <div id="game-active" class="hidden">
+
+    <div id="game-screen">
+      <div class="card center" id="timer-card">
+        <p class="dim" style="margin-bottom:4px;">NALALABING ORAS BAGO TULUYANG MANIGAS</p>
+        <div id="timer-display" style="font-family:'Creepster',cursive; font-size:4.5rem; color:var(--fire); text-shadow:0 0 24px rgba(255,90,60,.7);">80:00</div>
+      </div>
+
+      <div style="display:flex; gap:16px; flex-wrap:wrap;">
+        <div class="card" style="flex:1; min-width:260px;">
+          <h3 id="team1-display-name">Team 1</h3>
+          <ul id="team1-display-members"></ul>
+        </div>
+        <div class="card" style="flex:1; min-width:260px;">
+          <h3 id="team2-display-name">Team 2</h3>
+          <ul id="team2-display-members"></ul>
+        </div>
+      </div>
+
+      <p class="dim center">Sundin ang landas ng 5 elemento — pindutin ang menu sa taas para sa mga puzzle.</p>
+    </div>
+
+    <div id="lost-screen" class="hidden card center">
+      <h1 class="spooky">💀 TAPOS NA. LASON ANG BIDA. 💀</h1>
+      <p>Umubos ang 80 minuto. Sayang, mabuti pa sana kung hindi na lang kayo pumunta sa party ni Tita Beth.</p>
+      <button class="btn danger no-print" onclick="resetGame()">Ulitin ang Laro</button>
+    </div>
+
+    <div id="won-screen" class="hidden card center">
+      <h1 class="spooky">✨ NALIGTAS SILA! ✨</h1>
+      <p>Kumpleto ang 5 elemento, natimplahan ang lunas bago pa man tuluyang manigas ang lahat. Balik-Halloween-party ulit, sino may bitin na shot? 🥃</p>
+      <button class="btn secondary no-print" onclick="resetGame()">Maglaro Ulit</button>
+    </div>
+
+  </div>
+
+  <!-- GM controls (maliit lang, di kailangan makita ng players) -->
+  <div class="no-print" style="position:fixed; bottom:14px; right:14px;">
+    <button id="gm-toggle" class="btn secondary" style="padding:8px 14px; font-size:.8rem;">⚙ GM</button>
+    <div id="gm-menu" class="hidden card" style="position:absolute; bottom:44px; right:0; width:200px;">
+      <p class="dim" style="font-size:.8rem;">Game Master lang dapat dito 👀</p>
+      <button id="reset-btn" class="btn danger" style="width:100%;">Reset Game</button>
+    </div>
+  </div>
+
+  <!-- Shot alert overlay -->
+  <div id="shot-overlay" class="hidden no-print" style="position:fixed; inset:0; background:rgba(10,3,18,.94); z-index:999; display:flex; align-items:center; justify-content:center; padding:20px;">
+    <div style="max-width:600px; width:100%;">
+      <div id="shot-overlay-body" class="center"></div>
+      <div class="center">
+        <button id="shot-overlay-dismiss" class="btn">Naibuhos na — Ituloy ang Laro</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/hub.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lupa — Gulong ng Lupa</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<nav class="navbar no-print">
+  <a href="../index.html">🏠 Hub</a>
+  <a href="air.html">🌬️ Hangin</a>
+  <a href="water.html">💧 Tubig</a>
+  <a href="fire.html">🔥 Apoy</a>
+  <a href="aether.html">✨ Aether</a>
+</nav>
+
+<div class="wrap">
+  <div class="card center">
+    <h1 class="spooky tag-earth">🪨 Sangkap ng Lupa</h1>
+    <p class="dim">Physical puzzle — kailangan ang printed decoder wheel.</p>
+  </div>
+
+  <div class="card">
+    <p>Sa ilalim ng lababo, may nakita kayong bahagi ng grimoire ni Aling Turing — may nakadikit na gulong na gawa sa cardboard, halatang gawa lang bahay-bahayan pero solidong-solid gumana.</p>
+    <p>Kunin ang naka-print na <strong>Gulong ng Lupa</strong> (tanungin ang GM kung wala pa) at i-decode ang lihim na mensahe gamit ito. Basahin ang buong instructions sa papel.</p>
+    <p class="dim">Wala kang printer? I-click na lang para makita/i-download ang printable version:</p>
+    <p class="center"><a href="../printables/earth-cipher-wheel.html" class="btn secondary" target="_blank">🖨️ Buksan ang Printable</a></p>
+  </div>
+
+  <div class="card center">
+    <p>Nadecode niyo na ang mensahe? Ilagay dito ang code na nakuha:</p>
+    <form id="answer-form" style="max-width:220px; margin:0 auto;">
+      <input type="text" id="answer-input" class="code-input" maxlength="4" placeholder="??">
+      <br><br>
+      <button type="submit" class="btn">Tignan</button>
+    </form>
+    <p id="wrong-msg" class="hidden" style="color:var(--fire);">Hindi pa tama. Baka mali ang shift sa gulong — balikan ang grimoire clue. 🔎</p>
+  </div>
+
+  <div class="card center hidden" id="code-card">
+    <h2 class="spooky tag-earth">⛰️ Nabuksan ang sangkap ng Lupa!</h2>
+    <p>Tama! Isulat ang code na ito, kakailanganin mo sa Final Lock:</p>
+    <div class="pill" style="font-size:1.6rem; padding:10px 24px;">L4</div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('answer-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = document.getElementById('answer-input').value.trim().toUpperCase().replace(/\s/g, '');
+    if (val === 'L4') {
+      document.getElementById('code-card').classList.remove('hidden');
+      document.getElementById('wrong-msg').classList.add('hidden');
+    } else {
+      document.getElementById('wrong-msg').classList.remove('hidden');
+    }
+  });
+</script>
+</body>
+</html>

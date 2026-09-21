@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Final Lock — Ang Kaldero</title>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  .cauldron {
+    font-size: 5rem;
+    text-align: center;
+    margin: 10px 0;
+  }
+  .segments { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; align-items:center; }
+  .segments span.dash { font-size:1.6rem; color:var(--dim); }
+  .shake { animation: shake .4s; }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+  }
+  .confetti {
+    position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 5;
+  }
+  .confetti span {
+    position: absolute; top: -20px; font-size: 1.6rem;
+    animation: confetti-fall linear forwards;
+  }
+  @keyframes confetti-fall {
+    to { transform: translateY(110vh) rotate(360deg); opacity: .9; }
+  }
+</style>
+</head>
+<body>
+<nav class="navbar no-print">
+  <a href="../index.html">🏠 Hub</a>
+  <a href="../puzzles/air.html">🌬️ Hangin</a>
+  <a href="../puzzles/water.html">💧 Tubig</a>
+  <a href="../puzzles/earth.html">🪨 Lupa</a>
+  <a href="../puzzles/fire.html">🔥 Apoy</a>
+  <a href="../puzzles/aether.html">✨ Aether</a>
+</nav>
+
+<div class="wrap">
+  <div class="card center">
+    <div class="cauldron">🧪</div>
+    <h1 class="spooky">Ang Huling Timpla</h1>
+    <p class="dim">Isama ang 5 code mula sa bawat sangkap, sa tamang pagkakasunod-sunod:<br>
+    Lupa nag-ground, Tubig naglinis, Apoy nagdalisay, Hangin nagpakalat, at Aether ang bumuklod sa lahat.</p>
+  </div>
+
+  <div class="card" id="form-card">
+    <form id="final-form">
+      <div class="segments">
+        <div><label class="dim" style="display:block; font-size:.7rem; text-align:center;">LUPA</label>
+          <input type="text" id="s1" class="code-input" maxlength="2"></div>
+        <span class="dash">-</span>
+        <div><label class="dim" style="display:block; font-size:.7rem; text-align:center;">TUBIG</label>
+          <input type="text" id="s2" class="code-input" maxlength="2"></div>
+        <span class="dash">-</span>
+        <div><label class="dim" style="display:block; font-size:.7rem; text-align:center;">APOY</label>
+          <input type="text" id="s3" class="code-input" maxlength="2"></div>
+        <span class="dash">-</span>
+        <div><label class="dim" style="display:block; font-size:.7rem; text-align:center;">HANGIN</label>
+          <input type="text" id="s4" class="code-input" maxlength="2"></div>
+        <span class="dash">-</span>
+        <div><label class="dim" style="display:block; font-size:.7rem; text-align:center;">AETHER</label>
+          <input type="text" id="s5" class="code-input" maxlength="2"></div>
+      </div>
+      <div class="center" style="margin-top:24px;">
+        <button type="submit" class="btn">🧪 Ibuhos sa Kaldero</button>
+      </div>
+    </form>
+    <p id="wrong-msg" class="hidden center" style="color:var(--fire);">Mali ang timpla! Sumabog ng usok ang kaldero pero buhay pa naman kayo (sa ngayon). Subukan ulit. 🌫️</p>
+  </div>
+
+  <div class="card center hidden" id="won-card">
+    <h1 class="spooky">✨ NALIGTAS SILA! ✨</h1>
+    <p>Kumulo ang timpla, naging kulay-ginto, at bumula palabas ng kaldero. Isa-isang tumigil sa panginginig ang bawat naka-shot — buhay silang lahat! Halloween pa rin ba 'to o horror-comedy movie na?</p>
+    <p class="dim">(Sabihan na ang GM — end na ang laro, oras na ng videoke.)</p>
+  </div>
+</div>
+
+<div class="confetti hidden" id="confetti"></div>
+
+<script>
+  const STORAGE_KEY = 'poisonGame';
+  const CORRECT = 'L4T2B7W9K5';
+
+  function markWon() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const state = raw ? JSON.parse(raw) : {};
+      state.won = true;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) { /* ok lang, di naman deal breaker kung walang localStorage */ }
+  }
+
+  function spawnConfetti() {
+    const el = document.getElementById('confetti');
+    el.classList.remove('hidden');
+    const emojis = ['🎉', '🍬', '🦇', '✨', '🎃'];
+    for (let i = 0; i < 40; i++) {
+      const span = document.createElement('span');
+      span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      span.style.left = `${Math.random() * 100}%`;
+      span.style.animationDuration = `${2 + Math.random() * 2}s`;
+      span.style.animationDelay = `${Math.random() * 0.5}s`;
+      el.appendChild(span);
+    }
+  }
+
+  document.getElementById('final-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const combo = ['s1','s2','s3','s4','s5']
+      .map(id => document.getElementById(id).value.trim().toUpperCase())
+      .join('');
+
+    if (combo === CORRECT) {
+      markWon();
+      document.getElementById('form-card').classList.add('hidden');
+      document.getElementById('won-card').classList.remove('hidden');
+      spawnConfetti();
+    } else {
+      const card = document.getElementById('form-card');
+      card.classList.add('shake');
+      document.getElementById('wrong-msg').classList.remove('hidden');
+      setTimeout(() => card.classList.remove('shake'), 400);
+    }
+  });
+</script>
+</body>
+</html>

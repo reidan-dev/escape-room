@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apoy — Sulat ng Apoy</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<nav class="navbar no-print">
+  <a href="../index.html">🏠 Hub</a>
+  <a href="air.html">🌬️ Hangin</a>
+  <a href="water.html">💧 Tubig</a>
+  <a href="earth.html">🪨 Lupa</a>
+  <a href="aether.html">✨ Aether</a>
+</nav>
+
+<div class="wrap">
+  <div class="card center">
+    <h1 class="spooky tag-fire">🔥 Sangkap ng Apoy</h1>
+    <p class="dim">Physical puzzle — kailangan ng init.</p>
+  </div>
+
+  <div class="card">
+    <p>May nakita kayong parchment sa may kalan — mukhang bahagi rin ng grimoire. Pero mukhang blangko lang. Kadiri, baka linisan lang 'yan ni Tita Beth.</p>
+    <p>Hindi 'yan blangko. May nakatagong sulat dito na lalabas lang kapag naramdaman nito ang init. Hanapin ang parchment (hingi sa GM) at dalhin malapit sa apoy ng kandila o pahanginan ng hairdryer nang maigi (<strong>huwag sunugin ang papel, GM lang pwede humawak ng may bukas na apoy</strong>).</p>
+    <p class="dim">⚠️ Safety note: laging may kasamang adult/GM kapag gumagamit ng apoy. Hairdryer ang pinaka-safe na option.</p>
+  </div>
+
+  <div class="card center">
+    <p>Lumabas na ang sulat? Ilagay dito ang code na nakita:</p>
+    <form id="answer-form" style="max-width:220px; margin:0 auto;">
+      <input type="text" id="answer-input" class="code-input" maxlength="4" placeholder="??">
+      <br><br>
+      <button type="submit" class="btn">Tignan</button>
+    </form>
+    <p id="wrong-msg" class="hidden" style="color:var(--air);">Wala pang lumalabas na tama diyan. Init pa ng konti? 🔥</p>
+  </div>
+
+  <div class="card center hidden" id="code-card">
+    <h2 class="spooky tag-fire">🔥 Nabuksan ang sangkap ng Apoy!</h2>
+    <p>Tama! Isulat ang code na ito, kakailanganin mo sa Final Lock:</p>
+    <div class="pill" style="font-size:1.6rem; padding:10px 24px;">B7</div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('answer-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = document.getElementById('answer-input').value.trim().toUpperCase().replace(/\s/g, '');
+    if (val === 'B7') {
+      document.getElementById('code-card').classList.remove('hidden');
+      document.getElementById('wrong-msg').classList.add('hidden');
+    } else {
+      document.getElementById('wrong-msg').classList.remove('hidden');
+    }
+  });
+</script>
+</body>
+</html>

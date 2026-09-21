@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jumbled Sheet ng Aether — Print</title>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  .grid-wrap { position: relative; width: 16cm; margin: 40px auto; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(8, 2cm);
+    grid-auto-rows: 2cm;
+    border: 2px solid #000;
+  }
+  .grid div {
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid #ccc;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20pt;
+    font-weight: 800;
+    color: #000;
+  }
+  .cross {
+    position: absolute;
+    font-size: 18pt;
+    color: #000;
+    line-height: 1;
+  }
+  .cross.tl { top: -14px; left: -14px; }
+  .cross.tr { top: -14px; right: -14px; }
+  .cross.bl { bottom: -14px; left: -14px; }
+  .cross.br { bottom: -14px; right: -14px; }
+  @media print { body { background: #fff; } }
+</style>
+</head>
+<body>
+<div class="wrap no-print">
+  <nav class="navbar">
+    <a href="../index.html">🏠 Hub</a>
+    <a href="../puzzles/aether.html">✨ Balik sa Aether puzzle</a>
+  </nav>
+  <div class="card">
+    <p><strong>Ipamahagi ito sa mga players bago pa man magsimula ang laro</strong> (o itago sa isang lugar na mahahanap nila maaga). Ito lang mismo ay hindi pa mababasa — kailangan nila ang <em>grille overlay</em> na lalabas lang sa website pagkatapos nilang ma-solve ang 4 na unang sangkap.</p>
+    <p class="dim">Tip sa printing: i-print sa 100% scale (walang "fit to page"), same paper size (Letter o A4, sundin lang basta pareho sa overlay print).</p>
+  </div>
+</div>
+
+<div class="grid-wrap">
+  <span class="cross tl">✛</span><span class="cross tr">✛</span>
+  <span class="cross bl">✛</span><span class="cross br">✛</span>
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+  const rows = [
+    ['Q','W','E','8','R','T','3','Y'],
+    ['U','I','5','O','P','2','A','S'],
+    ['D','F','9','K','5','H','J','1'],
+    ['Z','X','C','4','V','B','6','N'],
+    ['M','7','L','0','Q','W','2','E'],
+    ['R','T','Y','8','U','I','3','O'],
+  ];
+  const grid = document.getElementById('grid');
+  rows.forEach(row => row.forEach(ch => {
+    const cell = document.createElement('div');
+    cell.textContent = ch;
+    grid.appendChild(cell);
+  }));
+</script>
+</body>
+</html>

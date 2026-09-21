@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aether — Ang Ikalimang Sangkap</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<nav class="navbar no-print">
+  <a href="../index.html">🏠 Hub</a>
+  <a href="air.html">🌬️ Hangin</a>
+  <a href="water.html">💧 Tubig</a>
+  <a href="earth.html">🪨 Lupa</a>
+  <a href="fire.html">🔥 Apoy</a>
+</nav>
+
+<div class="wrap">
+  <div class="card center">
+    <h1 class="spooky tag-aether">✨ Ang Ikalimang Sangkap</h1>
+    <p class="dim">Hybrid puzzle — kailangan muna ang 4 na code, saka lang lalabas ang physical na susunod na hakbang.</p>
+  </div>
+
+  <div class="card">
+    <p>Simula pa lang, hawak na ninyo yung isang <strong>jumbled sheet</strong> na puno ng random letra't numero — mukhang basura pero grimoire item 'yan. Wala pa itong silbi hangga't hindi kumpleto ang apat na sangkap.</p>
+    <p>Ang Aether ay hindi hiwalay na elemento — resulta 'to ng pagsasama ng Lupa, Tubig, Apoy, at Hangin. Kaya kailangan mo munang i-type ang apat na code na nakuha mo bago lumabas ang huling gamit.</p>
+  </div>
+
+  <div class="card center">
+    <form id="gate-form">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+        <div>
+          <label class="dim" style="display:block; font-size:.75rem;">LUPA</label>
+          <input type="text" id="code-earth" class="code-input" maxlength="4">
+        </div>
+        <div>
+          <label class="dim" style="display:block; font-size:.75rem;">TUBIG</label>
+          <input type="text" id="code-water" class="code-input" maxlength="4">
+        </div>
+        <div>
+          <label class="dim" style="display:block; font-size:.75rem;">APOY</label>
+          <input type="text" id="code-fire" class="code-input" maxlength="4">
+        </div>
+        <div>
+          <label class="dim" style="display:block; font-size:.75rem;">HANGIN</label>
+          <input type="text" id="code-air" class="code-input" maxlength="4">
+        </div>
+      </div>
+      <br>
+      <button type="submit" class="btn secondary">🔮 Pagsamahin ang mga Sangkap</button>
+    </form>
+    <p id="wrong-msg" class="hidden" style="color:var(--fire);">May mali dyan — balikan ang ibang puzzle stations. 🧐</p>
+  </div>
+
+  <div class="card center hidden" id="unlocked-card">
+    <h2 class="spooky tag-aether">🌌 Nagbunyag ang Aether!</h2>
+    <p>Nagliwanag ang jumbled sheet sa inyong kamay. Kailangan niyo lang ng tamang "salamin" para mabasa ito.</p>
+    <p class="center"><a href="../printables/aether-grille-overlay.html" class="btn" target="_blank">🖨️ I-print ang Grille Overlay</a></p>
+    <p class="dim">Gupitin ang mga butas, i-overlay sa jumbled sheet niyo, at basahin ang huling code.</p>
+
+    <form id="final-code-form" style="margin-top:20px; max-width:220px; margin-left:auto; margin-right:auto;">
+      <label class="dim" style="display:block; font-size:.8rem;">Nakita niyo na ang code?</label>
+      <input type="text" id="aether-answer" class="code-input" maxlength="4" placeholder="??">
+      <br><br>
+      <button type="submit" class="btn">Tignan</button>
+    </form>
+    <p id="aether-wrong-msg" class="hidden" style="color:var(--fire);">Hindi pa tama, ayusin ang pagkaka-align ng overlay. 📐</p>
+  </div>
+
+  <div class="card center hidden" id="code-card">
+    <h2 class="spooky tag-aether">✨ Kumpleto na ang lahat ng sangkap!</h2>
+    <p>Isulat ang huling code na ito:</p>
+    <div class="pill" style="font-size:1.6rem; padding:10px 24px;">K5</div>
+    <p class="dim" style="margin-top:16px;">Dalhin na ang lahat ng 5 code sa <a href="../final/final.html">Final Lock</a> para matimpla ang lunas!</p>
+  </div>
+</div>
+
+<script>
+  document.getElementById('gate-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const vals = {
+      earth: document.getElementById('code-earth').value.trim().toUpperCase(),
+      water: document.getElementById('code-water').value.trim().toUpperCase(),
+      fire: document.getElementById('code-fire').value.trim().toUpperCase(),
+      air: document.getElementById('code-air').value.trim().toUpperCase(),
+    };
+    const correct = vals.earth === 'L4' && vals.water === 'T2' && vals.fire === 'B7' && vals.air === 'W9';
+    if (correct) {
+      document.getElementById('unlocked-card').classList.remove('hidden');
+      document.getElementById('wrong-msg').classList.add('hidden');
+    } else {
+      document.getElementById('wrong-msg').classList.remove('hidden');
+    }
+  });
+
+  document.getElementById('final-code-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = document.getElementById('aether-answer').value.trim().toUpperCase().replace(/\s/g, '');
+    if (val === 'K5') {
+      document.getElementById('code-card').classList.remove('hidden');
+      document.getElementById('aether-wrong-msg').classList.add('hidden');
+    } else {
+      document.getElementById('aether-wrong-msg').classList.remove('hidden');
+    }
+  });
+</script>
+</body>
+</html>
