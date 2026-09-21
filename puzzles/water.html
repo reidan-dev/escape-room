@@ -3,96 +3,242 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tubig — Salamin ng Tubig</title>
+<title>Tubig — Buhusan ang Kaldero</title>
 <link rel="stylesheet" href="../css/style.css">
 <style>
-  #riddle-text {
-    font-size: 1.4rem;
-    line-height: 1.8;
-    transition: filter .35s ease, transform .5s ease;
-    filter: blur(7px);
-    transform: scaleX(-1);
+  .stage-label { font-size: .75rem; letter-spacing: 1px; }
+  #tilt-cup {
+    font-size: 4rem;
+    display: inline-block;
+    transition: transform .1s linear;
   }
-  .bubble { display:inline-block; animation: rise 2.2s ease-in forwards; }
-  @keyframes rise {
-    0% { transform: translateY(20px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
+  #vessel {
+    position: relative;
+    width: 140px; height: 260px;
+    margin: 16px auto;
+    border: 4px solid var(--water);
+    border-radius: 0 0 20px 20px;
+    background: #0d0616;
+    overflow: hidden;
   }
+  #zone-band {
+    position: absolute;
+    left: 0; right: 0;
+    background: rgba(255, 117, 24, .25);
+    border-top: 2px dashed var(--orange);
+    border-bottom: 2px dashed var(--orange);
+  }
+  #water-fill {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 0%;
+    background: linear-gradient(180deg, #6fd0f5, var(--water));
+    transition: height .08s linear;
+  }
+  .meter-outer {
+    width: 220px; height: 16px; background: #120a1c;
+    border-radius: 8px; margin: 10px auto; overflow: hidden;
+    border: 1px solid var(--water);
+  }
+  .meter-inner { height: 100%; width: 0%; background: var(--orange); transition: width .1s linear; }
 </style>
 </head>
 <body>
 <nav class="navbar no-print">
   <a href="../index.html">🏠 Hub</a>
-  <a href="air.html">🌬️ Hangin</a>
-  <a href="earth.html">🪨 Lupa</a>
-  <a href="fire.html">🔥 Apoy</a>
-  <a href="aether.html">✨ Aether</a>
 </nav>
 
 <div class="wrap">
-  <div class="card center">
+
+  <!-- STAGE 1: hanapin ang target level -->
+  <div class="card center" id="stage1-card">
+    <p class="pill stage-label">HAKBANG 1 / 3</p>
     <h1 class="spooky tag-water">💧 Sangkap ng Tubig</h1>
-    <p class="dim">Digital puzzle — payapain ang tubig hanggang mabasa.</p>
+    <p>May nakita kayong malaking kaldero, mukhang kailangan ninyo itong buhusan ng tubig mula sa banga na nasa gilid. Pero base sa sulat ni Aling Turing, hindi basta-basta ang lebel:</p>
+    <p style="font-style:italic;">"Ang kaldero ay dapat mapuno ng kalahati bilang batayan — 50%. Dagdagan mo pa ng 10% bilang parangal, dahil bumuti biglang loob ko nung mercury retrograde. Ilang porsyento na ang dapat na MINIMUM na lebel?"</p>
+    <p class="dim">(Huwag lalagpas ng 75% — kundi masasayang ang timpla.)</p>
+    <form id="stage1-form">
+      <input type="number" id="stage1-answer" class="code-input" style="width:5em;" placeholder="?">%
+      <br><br>
+      <button type="submit" class="btn">💧 Kumpirmahin at Simulan</button>
+    </form>
+    <p id="stage1-wrong" class="hidden" style="color:var(--fire);">Mali 'yan. I-recompute: 50% + 10%.</p>
+    <p class="dim" style="font-size:.75rem;">Sa susunod na hakbang, kakailanganin ng orientation access ng phone mo (hindi laptop) — itagilid ang phone parang nagbubuhos.</p>
   </div>
 
-  <div class="card">
-    <p id="riddle-text">
-      "Wala akong kulay pero sumasalamin ako ng lahat.<br>
-      Kaya kong patayin ang uhaw, pero pwede rin akong pampatay —<br>
-      sa lasong 'to, in fairness.<br>
-      Kapag ako'y kinulo nang sobra, nawawala akong tuluyan.<br>
-      Ano ako?"
-    </p>
-    <div class="center no-print">
-      <button class="btn secondary" onclick="payapain()">🌊 Payapain ang tubig</button>
-      <p class="dim" id="hint-counter" style="font-size:.8rem;"></p>
+  <!-- STAGE 2: tilt-to-pour puzzle -->
+  <div id="puzzle-screen" class="hidden">
+    <div class="card center">
+      <p class="pill stage-label">HAKBANG 2 / 3</p>
+      <p class="dim" id="mode-label" style="font-size:.85rem;">Kinakalibrate...</p>
+      <div id="tilt-cup">🫙</div>
+      <div id="vessel">
+        <div id="zone-band"></div>
+        <div id="water-fill"></div>
+      </div>
+      <p class="dim" id="fill-label" style="font-size:.85rem;">0%</p>
+      <div class="meter-outer"><div id="hold-inner" class="meter-inner"></div></div>
+      <p class="dim" style="font-size:.75rem;">Panatilihing steady sa loob ng naka-highlight na zone</p>
     </div>
+
+    <div id="fallback-controls" class="card center hidden">
+      <p class="dim">Manual mode — gamitin ito kung walang sensor access ang device/browser:</p>
+      <label class="dim" style="font-size:.75rem;">🫗 Itagilid (kaliwa/kanan)</label><br>
+      <input type="range" id="fallback-tilt" min="-90" max="90" value="0" style="width:220px;">
+      <p class="dim" style="font-size:.7rem;">Ibalik sa gitna (0) para itigil ang pagbuhos.</p>
+    </div>
+
+    <p id="spill-msg" class="hidden center" style="color:var(--fire); font-weight:700;">💦 Lumabis! Bumuhos ulit mula sa umpisa.</p>
   </div>
 
-  <div class="card center hidden" id="answer-card">
-    <p>Ilagay ang sagot sa ibaba:</p>
-    <form id="answer-form" style="max-width:320px; margin:0 auto;">
-      <input type="text" id="answer-input" placeholder="Sagot dito...">
+  <!-- STAGE 3: closing riddle -->
+  <div id="stage3-card" class="hidden card center">
+    <p class="pill stage-label">HAKBANG 3 / 3</p>
+    <h2 class="spooky tag-water">🌊 May Sumalamin sa Ibabaw...</h2>
+    <p>"Wala akong kulay pero sumasalamin ako ng lahat. Kaya kong patayin ang uhaw, pero pwede rin akong pampatay — sa lasong 'to, in fairness. Kapag ako'y kinulo nang sobra, nawawala akong tuluyan. Ano ako?"</p>
+    <form id="stage3-form" style="max-width:320px; margin:0 auto;">
+      <input type="text" id="stage3-answer" placeholder="Sagot dito...">
       <br><br>
       <button type="submit" class="btn">Isumite</button>
     </form>
-    <p id="wrong-msg" class="hidden" style="color:var(--fire);">Mali 'yan bes, subukan ulit. 🙃</p>
+    <p id="stage3-wrong" class="hidden" style="color:var(--fire);">Mali 'yan bes, subukan ulit. 🙃</p>
   </div>
 
-  <div class="card center hidden" id="code-card">
+  <div id="code-card" class="hidden card center">
     <h2 class="spooky tag-water">🫧 Nabuksan ang sangkap ng Tubig!</h2>
-    <p>Isulat ang code na ito, kakailanganin mo sa Final Lock:</p>
+    <p>Tamang-tama ang timpla! Isulat ang code na ito, kakailanganin mo sa Final Lock:</p>
     <div class="pill" style="font-size:1.6rem; padding:10px 24px;">T2</div>
-    <p class="dim" style="margin-top:16px;"><span class="bubble">🫧</span><span class="bubble">🫧</span><span class="bubble">🫧</span></p>
   </div>
 </div>
 
 <script>
-  let level = 7;
-  const accepted = ['tubig', 'water'];
+  const STAGE1_ANSWER = 60;
+  const ZONE_MIN = 60, ZONE_MAX = 75;
+  const HOLD_REQUIRED_MS = 2000;
+  const FILL_RATE_PER_SEC = 21; // % per second sa max tilt
+  const STAGE3_ANSWERS = ['tubig', 'water'];
 
-  function payapain() {
-    level = Math.max(0, level - 1);
-    const el = document.getElementById('riddle-text');
-    el.style.filter = `blur(${level}px)`;
-    el.style.transform = level > 3 ? 'scaleX(-1)' : 'scaleX(1)';
-    const counter = document.getElementById('hint-counter');
-    if (level > 0) {
-      counter.textContent = `Konti na lang, humihinahon na... (${level})`;
-    } else {
-      counter.textContent = 'Tahimik na ang tubig!';
-      document.getElementById('answer-card').classList.remove('hidden');
-    }
+  let currentTilt = 0; // -90..90
+  let usingFallback = false;
+  let solved = false;
+  let receivedOrientation = false;
+  let fillLevel = 0;
+  let holdMs = 0;
+  let lastFrameTime = null;
+
+  function pourRate(tilt) {
+    return Math.min(1, Math.abs(tilt) / 90);
   }
 
-  document.getElementById('answer-form').addEventListener('submit', (e) => {
+  function setupZoneBand() {
+    const band = document.getElementById('zone-band');
+    band.style.bottom = `${ZONE_MIN}%`;
+    band.style.height = `${ZONE_MAX - ZONE_MIN}%`;
+  }
+
+  function onOrientation(e) {
+    if (e.gamma == null) return;
+    receivedOrientation = true;
+    currentTilt = Math.max(-90, Math.min(90, e.gamma));
+  }
+
+  async function startReal() {
+    if (!('DeviceOrientationEvent' in window)) throw new Error('no orientation support');
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+      const res = await DeviceOrientationEvent.requestPermission();
+      if (res !== 'granted') throw new Error('orientation denied');
+    }
+    window.addEventListener('deviceorientation', onOrientation);
+  }
+
+  let fallbackWired = false;
+  function activateFallback() {
+    usingFallback = true;
+    document.getElementById('fallback-controls').classList.remove('hidden');
+    document.getElementById('mode-label').textContent = 'Manual mode (walang sensor access) — gamitin ang slider sa ibaba.';
+    if (fallbackWired) return;
+    fallbackWired = true;
+    const slider = document.getElementById('fallback-tilt');
+    slider.addEventListener('input', () => { currentTilt = Number(slider.value); });
+  }
+
+  function tickLoop(timestamp) {
+    if (solved) return;
+    if (lastFrameTime === null) lastFrameTime = timestamp;
+    const deltaMs = timestamp - lastFrameTime;
+    lastFrameTime = timestamp;
+
+    const rate = pourRate(currentTilt);
+    document.getElementById('tilt-cup').style.transform = `rotate(${currentTilt}deg)`;
+
+    fillLevel += rate * FILL_RATE_PER_SEC * (deltaMs / 1000);
+
+    if (fillLevel > 100) {
+      fillLevel = 0;
+      holdMs = 0;
+      document.getElementById('spill-msg').classList.remove('hidden');
+      setTimeout(() => document.getElementById('spill-msg').classList.add('hidden'), 1800);
+    }
+
+    const inZone = fillLevel >= ZONE_MIN && fillLevel <= ZONE_MAX;
+    const isSteady = rate < 0.06;
+
+    if (inZone && isSteady) {
+      holdMs += deltaMs;
+    } else {
+      holdMs = Math.max(0, holdMs - deltaMs * 0.5);
+    }
+
+    document.getElementById('water-fill').style.height = `${Math.max(0, fillLevel)}%`;
+    document.getElementById('fill-label').textContent = `${Math.round(Math.max(0, fillLevel))}%`;
+    document.getElementById('hold-inner').style.width = `${Math.min(100, (holdMs / HOLD_REQUIRED_MS) * 100)}%`;
+
+    if (holdMs >= HOLD_REQUIRED_MS) {
+      solved = true;
+      document.getElementById('puzzle-screen').classList.add('hidden');
+      document.getElementById('stage3-card').classList.remove('hidden');
+      return;
+    }
+    requestAnimationFrame(tickLoop);
+  }
+
+  document.getElementById('stage1-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const val = document.getElementById('answer-input').value.trim().toLowerCase();
-    if (accepted.includes(val)) {
-      document.getElementById('answer-card').classList.add('hidden');
+    const val = Number(document.getElementById('stage1-answer').value);
+    if (val !== STAGE1_ANSWER) {
+      document.getElementById('stage1-wrong').classList.remove('hidden');
+      return;
+    }
+
+    setupZoneBand();
+    document.getElementById('stage1-card').classList.add('hidden');
+    document.getElementById('puzzle-screen').classList.remove('hidden');
+
+    try {
+      await startReal();
+      document.getElementById('mode-label').textContent = 'Kinakalibrate...';
+      setTimeout(() => {
+        if (!receivedOrientation) {
+          activateFallback();
+        } else {
+          document.getElementById('mode-label').textContent = 'Itagilid ang phone para magbuhos, ibalik sa gitna para tumigil.';
+        }
+      }, 2000);
+    } catch (err) {
+      activateFallback();
+    }
+
+    requestAnimationFrame(tickLoop);
+  });
+
+  document.getElementById('stage3-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = document.getElementById('stage3-answer').value.trim().toLowerCase();
+    if (STAGE3_ANSWERS.includes(val)) {
+      document.getElementById('stage3-card').classList.add('hidden');
       document.getElementById('code-card').classList.remove('hidden');
     } else {
-      document.getElementById('wrong-msg').classList.remove('hidden');
+      document.getElementById('stage3-wrong').classList.remove('hidden');
     }
   });
 </script>

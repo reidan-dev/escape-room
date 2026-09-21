@@ -5,36 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Apoy — Sulat ng Apoy</title>
 <link rel="stylesheet" href="../css/style.css">
+<style>
+  .stage-label { font-size: .75rem; letter-spacing: 1px; }
+</style>
 </head>
 <body>
 <nav class="navbar no-print">
   <a href="../index.html">🏠 Hub</a>
-  <a href="air.html">🌬️ Hangin</a>
-  <a href="water.html">💧 Tubig</a>
-  <a href="earth.html">🪨 Lupa</a>
-  <a href="aether.html">✨ Aether</a>
 </nav>
 
 <div class="wrap">
-  <div class="card center">
+
+  <!-- STAGE 1: gate riddle -->
+  <div class="card center" id="stage1-card">
+    <p class="pill stage-label">HAKBANG 1 / 3</p>
     <h1 class="spooky tag-fire">🔥 Sangkap ng Apoy</h1>
-    <p class="dim">Physical puzzle — kailangan ng init.</p>
-  </div>
-
-  <div class="card">
-    <p>May nakita kayong parchment sa may kalan — mukhang bahagi rin ng grimoire. Pero mukhang blangko lang. Kadiri, baka linisan lang 'yan ni Tita Beth.</p>
-    <p>Hindi 'yan blangko. May nakatagong sulat dito na lalabas lang kapag naramdaman nito ang init. Hanapin ang parchment (hingi sa GM) at dalhin malapit sa apoy ng kandila o pahanginan ng hairdryer nang maigi (<strong>huwag sunugin ang papel, GM lang pwede humawak ng may bukas na apoy</strong>).</p>
-    <p class="dim">⚠️ Safety note: laging may kasamang adult/GM kapag gumagamit ng apoy. Hairdryer ang pinaka-safe na option.</p>
-  </div>
-
-  <div class="card center">
-    <p>Lumabas na ang sulat? Ilagay dito ang code na nakita:</p>
-    <form id="answer-form" style="max-width:220px; margin:0 auto;">
-      <input type="text" id="answer-input" class="code-input" maxlength="4" placeholder="??">
+    <p class="dim">Physical puzzle — printable lang, walang kailangang init o ibang gamit.</p>
+    <p>May nakita kayong parchment sa may kalan — mukhang bahagi rin ng grimoire ni Aling Turing. Bago ito masindihan, kailangan niyo munang patunayan na alam ninyo ang kagyat na banta:</p>
+    <p>Ilang minuto sa kabuuan bago tuluyang manigas ang lahat ayon sa sumpa? (Tingnan ang timer sa Hub)</p>
+    <form id="stage1-form">
+      <input type="number" id="stage1-answer" class="code-input" style="width:5em;" placeholder="?">
       <br><br>
-      <button type="submit" class="btn">Tignan</button>
+      <button type="submit" class="btn">🔥 Kumpirmahin</button>
     </form>
-    <p id="wrong-msg" class="hidden" style="color:var(--air);">Wala pang lumalabas na tama diyan. Init pa ng konti? 🔥</p>
+    <p id="stage1-wrong" class="hidden" style="color:var(--air);">Mali 'yan — balikan ang Hub, tingnan kung ilang minuto ang buong countdown.</p>
+  </div>
+
+  <!-- STAGE 2: rune substitution -->
+  <div id="stage2-card" class="hidden">
+    <div class="card">
+      <p class="pill stage-label">HAKBANG 2 / 3</p>
+      <p>Tama! Ngayon puno na ang parchment ng mga kakaibang sagisag na parang sinaunang alpabeto ng apoy.</p>
+      <p>Hanapin ang parchment (hingi sa GM kung wala pa) at gamitin ang legend na naka-print dito para i-translate ang mensahe. Simpleng substitution lang — bawat sagisag ay may katumbas na letra.</p>
+    </div>
+
+    <div class="card center">
+      <p>Na-translate niyo na ang mensahe? Ilagay dito ang code na nakuha:</p>
+      <form id="stage2-form" style="max-width:220px; margin:0 auto;">
+        <input type="text" id="stage2-answer" class="code-input" maxlength="4" placeholder="??">
+        <br><br>
+        <button type="submit" class="btn">Tignan</button>
+      </form>
+      <p id="stage2-wrong" class="hidden" style="color:var(--air);">Hindi pa tama 'yan. Balikan ang legend, baka may mali sa pagbasa ng sagisag. 🔥</p>
+    </div>
+  </div>
+
+  <!-- STAGE 3: closing riddle -->
+  <div id="stage3-card" class="hidden card center">
+    <p class="pill stage-label">HAKBANG 3 / 3</p>
+    <h2 class="spooky tag-fire">🔥 Isang Huling Tanong...</h2>
+    <p>Bago tuluyang lumamig ang parchment: ano ang kabaligtaran ng salitang <strong>"lamig"</strong>?</p>
+    <form id="stage3-form" style="max-width:280px; margin:0 auto;">
+      <input type="text" id="stage3-answer" placeholder="Sagot dito...">
+      <br><br>
+      <button type="submit" class="btn">Isumite</button>
+    </form>
+    <p id="stage3-wrong" class="hidden" style="color:var(--air);">Mali 'yan bes, subukan ulit. 🙃</p>
   </div>
 
   <div class="card center hidden" id="code-card">
@@ -45,14 +71,36 @@
 </div>
 
 <script>
-  document.getElementById('answer-form').addEventListener('submit', (e) => {
+  document.getElementById('stage1-form').addEventListener('submit', (e) => {
     e.preventDefault();
-    const val = document.getElementById('answer-input').value.trim().toUpperCase().replace(/\s/g, '');
-    if (val === 'B7') {
-      document.getElementById('code-card').classList.remove('hidden');
-      document.getElementById('wrong-msg').classList.add('hidden');
+    const val = Number(document.getElementById('stage1-answer').value);
+    if (val === 80) {
+      document.getElementById('stage1-card').classList.add('hidden');
+      document.getElementById('stage2-card').classList.remove('hidden');
     } else {
-      document.getElementById('wrong-msg').classList.remove('hidden');
+      document.getElementById('stage1-wrong').classList.remove('hidden');
+    }
+  });
+
+  document.getElementById('stage2-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = document.getElementById('stage2-answer').value.trim().toUpperCase().replace(/\s/g, '');
+    if (val === 'B7') {
+      document.getElementById('stage2-card').classList.add('hidden');
+      document.getElementById('stage3-card').classList.remove('hidden');
+    } else {
+      document.getElementById('stage2-wrong').classList.remove('hidden');
+    }
+  });
+
+  document.getElementById('stage3-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = document.getElementById('stage3-answer').value.trim().toLowerCase();
+    if (val === 'init') {
+      document.getElementById('stage3-card').classList.add('hidden');
+      document.getElementById('code-card').classList.remove('hidden');
+    } else {
+      document.getElementById('stage3-wrong').classList.remove('hidden');
     }
   });
 </script>

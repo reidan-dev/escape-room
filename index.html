@@ -8,16 +8,6 @@
 </head>
 <body>
 
-<nav class="navbar no-print">
-  <a href="printables/story-card.html">📜 Kwento</a>
-  <a href="puzzles/air.html">🌬️ Hangin</a>
-  <a href="puzzles/water.html">💧 Tubig</a>
-  <a href="puzzles/earth.html">🪨 Lupa</a>
-  <a href="puzzles/fire.html">🔥 Apoy</a>
-  <a href="puzzles/aether.html">✨ Aether</a>
-  <a href="final/final.html">🔒 Final Lock</a>
-</nav>
-
 <div class="wrap">
 
   <!-- ============ SETUP ============ -->
@@ -72,7 +62,7 @@
         </div>
       </div>
 
-      <p class="dim center">Sundin ang landas ng 5 elemento — pindutin ang menu sa taas para sa mga puzzle.</p>
+      <p class="dim center">I-scan ang QR code sa bawat station para sa puzzle doon. Sundin ang landas ng 5 elemento.</p>
     </div>
 
     <div id="lost-screen" class="hidden card center">
@@ -92,8 +82,11 @@
   <!-- GM controls (maliit lang, di kailangan makita ng players) -->
   <div class="no-print" style="position:fixed; bottom:14px; right:14px;">
     <button id="gm-toggle" class="btn secondary" style="padding:8px 14px; font-size:.8rem;">⚙ GM</button>
-    <div id="gm-menu" class="hidden card" style="position:absolute; bottom:44px; right:0; width:200px;">
+    <div id="gm-menu" class="hidden card" style="position:absolute; bottom:44px; right:0; width:220px;">
       <p class="dim" style="font-size:.8rem;">Game Master lang dapat dito 👀</p>
+      <a href="printables/qr-codes.html" class="btn secondary" style="width:100%; display:block; text-align:center; margin-bottom:8px; box-sizing:border-box;">🖨️ I-print ang QR Codes</a>
+      <a href="printables/story-card.html" class="btn secondary" style="width:100%; display:block; text-align:center; margin-bottom:8px; box-sizing:border-box;">📜 Story Card</a>
+      <a href="final/final.html" class="btn secondary" style="width:100%; display:block; text-align:center; margin-bottom:8px; box-sizing:border-box;">🔒 Final Lock</a>
       <button id="reset-btn" class="btn danger" style="width:100%;">Reset Game</button>
     </div>
   </div>

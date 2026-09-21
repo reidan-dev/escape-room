@@ -3,39 +3,66 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lupa — Gulong ng Lupa</title>
+<title>Lupa — Susi ng Lupa</title>
 <link rel="stylesheet" href="../css/style.css">
+<style>
+  .stage-label { font-size: .75rem; letter-spacing: 1px; }
+</style>
 </head>
 <body>
 <nav class="navbar no-print">
   <a href="../index.html">🏠 Hub</a>
-  <a href="air.html">🌬️ Hangin</a>
-  <a href="water.html">💧 Tubig</a>
-  <a href="fire.html">🔥 Apoy</a>
-  <a href="aether.html">✨ Aether</a>
 </nav>
 
 <div class="wrap">
-  <div class="card center">
+
+  <!-- STAGE 1: hanapin ang shift number -->
+  <div class="card center" id="stage1-card">
+    <p class="pill stage-label">HAKBANG 1 / 3</p>
     <h1 class="spooky tag-earth">🪨 Sangkap ng Lupa</h1>
-    <p class="dim">Physical puzzle — kailangan ang printed decoder wheel.</p>
-  </div>
-
-  <div class="card">
-    <p>Sa ilalim ng lababo, may nakita kayong bahagi ng grimoire ni Aling Turing — may nakadikit na gulong na gawa sa cardboard, halatang gawa lang bahay-bahayan pero solidong-solid gumana.</p>
-    <p>Kunin ang naka-print na <strong>Gulong ng Lupa</strong> (tanungin ang GM kung wala pa) at i-decode ang lihim na mensahe gamit ito. Basahin ang buong instructions sa papel.</p>
-    <p class="dim">Wala kang printer? I-click na lang para makita/i-download ang printable version:</p>
-    <p class="center"><a href="../printables/earth-cipher-wheel.html" class="btn secondary" target="_blank">🖨️ Buksan ang Printable</a></p>
-  </div>
-
-  <div class="card center">
-    <p>Nadecode niyo na ang mensahe? Ilagay dito ang code na nakuha:</p>
-    <form id="answer-form" style="max-width:220px; margin:0 auto;">
-      <input type="text" id="answer-input" class="code-input" maxlength="4" placeholder="??">
+    <p class="dim">Physical puzzle — printable lang, walang gunting o iba pang gamit.</p>
+    <p>Sa ilalim ng lababo, may nakita kayong bahagi ng grimoire ni Aling Turing — isang pahina na may lumang cipher key. Pero bago ito magamit, kailangan niyo munang tiyakin ang "shift number" mula sa clue sa grimoire fragment (sa Story Card):</p>
+    <p style="font-style:italic;">"...pitong beses akong nag-alok ng tulong sa barangay bago ako sinuwerte-suwerte lang na inalis sa Bantay Dagat committee."</p>
+    <p>Ilang hakbang ang shift na binabanggit?</p>
+    <form id="stage1-form">
+      <input type="number" id="stage1-answer" class="code-input" style="width:5em;" placeholder="?">
       <br><br>
-      <button type="submit" class="btn">Tignan</button>
+      <button type="submit" class="btn">🪨 Kumpirmahin</button>
     </form>
-    <p id="wrong-msg" class="hidden" style="color:var(--fire);">Hindi pa tama. Baka mali ang shift sa gulong — balikan ang grimoire clue. 🔎</p>
+    <p id="stage1-wrong" class="hidden" style="color:var(--fire);">Mali 'yan. Balikan ang Story Card, hanapin ang bilang na binanggit ni Aling Turing.</p>
+  </div>
+
+  <!-- STAGE 2: gamitin ang cipher key -->
+  <div id="stage2-card" class="hidden">
+    <div class="card">
+      <p class="pill stage-label">HAKBANG 2 / 3</p>
+      <p>Tama! Ngayon, kunin ang naka-print na <strong>Susi ng Lupa</strong> (tanungin ang GM kung wala pa) at i-decode ang lihim na mensahe gamit ito — basahin lang, walang gugupitin. Sundin ang instructions sa papel.</p>
+      <p class="dim">Wala kang kopya? I-click na lang para makita ang printable version:</p>
+      <p class="center"><a href="../printables/earth-cipher-key.html" class="btn secondary" target="_blank">🖨️ Buksan ang Printable</a></p>
+    </div>
+
+    <div class="card center">
+      <p>Nadecode niyo na ang mensahe? Ilagay dito ang code na nakuha:</p>
+      <form id="stage2-form" style="max-width:220px; margin:0 auto;">
+        <input type="text" id="stage2-answer" class="code-input" maxlength="4" placeholder="??">
+        <br><br>
+        <button type="submit" class="btn">Tignan</button>
+      </form>
+      <p id="stage2-wrong" class="hidden" style="color:var(--fire);">Hindi pa tama. Baka mali ang direksyon ng pag-decode — balikan ang cipher key. 🔎</p>
+    </div>
+  </div>
+
+  <!-- STAGE 3: closing check -->
+  <div id="stage3-card" class="hidden card center">
+    <p class="pill stage-label">HAKBANG 3 / 3</p>
+    <h2 class="spooky tag-earth">⛰️ Bago Tuluyang Bumukas...</h2>
+    <p>Bilang huling pagsubok, sagutin: ilang letra mayroon ang salitang <strong>"LUPA"</strong>?</p>
+    <form id="stage3-form" style="max-width:180px; margin:0 auto;">
+      <input type="number" id="stage3-answer" class="code-input" style="width:5em;" placeholder="?">
+      <br><br>
+      <button type="submit" class="btn">Isumite</button>
+    </form>
+    <p id="stage3-wrong" class="hidden" style="color:var(--fire);">Mali 'yan, bilangin ulit. 🔢</p>
   </div>
 
   <div class="card center hidden" id="code-card">
@@ -46,14 +73,36 @@
 </div>
 
 <script>
-  document.getElementById('answer-form').addEventListener('submit', (e) => {
+  document.getElementById('stage1-form').addEventListener('submit', (e) => {
     e.preventDefault();
-    const val = document.getElementById('answer-input').value.trim().toUpperCase().replace(/\s/g, '');
-    if (val === 'L4') {
-      document.getElementById('code-card').classList.remove('hidden');
-      document.getElementById('wrong-msg').classList.add('hidden');
+    const val = Number(document.getElementById('stage1-answer').value);
+    if (val === 7) {
+      document.getElementById('stage1-card').classList.add('hidden');
+      document.getElementById('stage2-card').classList.remove('hidden');
     } else {
-      document.getElementById('wrong-msg').classList.remove('hidden');
+      document.getElementById('stage1-wrong').classList.remove('hidden');
+    }
+  });
+
+  document.getElementById('stage2-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = document.getElementById('stage2-answer').value.trim().toUpperCase().replace(/\s/g, '');
+    if (val === 'L4') {
+      document.getElementById('stage2-card').classList.add('hidden');
+      document.getElementById('stage3-card').classList.remove('hidden');
+    } else {
+      document.getElementById('stage2-wrong').classList.remove('hidden');
+    }
+  });
+
+  document.getElementById('stage3-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = Number(document.getElementById('stage3-answer').value);
+    if (val === 4) {
+      document.getElementById('stage3-card').classList.add('hidden');
+      document.getElementById('code-card').classList.remove('hidden');
+    } else {
+      document.getElementById('stage3-wrong').classList.remove('hidden');
     }
   });
 </script>

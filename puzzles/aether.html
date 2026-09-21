@@ -5,20 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aether — Ang Ikalimang Sangkap</title>
 <link rel="stylesheet" href="../css/style.css">
+<style>
+  .stage-label { font-size: .75rem; letter-spacing: 1px; }
+</style>
 </head>
 <body>
 <nav class="navbar no-print">
   <a href="../index.html">🏠 Hub</a>
-  <a href="air.html">🌬️ Hangin</a>
-  <a href="water.html">💧 Tubig</a>
-  <a href="earth.html">🪨 Lupa</a>
-  <a href="fire.html">🔥 Apoy</a>
 </nav>
 
 <div class="wrap">
   <div class="card center">
+    <p class="pill stage-label">HAKBANG 1 / 3</p>
     <h1 class="spooky tag-aether">✨ Ang Ikalimang Sangkap</h1>
-    <p class="dim">Hybrid puzzle — kailangan muna ang 4 na code, saka lang lalabas ang physical na susunod na hakbang.</p>
+    <p class="dim">Hybrid puzzle — printable + website lang, walang gugupitin.</p>
   </div>
 
   <div class="card">
@@ -26,7 +26,7 @@
     <p>Ang Aether ay hindi hiwalay na elemento — resulta 'to ng pagsasama ng Lupa, Tubig, Apoy, at Hangin. Kaya kailangan mo munang i-type ang apat na code na nakuha mo bago lumabas ang huling gamit.</p>
   </div>
 
-  <div class="card center">
+  <div class="card center" id="gate-card">
     <form id="gate-form">
       <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
         <div>
@@ -52,11 +52,24 @@
     <p id="wrong-msg" class="hidden" style="color:var(--fire);">May mali dyan — balikan ang ibang puzzle stations. 🧐</p>
   </div>
 
+  <div class="card center hidden" id="checksum-card">
+    <p class="pill stage-label">HAKBANG 2 / 3</p>
+    <h2 class="spooky tag-aether">🔮 Pagsasama-samahin</h2>
+    <p>Tama ang apat na code! Bilang panata, idagdag ang APAT na NUMERO (huwag isama ang mga letra) mula sa bawat code na natagpuan ninyo.</p>
+    <form id="checksum-form" style="max-width:180px; margin:0 auto;">
+      <input type="number" id="checksum-answer" class="code-input" style="width:5em;" placeholder="?">
+      <br><br>
+      <button type="submit" class="btn secondary">Isumite</button>
+    </form>
+    <p id="checksum-wrong" class="hidden" style="color:var(--fire);">Mali 'yan, i-recompute ang kabuuan ng 4 na numero.</p>
+  </div>
+
   <div class="card center hidden" id="unlocked-card">
+    <p class="pill stage-label">HAKBANG 3 / 3</p>
     <h2 class="spooky tag-aether">🌌 Nagbunyag ang Aether!</h2>
-    <p>Nagliwanag ang jumbled sheet sa inyong kamay. Kailangan niyo lang ng tamang "salamin" para mabasa ito.</p>
-    <p class="center"><a href="../printables/aether-grille-overlay.html" class="btn" target="_blank">🖨️ I-print ang Grille Overlay</a></p>
-    <p class="dim">Gupitin ang mga butas, i-overlay sa jumbled sheet niyo, at basahin ang huling code.</p>
+    <p>Nagliwanag ang jumbled sheet sa inyong kamay — sa wakas may nababasa na. Tingnan ang inyong <strong>jumbled sheet</strong>:</p>
+    <p style="font-size:1.1rem;">📍 <strong>Ikatlong hilera</strong> mula sa itaas, <strong>ika-apat at ika-limang kahon</strong>.</p>
+    <p class="dim">Dalawang character lang ang kailangan niyo — 'yun na ang code.</p>
 
     <form id="final-code-form" style="margin-top:20px; max-width:220px; margin-left:auto; margin-right:auto;">
       <label class="dim" style="display:block; font-size:.8rem;">Nakita niyo na ang code?</label>
@@ -64,7 +77,7 @@
       <br><br>
       <button type="submit" class="btn">Tignan</button>
     </form>
-    <p id="aether-wrong-msg" class="hidden" style="color:var(--fire);">Hindi pa tama, ayusin ang pagkaka-align ng overlay. 📐</p>
+    <p id="aether-wrong-msg" class="hidden" style="color:var(--fire);">Hindi pa tama, balik-bilangin ang hilera at kahon. 📐</p>
   </div>
 
   <div class="card center hidden" id="code-card">
@@ -86,10 +99,22 @@
     };
     const correct = vals.earth === 'L4' && vals.water === 'T2' && vals.fire === 'B7' && vals.air === 'W9';
     if (correct) {
-      document.getElementById('unlocked-card').classList.remove('hidden');
+      document.getElementById('gate-card').classList.add('hidden');
+      document.getElementById('checksum-card').classList.remove('hidden');
       document.getElementById('wrong-msg').classList.add('hidden');
     } else {
       document.getElementById('wrong-msg').classList.remove('hidden');
+    }
+  });
+
+  document.getElementById('checksum-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = Number(document.getElementById('checksum-answer').value);
+    if (val === 22) {
+      document.getElementById('checksum-card').classList.add('hidden');
+      document.getElementById('unlocked-card').classList.remove('hidden');
+    } else {
+      document.getElementById('checksum-wrong').classList.remove('hidden');
     }
   });
 

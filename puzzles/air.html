@@ -3,97 +3,269 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hangin — Bulong ng Hangin</title>
+<title>Hangin — Hanapin ang Hihip</title>
 <link rel="stylesheet" href="../css/style.css">
 <style>
-  #riddle-text {
-    font-size: 1.4rem;
-    line-height: 1.8;
-    transition: filter .35s ease, transform .35s ease;
-    filter: blur(7px);
-    transform: rotate(7deg) skewX(7deg);
+  #gauge {
+    position: relative;
+    width: 220px; height: 220px;
+    margin: 20px auto;
+    border-radius: 50%;
+    border: 4px solid var(--air);
   }
-  .leaf { display:inline-block; animation: fall 2.5s ease-in forwards; }
-  @keyframes fall {
-    0% { transform: translateY(-40px) rotate(0deg); opacity: 0; }
-    20% { opacity: 1; }
-    100% { transform: translateY(0) rotate(360deg); opacity: 1; }
+  #arrow {
+    position: absolute; left: 50%; top: 50%;
+    width: 5px; height: 100px;
+    background: var(--orange);
+    transform-origin: top center;
+    transform: translate(-50%, 0) rotate(0deg);
+    border-radius: 3px;
   }
+  #gauge::after {
+    content: '';
+    position: absolute; left: 50%; top: 50%;
+    width: 12px; height: 12px; background: var(--orange);
+    border-radius: 50%; transform: translate(-50%, -50%);
+  }
+  .meter-outer {
+    width: 220px; height: 16px; background: #120a1c;
+    border-radius: 8px; margin: 10px auto; overflow: hidden;
+    border: 1px solid var(--air);
+  }
+  .meter-inner { height: 100%; width: 0%; background: var(--air); transition: width .1s linear; }
+  #progress-inner { background: var(--orange); }
+  #fog-wrap {
+    position: relative; width: 220px; height: 220px; margin: 0 auto;
+    border-radius: 12px; overflow: hidden; background: #0d0616;
+  }
+  #ghost {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 5rem;
+  }
+  #fog {
+    position: absolute; inset: 0; background: #cfd8dc; opacity: 1; transition: opacity .2s;
+  }
+  .stage-label { font-size: .75rem; letter-spacing: 1px; }
 </style>
 </head>
 <body>
 <nav class="navbar no-print">
   <a href="../index.html">🏠 Hub</a>
-  <a href="water.html">💧 Tubig</a>
-  <a href="earth.html">🪨 Lupa</a>
-  <a href="fire.html">🔥 Apoy</a>
-  <a href="aether.html">✨ Aether</a>
 </nav>
 
 <div class="wrap">
-  <div class="card center">
+
+  <!-- STAGE 1: hanapin ang ritual number -->
+  <div class="card center" id="stage1-card">
+    <p class="pill stage-label">HAKBANG 1 / 3</p>
     <h1 class="spooky tag-air">🌬️ Sangkap ng Hangin</h1>
-    <p class="dim">Digital puzzle — hipan mo hanggang mabasa.</p>
+    <p>May pakiramdam kayo ng kaba sa hangin — parang may nagtatago sa likod ng ambon. Bago pa man ninyo ito lapitan, may nakasulat na tula sa gilid ng grimoire tungkol sa "direksyon ng unang hihip":</p>
+    <p style="font-style:italic;">"Ang unang hangin ng taon ay umiihip ng 40 degrees.<br>Bawat sunod na buwan, dumadagdag ito ng 10 degrees.<br>Sa ika-10 buwan — buwan ng Halloween — ilang degrees na ang direksyon?"</p>
+    <form id="stage1-form">
+      <input type="number" id="stage1-answer" class="code-input" style="width:5em;" placeholder="?">
+      <br><br>
+      <button type="submit" class="btn">💨 Kumpirmahin at Simulan</button>
+    </form>
+    <p id="stage1-wrong" class="hidden" style="color:var(--fire);">Mali 'yan. I-recompute: 40 + (9 buwan × 10).</p>
+    <p class="dim" style="font-size:.75rem;">Sa susunod na hakbang, kakailanganin ng mic + orientation access ng phone mo (hindi laptop).</p>
   </div>
 
-  <div class="card">
-    <p id="riddle-text">
-      "Ako'y walang katawan pero nararamdaman mo ako.<br>
-      Kaya kong patayin ang kandila, pero hindi ako namamatay.<br>
-      Ako ang dahilan kung bakit kumakaluskos ang mga dahon —<br>
-      kahit walang multong dumaan, promise.<br>
-      Ano ako?"
-    </p>
-    <div class="center no-print">
-      <button class="btn secondary" onclick="hipan()">💨 Hipan mo!</button>
-      <p class="dim" id="hint-counter" style="font-size:.8rem;"></p>
+  <!-- STAGE 2: sensor puzzle -->
+  <div id="puzzle-screen" class="hidden">
+    <div class="card center">
+      <p class="pill stage-label">HAKBANG 2 / 3</p>
+      <p class="dim" id="mode-label" style="font-size:.85rem;">Kinakalibrate...</p>
+      <div id="gauge"><div id="arrow"></div></div>
+      <div class="meter-outer"><div id="blow-meter-inner" class="meter-inner"></div></div>
+      <p class="dim" style="font-size:.75rem;">💨 Lakas ng hihip</p>
+    </div>
+
+    <div class="card center">
+      <div id="fog-wrap">
+        <div id="ghost">👻</div>
+        <div id="fog"></div>
+      </div>
+      <div class="meter-outer"><div id="progress-inner" class="meter-inner"></div></div>
+      <p class="dim" style="font-size:.75rem;">Progreso ng pagbunyag</p>
+    </div>
+
+    <div id="fallback-controls" class="card center hidden">
+      <p class="dim">Manual mode — gamitin ito kung walang sensor access ang device/browser:</p>
+      <label class="dim" style="font-size:.75rem;">🧭 Direksyon</label><br>
+      <input type="range" id="fallback-direction" min="0" max="360" value="0" style="width:220px;"><br><br>
+      <button id="fallback-blow-btn" class="btn secondary">💨 Hipan (i-hold)</button>
     </div>
   </div>
 
-  <div class="card center hidden" id="answer-card">
-    <p>Ilagay ang sagot sa ibaba:</p>
-    <form id="answer-form" style="max-width:320px; margin:0 auto;">
-      <input type="text" id="answer-input" placeholder="Sagot dito...">
+  <!-- STAGE 3: closing riddle -->
+  <div id="stage3-card" class="hidden card center">
+    <p class="pill stage-label">HAKBANG 3 / 3</p>
+    <h2 class="spooky tag-air">👻 May Bumulong sa Ambon...</h2>
+    <p>"Ako'y walang katawan pero nararamdaman mo ako. Kaya kong patayin ang kandila, pero hindi ako namamatay. Ako ang dahilan kung bakit kumakaluskos ang mga dahon — kahit walang multong dumaan, promise. Ano ako?"</p>
+    <form id="stage3-form" style="max-width:320px; margin:0 auto;">
+      <input type="text" id="stage3-answer" placeholder="Sagot dito...">
       <br><br>
       <button type="submit" class="btn">Isumite</button>
     </form>
-    <p id="wrong-msg" class="hidden" style="color:var(--fire);">Mali 'yan bes, subukan ulit. 🙃</p>
+    <p id="stage3-wrong" class="hidden" style="color:var(--fire);">Mali 'yan bes, subukan ulit. 🙃</p>
   </div>
 
-  <div class="card center hidden" id="code-card">
+  <div id="code-card" class="hidden card center">
     <h2 class="spooky tag-air">🍃 Nabuksan ang sangkap ng Hangin!</h2>
-    <p>Isulat ang code na ito, kakailanganin mo sa Final Lock:</p>
+    <p>Lumitaw ang pigura sa ambon! Isulat ang code na ito, kakailanganin mo sa Final Lock:</p>
     <div class="pill" style="font-size:1.6rem; padding:10px 24px;">W9</div>
-    <p class="dim" style="margin-top:16px;"><span class="leaf">🍂</span><span class="leaf">🍂</span><span class="leaf">🍂</span></p>
   </div>
 </div>
 
 <script>
-  let level = 7;
-  const accepted = ['hangin', 'air', 'wind'];
+  const TARGET = 130;
+  const TOLERANCE = 30;
+  const BLOW_THRESHOLD = 0.15;
+  const STAGE1_ANSWER = 130;
+  const STAGE3_ANSWERS = ['hangin', 'air', 'wind'];
 
-  function hipan() {
-    level = Math.max(0, level - 1);
-    const el = document.getElementById('riddle-text');
-    el.style.filter = `blur(${level}px)`;
-    el.style.transform = `rotate(${level}deg) skewX(${level}deg)`;
-    const counter = document.getElementById('hint-counter');
-    if (level > 0) {
-      counter.textContent = `Konti na lang... (${level})`;
-    } else {
-      counter.textContent = 'Ayan, mabasa na!';
-      document.getElementById('answer-card').classList.remove('hidden');
-    }
+  let baselineAlpha = null;
+  let currentRelative = 0;
+  let blowLevel = 0;
+  let progress = 0;
+  let usingFallback = false;
+  let solved = false;
+  let receivedOrientation = false;
+  let audioCtx, analyser, dataArray;
+
+  function angDiff(a, b) {
+    const d = Math.abs(a - b) % 360;
+    return d > 180 ? 360 - d : d;
   }
 
-  document.getElementById('answer-form').addEventListener('submit', (e) => {
+  function setupGauge() {
+    const gauge = document.getElementById('gauge');
+    const start = TARGET - TOLERANCE, end = TARGET + TOLERANCE;
+    gauge.style.background = `conic-gradient(from 0deg, rgba(255,255,255,.06) 0deg ${start}deg, var(--air) ${start}deg ${end}deg, rgba(255,255,255,.06) ${end}deg 360deg)`;
+  }
+
+  function onOrientation(e) {
+    if (e.alpha == null) return;
+    receivedOrientation = true;
+    if (baselineAlpha === null) baselineAlpha = e.alpha;
+    let rel = e.alpha - baselineAlpha;
+    rel = ((rel % 360) + 360) % 360;
+    currentRelative = rel;
+  }
+
+  async function startReal() {
+    if (!('DeviceOrientationEvent' in window)) throw new Error('no orientation support');
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('no mic support');
+
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+      const res = await DeviceOrientationEvent.requestPermission();
+      if (res !== 'granted') throw new Error('orientation denied');
+    }
+
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const source = audioCtx.createMediaStreamSource(stream);
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 512;
+    dataArray = new Uint8Array(analyser.fftSize);
+    source.connect(analyser);
+
+    window.addEventListener('deviceorientation', onOrientation);
+  }
+
+  let fallbackWired = false;
+  function activateFallback() {
+    usingFallback = true;
+    document.getElementById('fallback-controls').classList.remove('hidden');
+    document.getElementById('mode-label').textContent = 'Manual mode (walang sensor access) — gamitin ang slider at button sa ibaba.';
+    if (fallbackWired) return;
+    fallbackWired = true;
+    const slider = document.getElementById('fallback-direction');
+    slider.addEventListener('input', () => { currentRelative = Number(slider.value); });
+    const blowBtn = document.getElementById('fallback-blow-btn');
+    const setBlow = (v) => (ev) => { ev.preventDefault(); blowLevel = v; };
+    blowBtn.addEventListener('mousedown', setBlow(1));
+    blowBtn.addEventListener('touchstart', setBlow(1));
+    blowBtn.addEventListener('mouseup', setBlow(0));
+    blowBtn.addEventListener('mouseleave', setBlow(0));
+    blowBtn.addEventListener('touchend', setBlow(0));
+  }
+
+  function readBlowLevel() {
+    if (!analyser) return 0;
+    analyser.getByteTimeDomainData(dataArray);
+    let sumSquares = 0;
+    for (let i = 0; i < dataArray.length; i++) {
+      const v = (dataArray[i] - 128) / 128;
+      sumSquares += v * v;
+    }
+    const rms = Math.sqrt(sumSquares / dataArray.length);
+    return Math.min(1, rms * 4);
+  }
+
+  function tickLoop() {
+    if (solved) return;
+    if (!usingFallback) blowLevel = readBlowLevel();
+
+    document.getElementById('arrow').style.transform = `translate(-50%, 0) rotate(${currentRelative}deg)`;
+    document.getElementById('blow-meter-inner').style.width = `${Math.round(blowLevel * 100)}%`;
+
+    const inZone = angDiff(currentRelative, TARGET) <= TOLERANCE;
+    const blowing = blowLevel > BLOW_THRESHOLD;
+
+    progress = (inZone && blowing)
+      ? Math.min(100, progress + 2.2)
+      : Math.max(0, progress - 0.6);
+
+    document.getElementById('progress-inner').style.width = `${progress}%`;
+    document.getElementById('fog').style.opacity = String(1 - progress / 100);
+
+    if (progress >= 100) {
+      solved = true;
+      document.getElementById('puzzle-screen').classList.add('hidden');
+      document.getElementById('stage3-card').classList.remove('hidden');
+      return;
+    }
+    requestAnimationFrame(tickLoop);
+  }
+
+  document.getElementById('stage1-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const val = document.getElementById('answer-input').value.trim().toLowerCase();
-    if (accepted.includes(val)) {
-      document.getElementById('answer-card').classList.add('hidden');
+    const val = Number(document.getElementById('stage1-answer').value);
+    if (val !== STAGE1_ANSWER) {
+      document.getElementById('stage1-wrong').classList.remove('hidden');
+      return;
+    }
+
+    setupGauge();
+    document.getElementById('stage1-card').classList.add('hidden');
+    document.getElementById('puzzle-screen').classList.remove('hidden');
+
+    try {
+      await startReal();
+      document.getElementById('mode-label').textContent = 'Kinakalibrate ang direksyon...';
+      setTimeout(() => {
+        if (!receivedOrientation) {
+          activateFallback();
+        } else {
+          document.getElementById('mode-label').textContent = 'Puntahan ang naka-highlight na zone sa gauge, tapos hipan.';
+        }
+      }, 2500);
+    } catch (err) {
+      activateFallback();
+    }
+
+    tickLoop();
+  });
+
+  document.getElementById('stage3-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = document.getElementById('stage3-answer').value.trim().toLowerCase();
+    if (STAGE3_ANSWERS.includes(val)) {
+      document.getElementById('stage3-card').classList.add('hidden');
       document.getElementById('code-card').classList.remove('hidden');
     } else {
-      document.getElementById('wrong-msg').classList.remove('hidden');
+      document.getElementById('stage3-wrong').classList.remove('hidden');
     }
   });
 </script>
